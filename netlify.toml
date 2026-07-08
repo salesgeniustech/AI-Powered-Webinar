@@ -1,0 +1,18 @@
+# Netlify config — AI Ads Webinar funnel
+[build]
+  publish = "funnel-pages"
+  functions = "netlify/functions"
+
+# Clean URLs: /confirmation -> site/confirmation.html (added as pages are built)
+[[redirects]]
+  from = "/register"
+  to = "/.netlify/functions/register"
+  status = 200
+
+# SPA-style fallthrough is NOT wanted here; each page is its own file.
+[dev]
+  publish = "funnel-pages"
+  functions = "netlify/functions"
+
+[functions]
+  node_bundler = "esbuild"

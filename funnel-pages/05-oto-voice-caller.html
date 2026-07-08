@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>One-Time Upgrade, AI Voice Caller | SalesGenius</title>
+<meta name="robots" content="noindex">
+
+<!-- ===== Meta Pixel ===== -->
+<script>
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+document,'script','https://connect.facebook.net/en_US/fbevents.js');
+fbq('init','1057475448873422');
+fbq('track','PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=1057475448873422&ev=PageView&noscript=1"/></noscript>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap center">
+    <p class="eyebrow" style="color:#fff">⚠ Wait, Your Order Isn't Quite Done</p>
+    <h1>Want Your New Leads <span class="hl">Called Within Seconds</span>, Automatically?</h1>
+    <p class="sub">Don't close this page. This offer is only here once, and only because you just joined.</p>
+  </div>
+</header>
+
+<section class="section--tight">
+  <div class="wrap">
+    <div class="video-ph">
+      <div class="play"></div>
+      <span class="tag">🎥 AI Voice Caller, 60-sec video</span>
+      <span>Speed-to-lead pitch (record later)</span>
+    </div>
+  </div>
+</section>
+
+<section class="section--tight">
+  <div class="wrap">
+    <p class="lead">Here's the truth about online leads: they're hot for about 5 minutes. Call in the first minute and you book the appointment. Call an hour later and you're chasing a ghost.</p>
+    <p class="mt">You just got the <b>Phone Conversion Kit</b>, the exact script. This is that script, as an AI that <b>makes the call for you</b>, automatically, the second a lead comes in. It only attacks the #1 reason ads "fail": nobody called the lead fast enough.</p>
+    <div class="guarantee mt">
+      <h3>Add It Now for $197/mo, 50% Off, Locked for Life</h3>
+      <p class="mt-s">It's normally <b>$397/mo.</b> Because you just joined as a founding member, you can add it right now for <b class="hl">$197/mo</b>, locked for as long as you keep it. That's $200 saved every single month you stay.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section--tight">
+  <div class="wrap">
+    <button class="btn" id="yes" style="margin-bottom:14px">✓ Yes, Add the AI Voice Caller for $197/mo (locked for life)</button>
+    <a class="btn btn--ghost" id="no" href="06-thank-you.html">✗ No thanks, I'll call every lead myself, fast, every time.</a>
+    <p class="btn-note">One click adds it to your existing order, you won't re-enter your card.</p>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="wrap">
+    <p style="font-size:12px">This site is not a part of the Facebook website or Facebook Inc. Additionally, this site is not endorsed by Facebook in any way. FACEBOOK is a trademark of Meta Platforms, Inc.</p>
+    <p class="mt-s" style="font-size:12px">This content is for educational purposes only. Nothing here is financial, legal, or real estate advice, and nothing is a guarantee of any result. Real estate outcomes depend on your own situation, your market, and factors outside anyone's control. Always do your own due diligence and consult a licensed professional before making a decision.</p>
+    <p class="mt-s">&copy; <span id="yr"></span> SalesGenius. All rights reserved.</p>
+    <p class="mt-s"><a href="https://salesgenius.co/privacy-policy">Privacy Policy</a> &middot; <a href="https://salesgenius.co/terms-of-use">Terms &amp; Conditions</a> &middot; <a href="https://salesgenius.co/contact">Contact</a></p>
+  </div>
+</footer>
+
+<script>
+document.getElementById('yr').textContent = new Date().getFullYear();
+// TODO: wire one-click add to the existing Stripe subscription (no re-entering card).
+document.getElementById('yes').addEventListener('click', function(){
+  try{ if(window.fbq) fbq('track','Purchase',{value:197,currency:'USD',content_name:'AI Voice Caller OTO'}); }catch(_){}
+  location.href = '06-thank-you.html';
+});
+</script>
+</body>
+</html>

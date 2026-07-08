@@ -1,0 +1,26 @@
+# ---- Secrets: NEVER commit these ----
+.env
+.env.*
+!.env.example
+credentials.json
+token.json
+*.pem
+*.key
+
+# ---- OS / editor cruft ----
+.DS_Store
+Thumbs.db
+*.swp
+.vscode/
+.idea/
+
+# ---- Node ----
+node_modules/
+npm-debug.log*
+yarn-error.log*
+
+# ---- Build / temp (regenerable) ----
+.tmp/
+.netlify/
+funnel-pages-deploy.zip
+SalesGenius-Masterclass-Funnel.zip

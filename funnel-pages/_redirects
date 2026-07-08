@@ -1,0 +1,7 @@
+# index.html serves the homepage (registration). Pretty URLs below.
+/register-page    /index.html                   200
+/confirmation     /02-confirmation.html         200
+/replay           /03-replay.html               200
+/checkout         /04-checkout.html             200
+/upgrade          /05-oto-voice-caller.html     200
+/welcome          /06-thank-you.html            200

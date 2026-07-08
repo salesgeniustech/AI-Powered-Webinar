@@ -96,7 +96,7 @@ document.getElementById('yr').textContent = new Date().getFullYear();
 // On real payment success, fire Purchase server-side via stripe-webhook.js too (see PIXEL_TRACKING.md).
 document.getElementById('checkoutForm').addEventListener('submit', function(e){
   e.preventDefault();
-  try{ if(window.fbq) fbq('track','Purchase',{value:97,currency:'USD'}); }catch(_){}
+  // Purchase fires on the thank-you page (06), not here, so it counts once after payment completes.
   // Send the just-converted buyer to the one-click OTO (Voice Caller)
   location.href = '05-oto-voice-caller.html';
 });

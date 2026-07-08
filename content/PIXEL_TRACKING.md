@@ -8,30 +8,28 @@
 
 ## The event map (this is the whole system)
 
-| Page | On load | On action | Primary optimization event |
-|---|---|---|---|
-| Registration (`index.html`) | `PageView` | `Lead` on form submit |  |
-| Confirmation (`confirmation.html`) | `PageView` + **`Schedule`** |  | ✅ **`Schedule`**, optimize ads to this |
-| Webinar room (`webinar.html`) | `PageView` + `ViewContent` | `StartWebinar` (custom, evergreen only) |  |
-| Replay / Post-webinar (`replay.html`) | `PageView` | `Purchase` on checkout, `Lead` if form |  |
-| Checkout (`checkout.html`) | `InitiateCheckout` | `Purchase` on success | ✅ `Purchase` |
-| OTO (`oto.html`) | `PageView` | `Purchase` (value 197) on accept |  |
+| Page | On load | Primary optimization event |
+|---|---|---|
+| Registration (`index.html`) | `PageView` |  |
+| Confirmation (`02-confirmation.html`) | `PageView` + **`Lead`** | ✅ **`Lead`**, optimize registration ads to this |
+| Replay (`03-replay.html`) | `PageView` + `ViewContent` |  |
+| Checkout (`04-checkout.html`) | `PageView` + **`InitiateCheckout`** |  |
+| OTO (`05-oto-voice-caller.html`) | `PageView` + `Purchase` (value 197) on accept |  |
+| Thank-you (`06-thank-you.html`) | `PageView` + **`Purchase`** (value 97) | ✅ **`Purchase`**, optimize purchase ads to this |
 
-**Why Schedule (confirmation load) is the one you optimize to, not Lead:** a form submit can be a fat-finger or a fake email. Landing on the confirmation page means they completed the flow, a higher-quality signal. Tell Meta to optimize for `Schedule` (set it as a custom conversion).
+**Why Lead fires on the confirmation page (not the form submit):** landing on the confirmation page means they completed the opt-in, a cleaner, single signal per registrant. It fires once on load, so no double-counting. Set `Lead` as the optimization event for the registration campaign. The `$97 Purchase` fires on the thank-you page, after payment.
 
 ---
 
 ## 1. Meta Pixel, already installed on the registration page
 
-The base code + `PageView` is in `index.html`. The `Lead` event fires in the form's submit handler. For the other pages, paste the **same base code block** (copy it from `index.html`) into each `<head>`, then add the page's load event:
+The base code + `PageView` is on all six pages. Each page's specific event (already installed):
 
-- **confirmation.html**, add right after the base code:
-  ```html
-  <script>fbq('track','Schedule',{content_name:'Webinar Confirmed'});</script>
-  ```
-- **checkout.html**, `fbq('track','InitiateCheckout',{value:97,currency:'USD'});` on load; on Stripe success → `fbq('track','Purchase',{value:97,currency:'USD'});`
-- **oto.html**, on accept → `fbq('track','Purchase',{value:197,currency:'USD'});`
-- **replay.html**, `PageView` on load; `Purchase` when the buy button completes.
+- **02-confirmation.html**, on load: `fbq('track','Lead',{content_name:'Masterclass Registration'});`
+- **04-checkout.html**, on load: `fbq('track','InitiateCheckout',{value:97,currency:'USD'});`
+- **06-thank-you.html**, on load: `fbq('track','Purchase',{value:97,currency:'USD',content_name:'AI Ad Machine'});`
+- **05-oto-voice-caller.html**, on accept: `fbq('track','Purchase',{value:197,currency:'USD'});`
+- **03-replay.html**, on load: `fbq('track','ViewContent',{content_name:'Webinar Replay'});`
 
 ---
 

@@ -179,7 +179,7 @@ function getUTMs(){
         hidden: getUTMs(),
         size: 90,
         onSubmit: function(){
-          try{ if(window.fbq) fbq('track','Lead',{content_name:'Masterclass Registration'}); }catch(_){}
+          // Lead fires on the confirmation page (02) load, so it counts once per registrant.
           location.href = '02-confirmation.html';
         }
       });

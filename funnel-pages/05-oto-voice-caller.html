@@ -26,14 +26,19 @@ src="https://www.facebook.com/tr?id=1057475448873422&ev=PageView&noscript=1"/></
 </head>
 <body>
 
+<div class="oto-alert" id="oto-banner">
+  <div class="wrap wrap--wide">STOP and read this. This is a true one-time offer. It will not be available if you leave this page.</div>
+</div>
+
 <header class="hero">
   <div class="wrap center">
-    <p class="eyebrow" style="color:#fff">⚠ Wait, Your Order Isn't Quite Done</p>
-    <h1>Want Your New Leads <span class="hl">Called Within Seconds</span>, Automatically?</h1>
-    <p class="sub">Don't close this page. This offer is only here once, and only because you just joined.</p>
+    <p class="eyebrow" id="oto-eyebrow" style="color:#fff">⚠ Wait, Your Order Isn't Quite Done</p>
+    <h1 id="oto-h1">Want Your New Leads <span class="hl">Called Within Seconds</span>, Automatically?</h1>
+    <p class="sub" id="oto-sub">Don't close this page. This offer is only here once, and only because you just joined.</p>
   </div>
 </header>
 
+<main id="oto-live">
 <section class="section--tight">
   <div class="wrap">
     <div class="video-ph">
@@ -62,6 +67,18 @@ src="https://www.facebook.com/tr?id=1057475448873422&ev=PageView&noscript=1"/></
     <p class="btn-note">One click adds it to your existing order, you won't re-enter your card.</p>
   </div>
 </section>
+</main>
+
+<!-- Shown instead of the offer once the one-time offer has already been seen -->
+<section class="section--tight" id="oto-expired" style="display:none">
+  <div class="wrap center">
+    <div class="guarantee">
+      <h3>This One-Time Offer Has Expired</h3>
+      <p class="mt-s">The AI Voice Caller upgrade was a one-time deal, shown only on your way in, and it's now closed. No worries, your founding membership is all set.</p>
+      <a class="btn mt" href="06-thank-you.html">Continue to Your Account →</a>
+    </div>
+  </div>
+</section>
 
 <footer class="footer">
   <div class="wrap">
@@ -74,11 +91,50 @@ src="https://www.facebook.com/tr?id=1057475448873422&ev=PageView&noscript=1"/></
 
 <script>
 document.getElementById('yr').textContent = new Date().getFullYear();
-// TODO: wire one-click add to the existing Stripe subscription (no re-entering card).
-document.getElementById('yes').addEventListener('click', function(){
-  try{ if(window.fbq) fbq('track','Purchase',{value:197,currency:'USD',content_name:'AI Voice Caller OTO'}); }catch(_){}
-  location.href = '06-thank-you.html';
-});
+
+/* =======================================================================
+   REAL ONE-TIME OFFER (OTO) LOCK
+   The Voice Caller offer is shown ONCE. If the visitor closes or leaves this
+   page and comes back (before clearing their browser data), it's expired and
+   they can't take it again. Persists in localStorage until site data is cleared.
+   ======================================================================= */
+(function(){
+  var KEY = 'sg_oto_voicecaller_v1';
+  var seen = false;
+  try{ seen = !!localStorage.getItem(KEY); }catch(_){}
+
+  function showExpired(){
+    var live = document.getElementById('oto-live');
+    var exp  = document.getElementById('oto-expired');
+    var bn   = document.getElementById('oto-banner');
+    if(live) live.style.display = 'none';
+    if(exp)  exp.style.display  = '';
+    if(bn)   bn.style.display   = 'none';
+    var eb = document.getElementById('oto-eyebrow'); if(eb) eb.textContent = '⏳ Offer Closed';
+    var h1 = document.getElementById('oto-h1');      if(h1) h1.textContent = 'This Upgrade Was One-Time Only.';
+    var sub= document.getElementById('oto-sub');     if(sub) sub.textContent = "You've already passed this step, so the AI Voice Caller offer is now closed.";
+  }
+
+  if(seen){ showExpired(); return; }
+
+  // First (and only) view. Mark consumed the moment they leave or close the page.
+  function consume(){ try{ localStorage.setItem(KEY,'1'); }catch(_){} }
+  window.addEventListener('pagehide', consume);
+  window.addEventListener('beforeunload', consume);
+  // If they return via the back button (page restored from cache), re-run the check.
+  window.addEventListener('pageshow', function(e){
+    if(e.persisted){ var s=false; try{ s=!!localStorage.getItem(KEY); }catch(_){} if(s) location.reload(); }
+  });
+
+  // Accept the OTO.
+  // TODO: wire one-click add to the existing Stripe subscription (no re-entering card).
+  var yes = document.getElementById('yes');
+  if(yes) yes.addEventListener('click', function(){
+    consume();
+    try{ if(window.fbq) fbq('track','Purchase',{value:197,currency:'USD',content_name:'AI Voice Caller OTO'}); }catch(_){}
+    location.href = '06-thank-you.html';
+  });
+})();
 </script>
 </body>
 </html>

@@ -4,52 +4,55 @@
 
 ---
 
-## Phase 1 — Site & domain (today) — Emma + Arslan
+## Phase 1 — Site & domain — Arslan
 
-- [ ] **Emma:** drag the `aiteam-funnel` folder onto https://app.netlify.com/drop → Netlify creates a NEW site (random name, e.g. `random-words-123.netlify.app`)
+- [x] **DONE (July 13):** site deployed to its own new Netlify project — temp name **`funny-fenglisu-93c7d5`**, live at https://funny-fenglisu-93c7d5.netlify.app (all 3 pages verified)
 - [ ] **Arslan:** rename the site to `salesgenius-aiteam` (Site settings → Site details)
 - [ ] **Arslan:** add custom domain `aiteam.salesgenius.co` (Domain management) + in salesgenius.co DNS add CNAME: `aiteam` → `<sitename>.netlify.app` · confirm SSL provisions (auto, ~minutes after DNS propagates)
 - [ ] **Arslan:** push the local git commits to github.com/salesgeniustech/AI-Powered-Webinar (repo is source of truth; Netlify Drop is the deploy mechanism)
 
-**Redeploys after any page edit:** drag the folder onto the site's own Deploys page. Never onto the aiads site.
+**Redeploys after any page edit:** drag the `aiteam-funnel` folder onto THIS site's Deploys page. Never onto the aiads site.
+**Note:** self-hosted testimonial videos are compressed for deploy; originals are in git history if higher quality is ever wanted.
 
 ---
 
-## Phase 2 — Stripe (Arslan) — blocks checkout going live
+## Phase 2 — Stripe (Rebecca) — blocks checkout going live
 
 - [ ] **Product:** "The 30-Day In-House AI Team Install" — **$2,997 USD, one-time** (start in test mode)
 - [ ] **Payment Link:** collect name, email, phone · quantity locked to 1 · promo codes OFF
 - [ ] **Success URL:** `https://aiteam.salesgenius.co/welcome.html` (this is the whole onboarding trigger — don't skip)
-- [ ] **Receipts:** email receipts ON · statement descriptor "SALESGENIUS" · correct tax settings
-- [ ] **Webhook:** `checkout.session.completed` → ESP (tag `sprint-buyer`) — powers the onboarding emails and kills the sales sequence for buyers
-- [ ] **Paste the Payment Link** into `aiteam-funnel/checkout.html` — search `STRIPE_PAYMENT_LINK` (Meta InitiateCheckout event is already wired to the button)
+- [ ] **Receipts ON:** email receipts · statement descriptor "SALESGENIUS" · correct tax settings
+- [ ] **Hand off to Matyas:** the Payment Link + a webhook signing secret for `checkout.session.completed` — he wires the emails from there
+- [ ] **Paste the Payment Link** into `aiteam-funnel/checkout.html` — search `STRIPE_PAYMENT_LINK` (Meta InitiateCheckout event is already wired to the button) → redeploy
 - [ ] **Test mode end-to-end:** test card → lands on welcome.html → tag applied → Email 0 fires
 - [ ] **Live mode + one real-card purchase** (refund it) before ads turn on
 - [ ] ⏳ **Pending Emma/Ryan:** 2-pay option (e.g. 2 × $1,600)? If yes → second Payment Link, same success URL, secondary button on checkout page
 
 ---
 
-## Phase 3 — Post-purchase automation (Azul + Rebecca)
+## Phase 3 — Post-purchase automation (Matyas + Rebecca)
 
 Full email copy: **`emails/sprint_onboarding_sequence.md`** (5 emails + 3 SMS + automation logic).
 
-- [ ] **Azul:** build the automation in the ESP — Email 0 instant · Email 1 access (manual OK for 10 people) · Email 2 conditional on intake incomplete · Emails 3–4 date-based
-- [ ] **Azul:** buyer tag removes them from the 7-day SALES sequence instantly (a buyer must never get another close email)
-- [ ] **Azul:** intake Typeform → ESP field `intake_done` (drives the conditional nudge)
+- [ ] **Matyas:** wire the Stripe webhook `checkout.session.completed` → ESP tag `sprint-buyer`
+- [ ] **Matyas:** build the automation — Email 0 instant · Email 1 access (manual OK for 10 people) · Email 2 conditional on intake incomplete · Emails 3–4 date-based
+- [ ] **Matyas:** buyer tag removes them from the 7-day SALES sequence instantly (a buyer must never get another close email)
+- [ ] **Matyas:** intake Typeform → ESP field `intake_done` (drives the conditional nudge)
+- [ ] **Matyas:** load the 7-day sales sequence (`emails/sprint_sales_sequence.md`) into the ESP with links pointed at aiteam.salesgenius.co
 - [ ] **Rebecca:** create the 4 session calendar links → paste into `welcome.html` (`CAL_LINK_WEEK1–4`) and the email merge fields
 - [ ] **Rebecca:** community invite link + tool login instructions into Email 1
-- [ ] **Azul:** load the 7-day sales sequence (`emails/sprint_sales_sequence.md`) with links pointed at aiteam.salesgenius.co
 
 ---
 
-## Phase 4 — Content into pages (Azul + Frank & Cesar)
+## Phase 4 — Content into pages (Rebecca + Azul + Frank)
 
-- [ ] **Azul:** build the Sprint application Typeform (Q1 CRM w/ waitlist branch → tag `sprint-waitlist`, Q2 years, Q3 commission goal, Q4 financial capability) → ID into the config block in `index.html`
-- [ ] **Frank & Cesar:** finish VSL edit → embed into `index.html` (search `VSL-EMBED`)
-- [ ] **Frank & Cesar:** finish 90-sec welcome video → embed into `welcome.html`
-- [ ] **Azul:** drop the 4 remaining Drive screenshots into `aiteam-funnel/assets/img/proof/` (exact filenames in `SG-PROOF-WALL-README.md` — they auto-appear)
-- [ ] **Emma/Ryan:** set cohort start date + session dates → update every `[TBD]` in the `SPRINT` config blocks (all 3 pages) and email merge fields
+- [ ] **Rebecca + Azul:** build the Sprint application Typeform (Q1 CRM w/ waitlist branch → tag `sprint-waitlist`, Q2 years, Q3 commission goal, Q4 financial capability) → ID into the config block in `index.html`
+- [ ] **Frank:** finish VSL edit (in progress) → embed into `index.html` (search `VSL-EMBED`)
+- [ ] **Frank:** finish 90-sec welcome video (in progress) → embed into `welcome.html`
+- [ ] **Emma + Ryan:** ⭐ **SET THE LAUNCH DATE** — cohort start + 4 session dates → update every `[TBD]` in the `SPRINT` config blocks (all 3 pages) and email merge fields. This unblocks Rebecca's calendars, Matyas's date-based emails, and the countdown copy.
 - [ ] **Arslan:** record the dashboard demo (60–90 sec, cropped, watermarked, Vimeo domain-locked)
+
+*(Proof screenshots: already in — done.)*
 
 ---
 

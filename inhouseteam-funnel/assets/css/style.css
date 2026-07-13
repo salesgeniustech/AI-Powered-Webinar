@@ -1,0 +1,307 @@
+/* SalesGenius, AI Ads Webinar Funnel
+   Brand: black + golden yellow, condensed display + clean body.
+   Mobile-first. One accent color for CTAs (per SOP). */
+
+:root{
+  --bg:#0A0A0B;
+  --surface:#141418;
+  --surface-2:#1C1C22;
+  --border:#2A2A31;
+  --text:#FFFFFF;
+  --muted:#A7A7B0;
+  --accent:#FFC400;        /* golden yellow, the only CTA color */
+  --accent-2:#FFD740;
+  --good:#3DDC84;
+  --radius:14px;
+  --maxw:680px;            /* single-column reading width */
+  --pad:20px;
+  --font-display:"Anton",Impact,"Arial Narrow Bold",sans-serif;
+  --font-body:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:var(--font-body);
+  font-size:17px;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+img{max-width:100%;display:block}
+a{color:var(--accent)}
+
+/* Layout */
+.wrap{width:100%;max-width:var(--maxw);margin:0 auto;padding:0 var(--pad)}
+.section{padding:48px 0}
+.section--tight{padding:28px 0}
+.center{text-align:center}
+
+/* Type */
+.eyebrow{
+  font-family:var(--font-body);
+  font-weight:700;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  font-size:13px;
+  color:var(--accent);
+  margin-bottom:14px;
+}
+h1,h2,h3{font-family:var(--font-display);font-weight:400;line-height:1.04;text-transform:uppercase;letter-spacing:.01em}
+h1{font-size:clamp(34px,8vw,58px)}
+h2{font-size:clamp(26px,6vw,42px);margin-bottom:14px}
+h3{font-size:clamp(20px,4.5vw,28px)}
+.hl{color:var(--accent)}
+.sub{color:var(--muted);font-size:clamp(16px,2.6vw,20px);line-height:1.5;margin-top:16px}
+p+p{margin-top:14px}
+.lead{font-size:19px}
+
+/* Buttons */
+.btn{
+  display:inline-block;width:100%;text-align:center;
+  background:var(--accent);color:#0A0A0B;
+  font-family:var(--font-body);font-weight:800;font-size:18px;
+  text-decoration:none;text-transform:uppercase;letter-spacing:.02em;
+  padding:18px 24px;border:none;border-radius:var(--radius);cursor:pointer;
+  transition:transform .06s ease, box-shadow .2s ease;
+  box-shadow:0 6px 0 rgba(0,0,0,.35), 0 0 30px rgba(255,196,0,.25);
+}
+.btn:hover{transform:translateY(-1px)}
+.btn:active{transform:translateY(2px);box-shadow:0 2px 0 rgba(0,0,0,.35)}
+.btn--ghost{background:transparent;color:var(--text);border:1px solid var(--border);box-shadow:none}
+.btn-note{color:var(--muted);font-size:14px;text-align:center;margin-top:12px}
+
+/* Hero */
+.hero{padding:54px 0 36px;background:radial-gradient(120% 80% at 50% -10%, rgba(255,196,0,.10), transparent 60%)}
+
+/* VSL / video placeholder */
+.video-ph{
+  position:relative;aspect-ratio:16/9;width:100%;
+  background:linear-gradient(135deg,#16161b,#0e0e12);
+  border:1px solid var(--border);border-radius:var(--radius);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;
+  color:var(--muted);text-align:center;padding:20px;
+}
+.video-ph .play{width:64px;height:64px;border-radius:50%;background:var(--accent);
+  display:flex;align-items:center;justify-content:center}
+.video-ph .play::after{content:"";border-left:20px solid #0A0A0B;border-top:12px solid transparent;border-bottom:12px solid transparent;margin-left:5px}
+.video-ph .tag{font-weight:700;color:var(--text);letter-spacing:.04em;text-transform:uppercase;font-size:13px}
+
+/* Form card */
+.formcard{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:24px}
+.field{margin-bottom:14px}
+.field label{display:block;font-size:13px;font-weight:600;color:var(--muted);margin-bottom:6px;text-transform:uppercase;letter-spacing:.06em}
+.field input{
+  width:100%;background:var(--surface-2);border:1px solid var(--border);border-radius:10px;
+  color:var(--text);font-size:16px;padding:14px 14px;font-family:var(--font-body);
+}
+.field input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(255,196,0,.15)}
+.opt{color:var(--muted);font-weight:400;text-transform:none;letter-spacing:0;font-size:12px}
+
+/* Bullets */
+.checks{list-style:none;display:flex;flex-direction:column;gap:14px}
+.checks li{position:relative;padding-left:38px}
+.checks li::before{
+  content:"";position:absolute;left:0;top:2px;width:24px;height:24px;border-radius:50%;
+  background:rgba(255,196,0,.14);
+}
+.checks li::after{content:"✓";position:absolute;left:6px;top:1px;color:var(--accent);font-weight:800}
+.checks b{color:var(--text)}
+
+/* Testimonials */
+.quotes{display:flex;flex-direction:column;gap:16px}
+.quote{background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--accent);
+  border-radius:10px;padding:18px 18px}
+.quote p{font-size:16px}
+.quote .who{color:var(--muted);font-size:14px;margin-top:8px;font-weight:600}
+.proof-stat{color:var(--accent)}
+
+/* Logos strip */
+.logos{color:var(--muted);font-size:14px;text-align:center;line-height:2}
+
+/* FAQ */
+.faq details{border:1px solid var(--border);border-radius:10px;background:var(--surface);margin-bottom:12px;overflow:hidden}
+.faq summary{cursor:pointer;padding:16px 18px;font-weight:700;list-style:none;display:flex;justify-content:space-between;gap:12px}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";color:var(--accent);font-weight:800;font-size:20px}
+.faq details[open] summary::after{content:"\2013"}
+.faq .ans{padding:0 18px 18px;color:var(--muted)}
+
+/* Guarantee box */
+.guarantee{background:linear-gradient(180deg,rgba(255,196,0,.08),transparent);border:1px solid var(--accent);border-radius:var(--radius);padding:22px}
+.guarantee h3{color:var(--accent)}
+
+/* Stack list (offer) */
+.stack{list-style:none;display:flex;flex-direction:column;gap:10px}
+.stack li{display:flex;justify-content:space-between;gap:14px;padding:12px 0;border-bottom:1px dashed var(--border)}
+.stack .val{color:var(--muted);white-space:nowrap}
+.total{display:flex;justify-content:space-between;font-weight:800;font-size:18px;padding-top:14px}
+
+/* Divider + spacing helpers */
+.hr{height:1px;background:var(--border);border:none;margin:8px 0}
+.mt{margin-top:22px}.mt-s{margin-top:12px}.mb{margin-bottom:22px}
+
+/* Footer */
+.footer{padding:32px 0;border-top:1px solid var(--border);color:var(--muted);font-size:13px;text-align:center}
+.footer a{color:var(--muted);text-decoration:none;margin:0 8px}
+
+/* Countdown */
+.timer{display:flex;gap:10px;justify-content:center;margin:8px 0}
+.timer .unit{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:10px 14px;min-width:62px;text-align:center}
+.timer .num{font-family:var(--font-display);font-size:28px;color:var(--accent)}
+.timer .lbl{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
+
+/* Sticky pitch CTA (webinar room) */
+.sticky-cta{position:sticky;bottom:0;background:var(--surface-2);border-top:1px solid var(--accent);padding:14px var(--pad);z-index:20}
+
+@media(min-width:720px){
+  body{font-size:18px}
+  .section{padding:64px 0}
+}
+
+/* ============ DESKTOP LAYOUT UPGRADES ============ */
+.wrap--wide{max-width:1120px}
+
+/* Sticky brand bar (makes it read like a real site, not a doc) */
+.topbar{position:sticky;top:0;z-index:50;background:rgba(10,10,11,.82);backdrop-filter:blur(10px);border-bottom:1px solid var(--border)}
+.topbar-in{display:flex;align-items:center;justify-content:space-between;padding-top:12px;padding-bottom:12px}
+.brand{font-family:var(--font-display);text-transform:uppercase;letter-spacing:.02em;font-size:22px;color:#fff}
+.btn--sm{width:auto;padding:11px 20px;font-size:14px;box-shadow:0 0 20px rgba(255,196,0,.18)}
+
+/* Two-column hero */
+.hero-cta{width:auto;display:inline-block;margin-top:26px;padding:16px 30px}
+.hero-trust{color:var(--muted);font-size:13px;margin-top:18px;letter-spacing:.02em}
+.hero-media{margin-top:30px}
+.video-embed{position:relative;aspect-ratio:1280/833;width:100%;border-radius:var(--radius);overflow:hidden;border:1px solid var(--border);background:#000;box-shadow:0 24px 70px rgba(0,0,0,.55)}
+.video-embed iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.video-cap{color:var(--muted);font-size:13px;text-align:center;margin-top:12px}
+
+/* Avatar chips + logo pills */
+.quote .who{display:flex;align-items:center;gap:10px}
+.avatar{width:34px;height:34px;border-radius:50%;background:rgba(255,196,0,.15);color:var(--accent);
+  display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px;flex:0 0 auto}
+.logo-pills{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:22px}
+.logo-pills span{border:1px solid var(--border);border-radius:999px;padding:8px 16px;color:var(--muted);font-size:14px;font-weight:600}
+.founders-note{color:var(--muted);font-size:14px;text-align:center;margin-top:16px}
+
+@media(min-width:900px){
+  .hero{padding:70px 0 54px}
+  .hero-grid{display:grid;grid-template-columns:1.02fr 0.98fr;gap:52px;align-items:center}
+  .hero-copy{text-align:left}
+  .hero-copy h1{font-size:clamp(40px,3.5vw,58px)}
+  .hero-media{margin-top:0}
+}
+
+/* Multi-column content grids on desktop */
+@media(min-width:820px){
+  .checks.grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px 44px}
+  .quotes.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;align-items:start}
+  .quote{height:100%}
+}
+
+/* ===== Centered VSL hero (proven book-launch / Hormozi structure) ===== */
+.hero-narrow{max-width:760px}
+.brand-top{font-family:var(--font-display);text-transform:uppercase;letter-spacing:.02em;font-size:24px;color:#fff;margin-bottom:16px}
+.badge{display:inline-block;background:var(--surface);border:1px solid var(--border);border-radius:999px;
+  padding:8px 16px;font-size:12.5px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:#fff;margin-bottom:18px}
+.badge .dot{color:#ff4d4d;font-size:10px;vertical-align:1px}
+.h1-hero{font-size:clamp(28px,4.4vw,42px);line-height:1.1;letter-spacing:.005em}
+.hero .video-embed{margin:26px auto 0}
+.hero-cta-full{width:100%;max-width:540px;margin:24px auto 0;font-size:19px;padding:20px 26px}
+.cta-sub{color:var(--muted);font-size:14px;margin-top:11px}
+.hero-proof{color:var(--muted);font-size:14px;margin-top:16px}
+.hero-proof .stars{color:var(--accent);letter-spacing:2px}
+.timer-label{color:var(--accent);font-weight:700;text-transform:uppercase;letter-spacing:.08em;font-size:12px;margin-top:24px}
+
+/* ===== Sticky top banner + above-the-fold tightening ===== */
+.topbanner{position:sticky;top:0;z-index:60;background:var(--surface-2);border-bottom:1px solid var(--accent)}
+.topbanner-in{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:9px var(--pad)}
+.tb-brand{font-family:var(--font-display);text-transform:uppercase;font-size:20px;color:#fff;white-space:nowrap}
+.tb-timer{font-size:14px;color:#fff;font-weight:600;white-space:nowrap}
+.tb-timer b{color:var(--accent);font-family:var(--font-display);font-weight:400;font-size:18px}
+.tb-label{color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.06em;font-size:11px;margin-right:6px}
+@media(max-width:600px){
+  .tb-brand{display:none}
+  .topbanner-in{justify-content:center;gap:12px}
+}
+
+/* Tighter hero so the button + proof sit above the fold */
+.hero{padding:22px 0 32px}
+.hero .badge{margin-bottom:12px}
+.hero .sub{margin-top:12px;font-size:clamp(15px,2.2vw,18px)}
+.hero .video-embed{max-width:460px;margin:20px auto 0}
+.hero-cta-full{margin-top:18px}
+.hero-proof{margin-top:14px}
+@media(min-width:900px){ .hero{padding:26px 0 40px} }
+
+/* Clean single-line countdown in the banner */
+.tb-timer{font-weight:500}
+.tb-timer b{font-family:var(--font-body);font-size:14px;font-weight:700;color:var(--accent);letter-spacing:.01em}
+
+/* "What you'll learn" as a numbered editorial row (distinct from testimonial cards) */
+.learn-grid{display:grid;grid-template-columns:1fr;gap:30px;margin:32px auto 0;max-width:900px}
+@media(min-width:760px){ .learn-grid{grid-template-columns:repeat(3,1fr);gap:40px} }
+.learn-item{text-align:center}
+.learn-num{font-family:var(--font-display);font-size:46px;color:var(--accent);line-height:1;margin-bottom:12px}
+.learn-item h4{font-family:var(--font-body);font-weight:700;font-size:19px;line-height:1.3;margin-bottom:8px;color:#fff;text-transform:none;letter-spacing:0}
+.learn-item p{color:var(--muted);font-size:15px;line-height:1.55;margin:0}
+
+/* Breakout video placeholders (confirmation page) */
+.breakout-grid{display:grid;grid-template-columns:1fr;gap:16px;margin-top:26px}
+@media(min-width:720px){ .breakout-grid{grid-template-columns:repeat(3,1fr)} }
+.breakout .video-ph{aspect-ratio:16/9;padding:14px}
+.breakout .video-ph .play{width:48px;height:48px}
+.breakout .video-ph .play::after{border-left:15px solid #0A0A0B;border-top:9px solid transparent;border-bottom:9px solid transparent}
+.breakout .video-ph .tag{font-size:13px}
+
+/* =====================================================================
+   MOBILE ABOVE-THE-FOLD (phones ≤600px)
+   Goal: on a phone, the VSL video and the CTA button both sit in the
+   first screen. We shrink the headline + spacing, never the button.
+   ===================================================================== */
+@media(max-width:600px){
+  /* Compact sticky banner so it steals less of the fold */
+  .topbanner-in{padding:8px 14px;gap:10px}
+  .tb-timer{font-size:12.5px}
+  .tb-timer b{font-size:12.5px}
+  .btn--sm{padding:9px 14px;font-size:12px}
+
+  /* Hero: tight, so video + button are above the fold */
+  .hero{padding:12px 0 24px}
+  .hero .badge{font-size:10.5px;padding:6px 12px;margin-bottom:10px}
+  .badge .dot{font-size:8px}
+  .h1-hero{font-size:21px;line-height:1.1;letter-spacing:0}
+  .hero .sub{font-size:14.5px;line-height:1.45;margin-top:9px}
+  .hero .video-embed{margin:13px auto 0;max-width:100%}
+  #confvid{max-width:100%!important;margin:13px auto 0!important}
+  .video-cap{font-size:12px;margin-top:9px}
+  .hero-cta-full{margin-top:14px;font-size:17px;padding:17px 20px}
+  .btn{font-size:17px;padding:17px 20px}
+  .cta-sub{margin-top:8px;font-size:13px}
+  .hero-proof{margin-top:10px;font-size:12.5px}
+
+  /* Calendar buttons: full-width, tap-friendly, stacked */
+  .hero .btn--ghost{width:100%;font-size:14px;padding:14px 16px}
+
+  /* Section rhythm a touch tighter on phones */
+  .section{padding:34px 0}
+  .section--tight{padding:22px 0}
+  h2{font-size:clamp(24px,7vw,32px)}
+
+  /* Learn / breakout single column already; add breathing room */
+  .learn-grid{gap:22px;margin-top:24px}
+  .breakout-grid{gap:12px;margin-top:20px}
+}
+
+/* OTO one-time-offer alert bar (pinned to top of the OTO page) */
+.oto-alert{position:sticky;top:0;z-index:60;background:var(--accent);color:#0A0A0B;
+  text-align:center;font-weight:800;letter-spacing:.01em;padding:12px 16px;font-size:15px;line-height:1.35}
+.oto-alert .wrap--wide{padding:0}
+@media(max-width:600px){ .oto-alert{font-size:13px;padding:10px 14px} }
+
+/* Extra squeeze for very small phones (iPhone SE, ~375px & shorter) */
+@media(max-width:390px){
+  .h1-hero{font-size:19.5px}
+  .hero .video-embed,#confvid{max-width:92%!important}
+}

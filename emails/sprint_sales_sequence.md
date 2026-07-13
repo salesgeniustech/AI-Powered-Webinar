@@ -1,7 +1,7 @@
 # Sprint Sales Email Sequence — 7-Day Close Window
 **Style:** Jeremy Haynes — blunt, short lines, one idea per email, CTA early and often, urgency that's true.
 **Audience:** Applied / attended the webinar / asked for details. Warm. They've seen the pitch — these emails close.
-**Links:** [SALES PAGE] = 07-sprint.html · [CHECKOUT] = 08-sprint-checkout.html
+**Links:** [SALES PAGE] = https://inhouseteam.salesgenius.co · [CHECKOUT] = https://inhouseteam.salesgenius.co/checkout.html
 **Language source of truth:** AI_Team_Foundational_Positioning_Doc.pdf
 **Merge before sending:** cohort start date, deadline date, seat counts (keep them TRUE).
 

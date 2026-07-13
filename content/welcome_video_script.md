@@ -1,4 +1,4 @@
-# Welcome Video Script — 09-sprint-welcome.html
+# Welcome Video Script — welcome.html (inhouseteam.salesgenius.co)
 **Placement:** Hero video on the post-purchase Welcome page ("Watch First: How Your 30-Day Install Works")
 **Length:** ~90 seconds. Face to camera, one take, warm and quick — they already bought. Confirm, direct, get out.
 **Jobs:** 1) confirm the decision, 2) get the 3 steps done today, 3) set the show-up expectation.

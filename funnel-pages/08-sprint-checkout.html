@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Secure Checkout — 30-Day In-House AI Team Install | SalesGenius</title>
+<meta name="description" content="Founder's Cohort enrollment — the 30-Day In-House AI Team Install.">
+
+<!--
+  ============================================================================
+  TEAM NOTES — 08-sprint-checkout.html (CRO-optimized purchase page)
+  ============================================================================
+  CRO principles applied (keep these when editing):
+  - Payment card is ABOVE THE FOLD on desktop AND first on mobile.
+  - No navigation, no countdown, no links that leave the page (logo is not a link).
+  - The page reassures; it does not re-sell. Persuasion lives on 07-sprint.
+  - Guarantees + trust row sit INSIDE the payment card, next to the button.
+  - One primary action. The only secondary action is mailto support.
+
+  1) PAYMENT: replace STRIPE_PAYMENT_LINK with the live Stripe Payment Link.
+     Set its success URL to https://<domain>/09-sprint-welcome.html
+     OPTIONAL UPGRADE (better conversion): swap the link for Stripe Embedded
+     Checkout so payment happens on-page (see Stripe docs, ~20 lines of JS).
+  2) CONSIDER A 2-PAY (e.g. 2 × $1,600) — decision for Emma/Ryan. If added,
+     it goes as a second, less prominent option under the main button.
+  3) Fill SPRINT config (date, seats) at the bottom.
+  ============================================================================
+-->
+
+<script>
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+document,'script','https://connect.facebook.net/en_US/fbevents.js');
+fbq('init','1057475448873422');
+fbq('track','PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=1057475448873422&ev=PageView&noscript=1"/></noscript>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
+<style>
+/* Checkout-specific layout */
+.co-wrap{max-width:1020px;margin:0 auto;padding:0 var(--pad)}
+.co-grid{display:flex;flex-direction:column;gap:18px;margin-top:22px}
+.co-pay{order:1}
+.co-info{order:2}
+@media(min-width:900px){
+  .co-grid{display:grid;grid-template-columns:1fr 420px;gap:24px;align-items:start}
+  .co-info{order:1}
+  .co-pay{order:2;position:sticky;top:18px}
+}
+.co-topbar{background:var(--surface-2);border-bottom:1px solid var(--border);padding:12px var(--pad)}
+.co-topbar-in{max-width:1020px;margin:0 auto;display:flex;align-items:center;justify-content:space-between}
+.co-lock{color:var(--muted);font-size:13px;font-weight:600}
+.co-lock b{color:var(--good)}
+.co-price{font-family:var(--font-display);font-size:44px;line-height:1;color:#fff}
+.co-price small{font-family:var(--font-body);font-size:14px;color:var(--muted);font-weight:600}
+.co-strike{color:var(--muted);text-decoration:line-through;font-size:16px;margin-right:10px}
+.co-seats{display:inline-block;background:rgba(255,196,0,.12);border:1px solid var(--accent);border-radius:999px;color:var(--accent);font-size:12.5px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:6px 14px;margin-bottom:14px}
+.co-trust{display:flex;justify-content:center;gap:16px;color:var(--muted);font-size:12.5px;margin-top:12px;flex-wrap:wrap}
+.co-g{display:flex;gap:10px;align-items:flex-start;margin-top:12px;font-size:14px;color:var(--muted)}
+.co-g b{color:#fff}
+.co-check{color:var(--good);font-weight:800;flex:0 0 auto}
+.co-h{font-family:var(--font-body);font-weight:700;font-size:11.5px;letter-spacing:.14em;color:var(--muted);text-transform:uppercase;margin-bottom:14px}
+.co-sec{padding:26px 0;border-bottom:1px solid var(--border)}
+.co-sec:first-child{padding-top:6px}
+.co-sec:last-child{border-bottom:none}
+.co-steps{counter-reset:s;list-style:none;display:flex;flex-direction:column;gap:10px}
+.co-steps li{position:relative;padding-left:34px;font-size:14.5px;color:var(--muted)}
+.co-steps li::before{counter-increment:s;content:counter(s);position:absolute;left:0;top:0;width:22px;height:22px;border-radius:50%;background:rgba(255,196,0,.14);color:var(--accent);font-weight:800;font-size:12px;display:flex;align-items:center;justify-content:center}
+.co-steps b{color:#fff}
+/* Week-by-week timeline */
+.co-tl{display:flex;flex-direction:column}
+.co-tl-row{display:flex;gap:18px;padding:14px 0}
+.co-wk{flex:0 0 76px;align-self:flex-start;padding-top:2px;color:var(--muted);font-weight:700;font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;line-height:1.4}
+.co-tl-row h4{font-family:var(--font-body);font-weight:800;font-size:16.5px;color:#fff;text-transform:none;letter-spacing:0;margin-bottom:3px}
+.co-tl-row p{font-size:13.5px;color:var(--muted);line-height:1.5;margin:0}
+.co-bonus{background:linear-gradient(180deg,rgba(255,196,0,.10),transparent);border:1.5px solid var(--accent);border-radius:var(--radius);padding:20px}
+.co-bonus-tag{display:inline-block;background:var(--accent);color:#0A0A0B;font-size:11.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;border-radius:999px;padding:4px 12px;margin-bottom:10px}
+</style>
+</head>
+<body>
+
+<!-- Stripped top bar: logo (not a link) + security signal. No exits. -->
+<div class="co-topbar">
+  <div class="co-topbar-in">
+    <span class="tb-brand">Sales<span class="hl">Genius</span></span>
+    <span class="co-lock">&#128274; <b>Secure checkout</b> · powered by Stripe</span>
+  </div>
+</div>
+
+<section class="section--tight">
+  <div class="co-wrap">
+    <div class="co-grid">
+
+      <!-- ===== PAYMENT CARD (first on mobile, sticky right on desktop) ===== -->
+      <div class="co-pay">
+        <div class="formcard" style="border-color:var(--accent)">
+          <p style="font-size:12.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:12px">Founder's Cohort · <span data-sprint-seats>10</span> seats · starts <span data-sprint-date>TBD</span></p>
+          <h3 style="margin-bottom:6px">The 30-Day In-House AI Team Install</h3>
+          <p style="font-size:14px;color:var(--muted);margin-bottom:14px">3 AI employees, installed with you, live.</p>
+
+          <p style="margin-bottom:6px"><span class="co-strike">$150,000/yr in payroll</span><br>
+          <span class="co-price">$2,997 <small>one-time payment</small></span></p>
+          <p style="font-size:13px;color:var(--muted);margin-bottom:14px"><b style="color:var(--accent)">+ Bonus:</b> 12 months of the AI Ads tool included</p>
+
+          <!-- STRIPE_PAYMENT_LINK: replace href with the live Stripe Payment Link -->
+          <a href="STRIPE_PAYMENT_LINK" id="paybtn" class="btn">Yes &mdash; Install My AI Team &rarr;</a>
+          <p class="btn-note" style="margin-top:8px">Onboarding starts the second your payment clears.</p>
+
+          <div class="co-trust">
+            <span>SSL encrypted&nbsp;&nbsp;·&nbsp;&nbsp;All major cards&nbsp;&nbsp;·&nbsp;&nbsp;Instant onboarding</span>
+          </div>
+
+          <hr class="hr" style="margin:16px 0">
+
+          <div class="co-g"><span class="co-check">&#10003;</span><span><b>Week-1 guarantee:</b> not worth every penny? Full refund. You'll know in 7 days.</span></div>
+          <div class="co-g"><span class="co-check">&#10003;</span><span><b>Install guarantee:</b> attend 3 of 4 sessions &mdash; if it's not installed by day 30, we finish it with you 1:1.</span></div>
+
+          <p class="btn-note" style="margin-top:14px">Question first? <a href="mailto:info@salesgenius.co">info@salesgenius.co</a> &mdash; we reply fast.</p>
+        </div>
+      </div>
+
+      <!-- ===== INFO COLUMN (reassurance, not persuasion) ===== -->
+      <div class="co-info">
+
+        <div class="co-sec">
+          <p class="co-h">What you'll have by the end of the 4 weeks</p>
+          <div class="co-tl">
+            <div class="co-tl-row">
+              <span class="co-wk">Week 1</span>
+              <div><h4>AI Executive Assistant</h4>
+              <p>The low-dollar work off your plate &mdash; written in your voice, on command. A $50K/yr hire.</p></div>
+            </div>
+            <div class="co-tl-row">
+              <span class="co-wk">Week 2</span>
+              <div><h4>AI Sales Manager</h4>
+              <p>Inside your Follow Up Boss or Lofty &mdash; tells you who to call and what to say, every day. A $60K/yr hire.</p></div>
+            </div>
+            <div class="co-tl-row">
+              <span class="co-wk">Weeks 3&ndash;4</span>
+              <div><h4>AI Ads Manager</h4>
+              <p>Your first AI-built campaign live + custom nurture written for every lead. A $40K/yr hire.</p></div>
+            </div>
+          </div>
+          <p style="font-size:14px;color:var(--muted);margin-top:10px">Installed live, with you &mdash; 4 sessions, weekly office hours, private community. <b style="color:#fff">Hired as humans: ~$150,000/year.</b></p>
+        </div>
+
+        <div class="co-bonus" style="margin-top:26px">
+          <span class="co-bonus-tag">Founder's Bonus</span>
+          <h4 style="font-family:var(--font-body);font-weight:800;font-size:17px;color:#fff;text-transform:none;letter-spacing:0;margin-bottom:6px">A Full Year of the SalesGenius AI Ads Tool</h4>
+          <p style="font-size:14px;color:var(--muted);margin:0">Your AI Ads Manager doesn't clock out when the 30 days end. Founding members get <b style="color:#fff">12 months of access included</b> &mdash; so leads keep flowing all year. No recurring charge today, nothing renews automatically.</p>
+        </div>
+
+        <div class="co-sec" style="margin-top:8px">
+          <p class="co-h">What happens next</p>
+          <ol class="co-steps">
+            <li><b>The moment your payment goes through</b>, your Welcome page opens &mdash; a 4-minute video shows you exactly how your 30 days run. No waiting for an email, no "someone will contact you."</li>
+            <li><b>You fill out a 5&ndash;10 minute intake</b>, and our team starts customizing your install around YOUR database and deal flow &mdash; before your first session.</li>
+            <li><b>You lock in your 4 session dates, and our team emails you access to everything</b> &mdash; community, tools, session links. Fifteen minutes from now, you're done, and your first AI employee gets installed at Session 1.</li>
+          </ol>
+        </div>
+
+        <div class="co-sec">
+          <div class="quote">
+            <p>&ldquo;I find myself saying <b class="proof-stat">'wow, that's genius'</b> every time I hear Ryan or Emma speak.&rdquo;</p>
+            <p class="who"><span class="avatar">MS</span>Myles S. &middot; $350K &rarr; $725K GCI with SalesGenius</p>
+          </div>
+          <p style="font-size:14.5px;color:var(--muted);margin-top:18px;font-style:italic">This first cohort is deliberately small &mdash; <span data-sprint-seats>10</span> agents &mdash; because we're installing every system hands-on, live, with you. You're not buying videos. You're hiring a team, and we're on your payroll for 30 days. See you at Session 1.<br><span style="color:#fff;font-style:normal;font-weight:700">&mdash; Emma &amp; Ryan</span></p>
+        </div>
+
+        <div class="faq" style="margin-top:26px">
+          <details>
+            <summary>What if it doesn't work for me?</summary>
+            <p class="ans">Two layers of protection: a full refund at the end of Week 1 if you don't think it's worth every penny, and if you attend 3 of the 4 sessions and your systems aren't installed by day 30, our team works with you 1:1 until they are.</p>
+          </details>
+          <details>
+            <summary>Is my payment secure?</summary>
+            <p class="ans">Yes &mdash; payment is processed by Stripe, the same processor used by Amazon and Shopify. We never see or store your card details. You'll receive a receipt by email immediately.</p>
+          </details>
+          <details>
+            <summary>Why is the price in USD?</summary>
+            <p class="ans">Our staff bills us in USD &mdash; including the in-house engineering team behind your AI employees &mdash; so we price in USD, like most software. Your bank converts automatically at checkout.</p>
+          </details>
+          <details>
+            <summary>When am I charged, and is there anything recurring?</summary>
+            <p class="ans">You're charged once, today &mdash; that's it. Your founder's bonus includes 12 months of the SalesGenius AI Ads tool at no extra charge, and nothing renews automatically. After year one, keeping the ads tool is entirely your choice.</p>
+          </details>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="wrap">
+    <p style="font-size:12px">This content is for educational purposes only. Nothing here is financial, legal, or real estate advice, and nothing is a guarantee of any result. Real estate outcomes depend on your own situation, your market, and factors outside anyone's control.</p>
+    <p class="mt-s">&copy; <span id="yr"></span> SalesGenius. All rights reserved.</p>
+    <p class="mt-s"><a href="https://salesgenius.co/privacy-policy">Privacy Policy</a> &middot; <a href="https://salesgenius.co/terms-of-use">Terms &amp; Conditions</a> &middot; <a href="https://salesgenius.co/contact">Contact</a></p>
+  </div>
+</footer>
+
+<script>
+var SPRINT = { dateText: "TBD", seatsText: "10" };
+document.getElementById('yr').textContent = new Date().getFullYear();
+document.querySelectorAll('[data-sprint-date]').forEach(function(el){ el.textContent = SPRINT.dateText; });
+document.querySelectorAll('[data-sprint-seats]').forEach(function(el){ el.textContent = SPRINT.seatsText; });
+document.getElementById('paybtn').addEventListener('click', function(){
+  try{ if(window.fbq) fbq('track','InitiateCheckout',{content_name:'AI Team Install',value:2997,currency:'USD'}); }catch(_){}
+});
+</script>
+</body>
+</html>

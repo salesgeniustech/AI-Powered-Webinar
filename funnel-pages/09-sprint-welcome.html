@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Welcome to the Founder's Cohort | SalesGenius</title>
+<meta name="description" content="You're in. Three quick steps to get ready for your 30-Day In-House AI Team Install.">
+
+<!--
+  ============================================================================
+  TEAM NOTES — 09-sprint-welcome.html (Post-purchase onboarding / Week 0)
+  This page IS the Week 0 experience from Doc 1 (Delivery Brief).
+  ============================================================================
+  1) WELCOME VIDEO: record the 2 Looms from Doc 1 Week 0 —
+     "How the Sprint works & what to expect" goes in the hero placeholder.
+     "How to join Zoom and follow along" goes in step 2.
+  2) INTAKE FORM: replace INTAKE_TYPEFORM_URL with the intake Typeform
+     (CRM + login details, deal volume last 12 months, DB size, lead sources).
+  3) CALENDAR: replace CAL_LINK_* with add-to-calendar links for the 4
+     session dates + office hours (Rebecca owns the calendar).
+  4) ACCESS EMAIL: Step 3 tells buyers to check email for community/tool
+     access — the team (Azul/Rebecca) must have the welcome email automation
+     ready BEFORE launch (Skool invite + tool access + session links).
+     Trigger: Stripe webhook / ESP tag on purchase.
+  5) Stripe Payment Link success URL should point here.
+  6) Azul: tag each new client in the master sheet on enrollment
+     (FUB/Lofty, DB size, deal count) — see Doc 1, Week 0 internal.
+  ============================================================================
+-->
+
+<script>
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+document,'script','https://connect.facebook.net/en_US/fbevents.js');
+fbq('init','1057475448873422');
+fbq('track','PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=1057475448873422&ev=PageView&noscript=1"/></noscript>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<div class="topbanner">
+  <div class="wrap wrap--wide topbanner-in">
+    <span class="tb-brand">Sales<span class="hl">Genius</span></span>
+    <span class="tb-timer"><b>Founder's Cohort · You're in</b></span>
+  </div>
+</div>
+
+<header class="hero">
+  <div class="wrap hero-narrow center">
+    <p class="badge">&#127881; Enrollment confirmed · Cohort starts <span data-sprint-date>TBD</span></p>
+    <h1 class="h1-hero">Welcome. You Just Hired Your <span class="hl">In-House AI Team</span>.</h1>
+    <p class="sub">Most programs dump content on you. We're going to walk you through 4 big installs, one per week &mdash; and your only job is to show up. We do the heavy lifting. Watch this first:</p>
+
+    <!-- WELCOME VIDEO: "How the Sprint works & what to expect" Loom -->
+    <div class="video-ph" style="margin-top:22px">
+      <div class="play"></div>
+      <span class="tag">Watch First: How Your 30-Day Install Works (4 min)</span>
+    </div>
+  </div>
+</header>
+
+<section class="section">
+  <div class="wrap">
+    <p class="eyebrow center">Before Week 1</p>
+    <h2 class="center">Three Steps &mdash; About 15 Minutes Total</h2>
+
+    <div class="formcard mt">
+      <h3><span class="hl">Step 1</span> &middot; Fill Out Your Intake Form <span style="font-size:13px;color:var(--muted)">(5&ndash;10 min)</span></h3>
+      <p class="mt-s">This is how we customize the install around <b>your</b> numbers, not theory. We'll ask about your CRM, your deal volume over the last 12 months, your database size, and where your leads come from today.</p>
+      <a href="INTAKE_TYPEFORM_URL" class="btn mt">Start My Intake Form &rarr;</a>
+    </div>
+
+    <div class="formcard mt">
+      <h3><span class="hl">Step 2</span> &middot; Add the 4 Sessions to Your Calendar</h3>
+      <p class="mt-s">Four live installs, one per week, 60&ndash;75 minutes each. Remember Guarantee #2: attend 3 of 4 and we guarantee your install. Protect these times.</p>
+      <div class="mt" style="display:flex;flex-direction:column;gap:10px">
+        <a href="CAL_LINK_WEEK1" class="btn btn--ghost">Week 1 &middot; AI Executive Assistant &middot; <span data-w1-date>date TBD</span></a>
+        <a href="CAL_LINK_WEEK2" class="btn btn--ghost">Week 2 &middot; AI Sales Manager + Database Email &middot; <span data-w2-date>date TBD</span></a>
+        <a href="CAL_LINK_WEEK3" class="btn btn--ghost">Week 3 &middot; AI Ads Manager &mdash; Campaign Launch &middot; <span data-w3-date>date TBD</span></a>
+        <a href="CAL_LINK_WEEK4" class="btn btn--ghost">Week 4 &middot; Your Custom Nurture Sequence &middot; <span data-w4-date>date TBD</span></a>
+      </div>
+      <p class="btn-note">Weekly office hours are optional drop-ins &mdash; the link is in your welcome email and the community.</p>
+    </div>
+
+    <div class="formcard mt">
+      <h3><span class="hl">Step 3</span> &middot; Check Your Email</h3>
+      <p class="mt-s">Our team is sending you access to everything &mdash; the private community, your tools, and your session links. It should arrive within a few minutes of enrolling.</p>
+      <p class="mt-s" style="font-size:14px;color:var(--muted)">Don't see it? Check spam/promotions and drag it to your inbox &mdash; you don't want to miss anything over the next 30 days. Still nothing after 15 minutes? Email <a href="mailto:info@salesgenius.co">info@salesgenius.co</a> and we'll sort it fast. When you're in the community, introduce yourself: your market + your 30-day goal.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section" style="background:var(--surface)">
+  <div class="wrap">
+    <p class="eyebrow center">What Happens Next</p>
+    <h2 class="center">Your Next 30 Days</h2>
+    <div class="learn-grid" style="grid-template-columns:1fr;max-width:760px">
+      <div class="learn-item" style="text-align:left;display:flex;gap:20px;align-items:flex-start">
+        <div class="learn-num" style="margin-bottom:0">0</div>
+        <div><h4>This Week &mdash; We Prep Your Install</h4><p>Our team reviews your intake, confirms CRM access, and customizes the Sprint around your database. You'll get a short "how to join Zoom and follow along" video before the first session.</p></div>
+      </div>
+      <div class="learn-item" style="text-align:left;display:flex;gap:20px;align-items:flex-start">
+        <div class="learn-num" style="margin-bottom:0">1</div>
+        <div><h4>Week 1 &mdash; Your AI Executive Assistant Goes Live</h4><p>Installed together on the call. You'll run your first prompts live and post your best output in the community. Expect to get hours back this week.</p></div>
+      </div>
+      <div class="learn-item" style="text-align:left;display:flex;gap:20px;align-items:flex-start">
+        <div class="learn-num" style="margin-bottom:0">2</div>
+        <div><h4>Week 2 &mdash; Your AI Sales Manager + Database Email</h4><p>Connected to your Follow Up Boss or Lofty. You'll see your hottest leads ranked &mdash; and we'll send a proven reactivation email to your database together, live.</p></div>
+      </div>
+      <div class="learn-item" style="text-align:left;display:flex;gap:20px;align-items:flex-start">
+        <div class="learn-num" style="margin-bottom:0">3</div>
+        <div><h4>Week 3 &mdash; Your First AI-Built Ad Campaign</h4><p>Pick listing, giveaway, or hot sheet. We build it step-by-step with you and turn it on. New leads flow straight into your CRM.</p></div>
+      </div>
+      <div class="learn-item" style="text-align:left;display:flex;gap:20px;align-items:flex-start">
+        <div class="learn-num" style="margin-bottom:0">4</div>
+        <div><h4>Week 4 &mdash; Your Custom Nurture Sequence</h4><p>8&ndash;12 follow-up touches written for your new leads &mdash; plus your options for what comes after the Sprint.</p></div>
+      </div>
+    </div>
+    <p class="sub center mt">Stuck on anything? Post in the community or email <a href="mailto:info@salesgenius.co">info@salesgenius.co</a> &mdash; someone from the team will get you sorted within one business day.</p>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="wrap">
+    <p class="mt-s">&copy; <span id="yr"></span> SalesGenius. All rights reserved.</p>
+    <p class="mt-s"><a href="https://salesgenius.co/privacy-policy">Privacy Policy</a> &middot; <a href="https://salesgenius.co/terms-of-use">Terms &amp; Conditions</a> &middot; <a href="https://salesgenius.co/contact">Contact</a></p>
+  </div>
+</footer>
+
+<script>
+var SPRINT = { dateText: "TBD" };
+document.getElementById('yr').textContent = new Date().getFullYear();
+document.querySelectorAll('[data-sprint-date]').forEach(function(el){ el.textContent = SPRINT.dateText; });
+try{ if(window.fbq) fbq('track','CompleteRegistration',{content_name:'Sprint Onboarding'}); }catch(_){}
+</script>
+</body>
+</html>

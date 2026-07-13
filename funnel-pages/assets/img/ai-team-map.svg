@@ -1,0 +1,84 @@
+<svg viewBox="0 0 900 560" xmlns="http://www.w3.org/2000/svg" font-family="Inter,Arial,sans-serif">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#FFC400"/>
+    </marker>
+  </defs>
+
+  <!-- $500k path across the top -->
+  <text x="450" y="34" text-anchor="middle" fill="#A7A7B0" font-size="13" letter-spacing="2" font-weight="700">THE $500K PATH</text>
+  <g font-size="14" fill="#FFFFFF" font-weight="600">
+    <text x="90" y="66" text-anchor="middle">Leads in</text>
+    <text x="285" y="66" text-anchor="middle">Leads worked</text>
+    <text x="480" y="66" text-anchor="middle">Appointments</text>
+    <text x="655" y="66" text-anchor="middle">Closings</text>
+    <text x="815" y="66" text-anchor="middle" fill="#FFC400" font-size="16" font-weight="800">$500K/yr</text>
+  </g>
+  <g stroke="#FFC400" stroke-width="2" marker-end="url(#arrow)">
+    <line x1="130" y1="61" x2="205" y2="61"/>
+    <line x1="365" y1="61" x2="405" y2="61"/>
+    <line x1="555" y1="61" x2="600" y2="61"/>
+    <line x1="700" y1="61" x2="755" y2="61"/>
+  </g>
+
+  <!-- Team circle label -->
+  <rect x="30" y="100" width="840" height="310" rx="18" fill="none" stroke="#FFC400" stroke-width="1.5" stroke-dasharray="7 6"/>
+  <rect x="290" y="88" width="320" height="26" rx="13" fill="#0A0A0B"/>
+  <text x="450" y="106" text-anchor="middle" fill="#FFC400" font-size="14" font-weight="800" letter-spacing="1.5">YOUR IN-HOUSE AI TEAM</text>
+
+  <!-- Hire 1 -->
+  <g>
+    <rect x="60" y="140" width="240" height="150" rx="12" fill="#141418" stroke="#2A2A31"/>
+    <rect x="60" y="140" width="240" height="4" rx="2" fill="#FFC400"/>
+    <text x="80" y="170" fill="#A7A7B0" font-size="11" font-weight="700" letter-spacing="1">HIRE #1 · WEEK 1</text>
+    <text x="80" y="192" fill="#FFFFFF" font-size="16" font-weight="800">AI Executive Assistant</text>
+    <text x="80" y="216" fill="#A7A7B0" font-size="12.5">• Does tasks for you</text>
+    <text x="80" y="236" fill="#A7A7B0" font-size="12.5">• Writes like you</text>
+    <text x="80" y="256" fill="#A7A7B0" font-size="12.5">• Buyer + client follow-up tasks</text>
+    <text x="80" y="276" fill="#A7A7B0" font-size="12.5">• Organizes your day</text>
+  </g>
+
+  <!-- Hire 2 -->
+  <g>
+    <rect x="330" y="140" width="240" height="150" rx="12" fill="#141418" stroke="#2A2A31"/>
+    <rect x="330" y="140" width="240" height="4" rx="2" fill="#FFC400"/>
+    <text x="350" y="170" fill="#A7A7B0" font-size="11" font-weight="700" letter-spacing="1">HIRE #2 · WEEK 2</text>
+    <text x="350" y="192" fill="#FFFFFF" font-size="16" font-weight="800">AI Sales Manager</text>
+    <text x="350" y="216" fill="#A7A7B0" font-size="12.5">• Tells you who's hot</text>
+    <text x="350" y="236" fill="#A7A7B0" font-size="12.5">• Who to follow up with today</text>
+    <text x="350" y="256" fill="#A7A7B0" font-size="12.5">• What you talked about last</text>
+    <text x="350" y="276" fill="#A7A7B0" font-size="12.5">• What to say — every day</text>
+  </g>
+
+  <!-- Hire 3 -->
+  <g>
+    <rect x="600" y="140" width="240" height="150" rx="12" fill="#141418" stroke="#2A2A31"/>
+    <rect x="600" y="140" width="240" height="4" rx="2" fill="#FFC400"/>
+    <text x="620" y="170" fill="#A7A7B0" font-size="11" font-weight="700" letter-spacing="1">HIRE #3 · WEEKS 3–4</text>
+    <text x="620" y="192" fill="#FFFFFF" font-size="16" font-weight="800">AI Ads Manager</text>
+    <text x="620" y="216" fill="#A7A7B0" font-size="12.5">• Launch + test ads in an hour</text>
+    <text x="620" y="236" fill="#A7A7B0" font-size="12.5">• Fresh campaigns, often</text>
+    <text x="620" y="256" fill="#A7A7B0" font-size="12.5">• Custom nurture for every lead</text>
+    <text x="620" y="276" fill="#A7A7B0" font-size="12.5">• Works 24/7</text>
+  </g>
+
+  <!-- Arrows to/from CRM -->
+  <g stroke="#FFC400" stroke-width="2" fill="none">
+    <line x1="180" y1="290" x2="180" y2="350" marker-end="url(#arrow)"/>
+    <line x1="450" y1="350" x2="450" y2="296" marker-end="url(#arrow)"/>
+    <line x1="720" y1="290" x2="720" y2="350" marker-end="url(#arrow)"/>
+  </g>
+  <text x="200" y="330" fill="#A7A7B0" font-size="11">feeds your CRM</text>
+  <text x="468" y="330" fill="#A7A7B0" font-size="11">reads your CRM</text>
+  <text x="738" y="330" fill="#A7A7B0" font-size="11">leads flow in</text>
+
+  <!-- CRM hub -->
+  <rect x="150" y="352" width="600" height="70" rx="12" fill="#1C1C22" stroke="#FFC400" stroke-width="1.5"/>
+  <text x="450" y="382" text-anchor="middle" fill="#FFFFFF" font-size="16" font-weight="800">YOUR CRM — Follow Up Boss / Lofty</text>
+  <text x="450" y="404" text-anchor="middle" fill="#A7A7B0" font-size="12.5">This is where your money already lives. We don't replace it — we staff it.</text>
+
+  <!-- Install line -->
+  <text x="450" y="470" text-anchor="middle" fill="#FFC400" font-size="15" font-weight="800" letter-spacing="1">INSTALLED IN 30 DAYS — WITH YOU, LIVE</text>
+  <text x="450" y="494" text-anchor="middle" fill="#A7A7B0" font-size="12.5">If you hired these three as humans: ~$150,000/year in payroll.</text>
+  <text x="450" y="514" text-anchor="middle" fill="#A7A7B0" font-size="12.5">Your In-House AI Team: $3,000, one time.</text>
+</svg>

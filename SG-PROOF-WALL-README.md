@@ -2,19 +2,19 @@
 
 A single JS file that renders the full SalesGenius social-proof grid (videos + screenshots) on any funnel page. Edit the proof in ONE place; every funnel that loads it updates automatically.
 
-**Canonical copy:** `inhouseteam-funnel/assets/proof-wall.js` in the AI Powered Webinar project → live at `https://inhouseteam.salesgenius.co/assets/proof-wall.js` once the site is deployed.
+**Canonical copy:** `aiteam-funnel/assets/proof-wall.js` in the AI Powered Webinar project → live at `https://aiteam.salesgenius.co/assets/proof-wall.js` once the site is deployed.
 
 ## Install on any funnel (2 lines)
 
 ```html
 <div class="sg-proof-wall"></div>
-<script src="https://inhouseteam.salesgenius.co/assets/proof-wall.js"></script>
+<script src="https://aiteam.salesgenius.co/assets/proof-wall.js"></script>
 ```
 
-On any domain OTHER than inhouseteam.salesgenius.co, add `data-base` so self-hosted videos/images resolve:
+On any domain OTHER than aiteam.salesgenius.co, add `data-base` so self-hosted videos/images resolve:
 
 ```html
-<div class="sg-proof-wall" data-base="https://inhouseteam.salesgenius.co"></div>
+<div class="sg-proof-wall" data-base="https://aiteam.salesgenius.co"></div>
 ```
 
 ## Options (attributes on the div)

@@ -6,9 +6,8 @@
 
 ## Phase 1 — Site & domain — Arslan
 
-- [x] **DONE (July 13):** site deployed to its own new Netlify project — temp name **`funny-fenglisu-93c7d5`**, live at https://funny-fenglisu-93c7d5.netlify.app (all 3 pages verified)
-- [ ] **Arslan:** rename the site to `salesgenius-aiteam` (Site settings → Site details)
-- [ ] **Arslan:** add custom domain `aiteam.salesgenius.co` (Domain management) + in salesgenius.co DNS add CNAME: `aiteam` → `<sitename>.netlify.app` · confirm SSL provisions (auto, ~minutes after DNS propagates)
+- [x] **DONE (July 13):** site deployed to its own new Netlify project **`ai-in-house-team`**, live at https://ai-in-house-team.netlify.app (all 3 pages verified; pretty URLs /checkout and /welcome work)
+- [ ] **Arslan:** add custom domain `aiteam.salesgenius.co` (Domain management) + in salesgenius.co DNS add CNAME: `aiteam` → `ai-in-house-team.netlify.app` · confirm SSL provisions (auto, ~minutes after DNS propagates)
 - [ ] **Arslan:** push the local git commits to github.com/salesgeniustech/AI-Powered-Webinar (repo is source of truth; Netlify Drop is the deploy mechanism)
 
 **Redeploys after any page edit:** drag the `aiteam-funnel` folder onto THIS site's Deploys page. Never onto the aiads site.

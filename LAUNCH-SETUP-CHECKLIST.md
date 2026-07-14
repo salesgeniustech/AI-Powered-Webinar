@@ -7,7 +7,7 @@
 ## Phase 1 — Site & domain — Arslan
 
 - [x] **DONE (July 13):** site deployed to its own new Netlify project **`ai-in-house-team`**, live at https://ai-in-house-team.netlify.app (all 3 pages verified; pretty URLs /checkout and /welcome work)
-- [ ] **Arslan:** add custom domain `aiteam.salesgenius.co` (Domain management) + in salesgenius.co DNS add CNAME: `aiteam` → `ai-in-house-team.netlify.app` · confirm SSL provisions (auto, ~minutes after DNS propagates)
+- [x] **DONE (July 14):** custom domain live — https://aiteam.salesgenius.co (SSL active)
 - [ ] **Arslan:** push the local git commits to github.com/salesgeniustech/AI-Powered-Webinar (repo is source of truth; Netlify Drop is the deploy mechanism)
 
 **Redeploys after any page edit:** drag the `aiteam-funnel` folder onto THIS site's Deploys page. Never onto the aiads site.
@@ -46,8 +46,8 @@ Full email copy: **`emails/sprint_onboarding_sequence.md`** (5 emails + 3 SMS + 
 ## Phase 4 — Content into pages (Rebecca + Azul + Frank)
 
 - [ ] **Rebecca + Azul:** build the Sprint application Typeform (Q1 CRM w/ waitlist branch → tag `sprint-waitlist`, Q2 years, Q3 commission goal, Q4 financial capability) → ID into the config block in `index.html`
-- [ ] **Frank:** finish VSL edit (in progress) → embed into `index.html` (search `VSL-EMBED`)
-- [ ] **Frank:** finish 90-sec welcome video (in progress) → embed into `welcome.html`
+- [x] **DONE (July 14):** VSL embedded + live on the sales page (Vimeo 1209965018 'In House AI Team Breakdown')
+- [x] **DONE (July 14):** welcome video embedded + live on /welcome (Vimeo 1209965045 'In House AI Team Confirmation')
 - [ ] **Emma + Ryan:** ⭐ **SET THE LAUNCH DATE** — cohort start + 4 session dates → update every `[TBD]` in the `SPRINT` config blocks (all 3 pages) and email merge fields. This unblocks Rebecca's calendars, Matyas's date-based emails, and the countdown copy.
 - [ ] **Arslan:** record the dashboard demo (60–90 sec, cropped, watermarked, Vimeo domain-locked)
 

@@ -1,0 +1,6 @@
+# Netlify config — In-House AI Team funnel (aiteam.salesgenius.co)
+# This site's Base directory in Netlify is set to "aiteam-funnel",
+# so Netlify reads THIS file (not the repo-root netlify.toml) and
+# publishes this folder. Keeps it separate from the aiads webinar site.
+[build]
+  publish = "."

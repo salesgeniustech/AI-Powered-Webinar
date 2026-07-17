@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The 'Ads Don't Work' Trap</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{background:#e9e3d8;font-family:'Inter',system-ui,sans-serif;padding:26px;display:flex;justify-content:center;}
+  .slide{width:100%;max-width:1280px;aspect-ratio:16/9;background:#fbf9f5;border-radius:16px;
+    box-shadow:0 1px 0 rgba(0,0,0,.04);border:1px solid #ece5d8;padding:52px 60px;position:relative;display:flex;flex-direction:column;}
+  .kicker{font-size:12px;letter-spacing:.22em;font-weight:700;color:#b5524b;text-transform:uppercase;}
+  h1{font-size:34px;font-weight:800;color:#2b3a42;margin-top:8px;letter-spacing:-.01em;}
+  .sub{font-size:16px;color:#7c8a91;margin-top:6px;}
+  .flow{display:flex;align-items:stretch;justify-content:space-between;gap:0;margin-top:38px;}
+  .box{flex:1;background:#fff;border:1.5px solid var(--c);border-radius:14px;padding:16px 14px;text-align:center;
+    display:flex;flex-direction:column;justify-content:center;min-height:132px;box-shadow:0 6px 16px rgba(43,58,66,.05);}
+  .box .n{font-size:12px;font-weight:800;color:var(--c);letter-spacing:.1em;}
+  .box .t{font-size:16px;font-weight:700;color:#2b3a42;margin-top:8px;line-height:1.28;}
+  .arrow{display:flex;align-items:center;justify-content:center;width:44px;color:#c4b8a5;font-size:22px;flex:0 0 44px;}
+  .loopwrap{position:relative;height:110px;margin-top:6px;}
+  svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible;}
+  .looplabel{position:absolute;left:50%;top:52px;transform:translateX(-50%);background:#fbf9f5;padding:0 12px;
+    font-size:14px;font-style:italic;color:#9a5b52;font-weight:600;}
+  .caption{margin-top:8px;background:#f3ece0;border:1px solid #e7ddca;border-radius:12px;padding:16px 22px;text-align:center;}
+  .caption b{color:#b5524b;}
+  .caption .lead{font-size:16px;color:#5f6d73;}
+</style>
+</head>
+<body>
+  <div class="slide">
+    <div class="kicker">The Vicious Cycle</div>
+    <h1>The “Ads Don’t Work” Trap</h1>
+    <div class="sub">What happens when you skip the market research.</div>
+
+    <div class="flow">
+      <div class="box" style="--c:#5b7a99"><div class="n">01</div><div class="t">Skip the research</div></div>
+      <div class="arrow">→</div>
+      <div class="box" style="--c:#8f7aa8"><div class="n">02</div><div class="t">Slap up a generic ad</div></div>
+      <div class="arrow">→</div>
+      <div class="box" style="--c:#cc9a4e"><div class="n">03</div><div class="t">Wrong-fit leads come in</div></div>
+      <div class="arrow">→</div>
+      <div class="box" style="--c:#c8734a"><div class="n">04</div><div class="t">You don’t call or nurture them</div></div>
+      <div class="arrow">→</div>
+      <div class="box" style="--c:#b5524b"><div class="n">05</div><div class="t">“Ads don’t work” — you quit</div></div>
+    </div>
+
+    <div class="loopwrap">
+      <svg viewBox="0 0 1160 110" preserveAspectRatio="none">
+        <defs>
+          <marker id="ah" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M0,0 L10,5 L0,10 z" fill="#b5524b"/>
+          </marker>
+        </defs>
+        <path d="M 1080,4 C 1140,70 1140,96 900,100 L 260,100 C 40,98 20,70 80,10"
+              fill="none" stroke="#c98d84" stroke-width="2" stroke-dasharray="7 7" marker-end="url(#ah)"/>
+      </svg>
+      <div class="looplabel">…so you try again — same mistake</div>
+    </div>
+  </div>
+</body>
+</html>

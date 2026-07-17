@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The AI Lead &amp; Nurture Engine — Our Process</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html,body{height:100%;}
+  body{background:#e9e3d8;font-family:'Inter',system-ui,sans-serif;display:flex;align-items:center;justify-content:center;overflow:hidden;}
+  .stage{position:relative;width:1600px;height:1090px;background:#fbf9f5;border-radius:20px;
+    border:1px solid #ece5d8;box-shadow:0 24px 60px rgba(43,58,66,.14);transform-origin:center center;}
+  svg.wires{position:absolute;inset:0;width:1600px;height:1090px;overflow:visible;pointer-events:none;}
+
+  /* header */
+  .kicker{position:absolute;left:60px;top:38px;font-size:15px;letter-spacing:.28em;font-weight:800;color:#b5524b;text-transform:uppercase;}
+  h1{position:absolute;left:60px;top:62px;font-size:44px;font-weight:900;color:#2b3a42;letter-spacing:-.02em;}
+  .oneliner{position:absolute;left:60px;top:124px;width:1480px;font-size:20px;line-height:1.45;color:#6b7880;font-weight:500;}
+  .oneliner b{color:#3f7d6a;font-weight:700;}
+
+  /* section band labels */
+  .band{position:absolute;font-size:14px;letter-spacing:.2em;font-weight:800;text-transform:uppercase;line-height:1.35;}
+  .band .dot{display:inline-block;width:8px;height:8px;border-radius:50%;vertical-align:middle;margin-right:9px;}
+
+  /* nodes */
+  .node{position:absolute;background:#fff;border-radius:16px;box-shadow:0 8px 20px rgba(43,58,66,.06);}
+  .phase{border:2px solid var(--c);padding:20px 20px 16px;}
+  .phase .ey{font-size:13px;font-weight:800;letter-spacing:.14em;color:var(--c);text-transform:uppercase;}
+  .phase .wk{float:right;font-size:12px;font-weight:700;color:#a9b2b6;letter-spacing:.04em;}
+  .phase h3{font-size:23px;font-weight:800;color:#2b3a42;margin-top:7px;line-height:1.15;letter-spacing:-.01em;}
+  .phase ul{list-style:none;margin-top:14px;}
+  .phase li{font-size:16px;color:#4a575e;line-height:1.32;padding-left:20px;position:relative;margin-bottom:9px;font-weight:500;}
+  .phase li::before{content:"";position:absolute;left:0;top:8px;width:8px;height:8px;border-radius:2px;background:var(--c);opacity:.85;}
+  .phase li.cal{color:#1f6b61;font-weight:700;}
+  .phase li.cal::before{background:#2f8f83;border-radius:50%;}
+  .phase .tag{margin-top:14px;font-size:14.5px;font-style:italic;color:#8a949a;line-height:1.3;border-top:1px dashed #e7ddca;padding-top:11px;}
+
+  .engine{border:2.5px solid #2b3a42;background:#2b3a42;color:#fff;padding:18px 14px;display:flex;flex-direction:column;justify-content:center;text-align:center;}
+  .engine .lbl{font-size:12px;letter-spacing:.16em;font-weight:800;color:#c9b98f;text-transform:uppercase;}
+  .engine .nm{font-size:23px;font-weight:900;line-height:1.12;margin-top:8px;letter-spacing:-.01em;}
+  .engine .st{font-size:13px;color:#aeb8bd;margin-top:9px;line-height:1.25;}
+
+  /* choice junction */
+  .junction{border:2px dashed #5f8f6b;background:#f2f7f2;padding:14px 10px;display:flex;flex-direction:column;
+    justify-content:center;text-align:center;}
+  .junction .q{font-size:15px;font-weight:900;color:#3f7d6a;line-height:1.15;text-transform:uppercase;letter-spacing:.04em;}
+  .junction .s{font-size:12.5px;color:#7fa08c;margin-top:5px;font-weight:600;line-height:1.25;}
+
+  .branch{border:2px solid var(--c);padding:16px 18px;}
+  .branch .bt{font-size:20px;font-weight:900;color:#2b3a42;letter-spacing:-.01em;line-height:1.1;}
+  .branch .bs{font-size:12.5px;font-weight:800;color:var(--c);margin-top:5px;text-transform:uppercase;letter-spacing:.08em;}
+  .branch ul{list-style:none;margin-top:12px;}
+  .branch li{font-size:14.5px;color:#4a575e;line-height:1.3;padding-left:18px;position:relative;margin-bottom:8px;font-weight:500;}
+  .branch li::before{content:"";position:absolute;left:0;top:7px;width:7px;height:7px;border-radius:50%;background:var(--c);}
+  .branch li b{color:#2b3a42;font-weight:700;}
+
+  /* calendly cluster */
+  .cal-node{border:2px solid #2f8f83;background:#eef6f4;padding:16px 18px;}
+  .cal-node .ct{font-size:19px;font-weight:900;color:#1f6b61;letter-spacing:-.01em;line-height:1.14;}
+  .cal-node .cst{font-size:13.5px;color:#3f8378;margin-top:8px;font-weight:600;line-height:1.32;}
+  .tp{border:2px solid #2f8f83;background:#fff;padding:14px 18px;display:flex;flex-direction:column;justify-content:center;}
+  .tp .tpk{font-size:12px;font-weight:800;letter-spacing:.1em;color:#2f8f83;text-transform:uppercase;}
+  .tp .tpt{font-size:17px;font-weight:700;color:#2b3a42;margin-top:6px;line-height:1.25;}
+  .tp .tpt b{color:#1f6b61;}
+
+  /* wire labels */
+  .wl{position:absolute;background:#fbf9f5;padding:2px 10px;font-size:13.5px;font-weight:700;border-radius:20px;}
+  .wl.teal{color:#1f6b61;}
+
+  /* legend */
+  .legend{position:absolute;left:60px;top:1015px;display:flex;gap:26px;font-size:13px;color:#7c8890;font-weight:600;align-items:center;}
+  .legend .k{display:flex;align-items:center;gap:8px;}
+  .legend .sw{width:26px;height:0;border-top:3px solid;}
+  .cornernote{position:absolute;right:56px;top:1010px;width:440px;text-align:right;font-size:14px;color:#8a949a;font-style:italic;line-height:1.35;}
+  .cornernote b{color:#1f6b61;font-style:normal;}
+</style>
+</head>
+<body>
+  <div class="stage" id="stage">
+    <svg class="wires" viewBox="0 0 1600 1090">
+      <defs>
+        <marker id="ag" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#cc9a4e"/></marker>
+        <marker id="agr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#5f8f6b"/></marker>
+        <marker id="at" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#2f8f83"/></marker>
+      </defs>
+
+      <!-- spine (gold) -->
+      <path d="M 195,490 L 231,485" fill="none" stroke="#cc9a4e" stroke-width="4" marker-end="url(#ag)"/>
+      <path d="M 500,490 L 541,490" fill="none" stroke="#cc9a4e" stroke-width="4" marker-end="url(#ag)"/>
+      <path d="M 810,490 L 851,490" fill="none" stroke="#cc9a4e" stroke-width="4" marker-end="url(#ag)"/>
+      <path d="M 1120,490 L 1156,490" fill="none" stroke="#cc9a4e" stroke-width="4" marker-end="url(#ag)"/>
+
+      <!-- choice fork (green) -->
+      <path d="M 1270,470 C 1288,445 1290,420 1296,415" fill="none" stroke="#5f8f6b" stroke-width="3.5" marker-end="url(#agr)"/>
+      <path d="M 1270,510 C 1288,575 1290,651 1296,657" fill="none" stroke="#5f8f6b" stroke-width="3.5" marker-end="url(#agr)"/>
+
+      <!-- calendly: set up in phase 1 (teal down) -->
+      <path d="M 367,680 L 367,728" fill="none" stroke="#2f8f83" stroke-width="3.5" marker-end="url(#at)"/>
+      <!-- calendly branches to touchpoints -->
+      <path d="M 500,772 C 558,772 560,772 608,772" fill="none" stroke="#2f8f83" stroke-width="3.5" marker-end="url(#at)"/>
+      <path d="M 500,812 C 558,812 560,920 608,920" fill="none" stroke="#2f8f83" stroke-width="3.5" marker-end="url(#at)"/>
+      <!-- dotted 'used inside the funnel' reinforcers -->
+      <path d="M 820,866 C 760,760 690,700 677,682" fill="none" stroke="#8ac6bc" stroke-width="2.5" stroke-dasharray="2 8" stroke-linecap="round"/>
+      <path d="M 916,752 C 985,715 987,695 987,682" fill="none" stroke="#8ac6bc" stroke-width="2.5" stroke-dasharray="2 8" stroke-linecap="round"/>
+    </svg>
+
+    <!-- header -->
+    <div class="kicker">SalesGenius · Our Process</div>
+    <h1>The AI Lead &amp; Nurture Engine</h1>
+    <div class="oneliner">We install a complete system that <b>attracts your dream buyers</b>, plugs every lead into your CRM with <b>done-for-you follow-up</b>, and uses AI so you <b>respond faster and book more appointments</b> from the leads you already have.</div>
+
+    <!-- bands -->
+    <div class="band" style="left:300px;top:214px;color:#b07d2e;"><span class="dot" style="background:#cc9a4e;"></span>The install · 3 systems, always in this order</div>
+    <div class="band" style="left:1300px;top:214px;color:#3f7d6a;"><span class="dot" style="background:#5f8f6b;"></span>Then it's<br>your choice</div>
+
+    <!-- engine origin -->
+    <div class="node engine" style="left:30px;top:425px;width:165px;height:130px;">
+      <div class="lbl">Start</div>
+      <div class="nm">The<br>Engine</div>
+      <div class="st">One machine, 3 systems</div>
+    </div>
+
+    <!-- phase 1 -->
+    <div class="node phase" style="--c:#5b7a99;left:235px;top:300px;width:265px;height:380px;">
+      <div class="ey">System 01<span class="wk">Week 1</span></div>
+      <h3>Strategy, Tech Setup &amp; Custom Funnel</h3>
+      <ul>
+        <li>Avatar + offer workshop</li>
+        <li>Custom hot-sheet funnel</li>
+        <li>Mandatory qualifying questions</li>
+        <li class="cal">Tech setup: CRM + Calendly + dashboard</li>
+      </ul>
+      <div class="tag">Make sure the right people raise their hand.</div>
+    </div>
+
+    <!-- phase 2 -->
+    <div class="node phase" style="--c:#8f7aa8;left:545px;top:300px;width:265px;height:380px;">
+      <div class="ey">System 02<span class="wk">Weeks 1–2</span></div>
+      <h3>CRM &amp; Nurture Install</h3>
+      <ul>
+        <li>Facebook → your real CRM</li>
+        <li>Pipeline + tagging rules</li>
+        <li>New-lead nurture sequence</li>
+        <li>Database reactivation campaign</li>
+      </ul>
+      <div class="tag">Nothing falls through the cracks.</div>
+    </div>
+
+    <!-- phase 3 -->
+    <div class="node phase" style="--c:#cc9a4e;left:855px;top:300px;width:265px;height:380px;">
+      <div class="ey">System 03<span class="wk">Weeks 2–4</span></div>
+      <h3>Ads, Retargeting &amp; AI Follow-Up</h3>
+      <ul>
+        <li>Hot-sheet ads (static + video)</li>
+        <li>Retargeting with your videos</li>
+        <li>AI Follow-Up Studio, your voice</li>
+        <li>Hottest-leads view → into Claude</li>
+      </ul>
+      <div class="tag">Traffic in — AI helps you follow up faster.</div>
+    </div>
+
+    <!-- choice junction -->
+    <div class="node junction" style="left:1158px;top:433px;width:112px;height:114px;">
+      <div class="q">Your<br>choice</div>
+      <div class="s">Keep us on,<br>any time</div>
+    </div>
+
+    <!-- branch A -->
+    <div class="node branch" style="--c:#6aa07f;left:1300px;top:330px;width:275px;height:170px;">
+      <div class="bt">Engine Care</div>
+      <div class="bs">Keep it on &amp; tuned</div>
+      <ul>
+        <li>Ongoing ad optimization + reporting</li>
+        <li>Office hours &amp; support</li>
+        <li>Access to your AI tools</li>
+      </ul>
+    </div>
+
+    <!-- branch B -->
+    <div class="node branch" style="--c:#3f7d6a;left:1300px;top:555px;width:275px;height:205px;">
+      <div class="bt">Engine Care <span style="color:#3f7d6a;">+ AI Caller</span></div>
+      <div class="bs">We work the leads for you</div>
+      <ul>
+        <li><b>Everything in Care</b>, plus:</li>
+        <li>AI SMS / caller on every new &amp; re-engaged lead</li>
+        <li>Quarterly reactivation sent for you</li>
+      </ul>
+    </div>
+
+    <!-- calendly cluster -->
+    <div class="band" style="left:235px;top:700px;color:#1f6b61;"><span class="dot" style="background:#2f8f83;"></span>Set up once · used everywhere</div>
+    <div class="node cal-node" style="left:235px;top:732px;width:265px;height:120px;">
+      <div class="ct">Your Calendly booking system</div>
+      <div class="cst">Wired in during Phase 1 — then it works for you across the whole funnel.</div>
+    </div>
+
+    <div class="node tp" style="left:612px;top:718px;width:300px;height:108px;">
+      <div class="tpk">On the offer thank-you page</div>
+      <div class="tpt">Buyers <b>book their call</b> the moment they say yes</div>
+    </div>
+    <div class="node tp" style="left:612px;top:866px;width:300px;height:108px;">
+      <div class="tpk">Inside every nurture email</div>
+      <div class="tpt">Warm leads <b>book with you</b> on their own time</div>
+    </div>
+
+    <!-- legend + note -->
+    <div class="legend">
+      <div class="k"><span class="sw" style="border-color:#cc9a4e;"></span>Install sequence</div>
+      <div class="k"><span class="sw" style="border-color:#2f8f83;"></span>Your booking system, threaded through</div>
+      <div class="k"><span class="sw" style="border-color:#5f8f6b;"></span>Your choice to continue</div>
+    </div>
+    <div class="cornernote">Same Calendly, set up once — <b>every path leads a buyer to your calendar.</b></div>
+  </div>
+
+  <script>
+    function fit(){
+      var s=document.getElementById('stage');
+      var scale=Math.min(window.innerWidth/1600*0.985, window.innerHeight/1090*0.985);
+      s.style.transform='scale('+scale+')';
+    }
+    window.addEventListener('resize',fit); fit();
+  </script>
+</body>
+</html>

@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>AI Ads Webinar — Weekly Tracker</title>
+<style>
+  :root{
+    --bg:#f4f6fa; --card:#ffffff; --ink:#141926; --muted:#5b6472; --dim:#8b93a3;
+    --line:#e7eaf0; --line2:#eef1f6;
+    --indigo:#4f46e5; --indigo-soft:#eef0fe; --blue:#2f7bf6; --violet:#7c5cff;
+    --green:#12996b; --green-soft:#e5f6ef; --amber:#b7791f; --amber-soft:#fdf3e2; --red:#d8434f; --red-soft:#fdeced;
+    --fe:#2f7bf6; --be:#7c5cff;
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased}
+  .wrap{max-width:1120px;margin:0 auto;padding:26px 20px 90px}
+  h1{font-size:21px;margin:0 0 3px;letter-spacing:-.3px}
+  .sub{color:var(--muted);font-size:13px;margin:0}
+  header.top{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap;margin-bottom:20px}
+  .toolbar{display:flex;gap:7px;flex-wrap:wrap}
+  button{font-family:inherit;cursor:pointer;border:1px solid var(--line);background:var(--card);color:var(--ink);
+    padding:8px 13px;border-radius:9px;font-size:12.5px;font-weight:600;transition:.14s;display:inline-flex;align-items:center;gap:6px}
+  button:hover{border-color:#cfd5e0;background:#fbfcfe}
+  button.primary{background:var(--indigo);border-color:var(--indigo);color:#fff}
+  button.primary:hover{background:#4038c9;border-color:#4038c9}
+  button.ghost{background:transparent}
+  .savechip{font-size:11.5px;color:var(--dim);display:inline-flex;align-items:center;gap:6px}
+  .dot{width:7px;height:7px;border-radius:50%;background:var(--green);display:inline-block}
+
+  /* focus banner */
+  .focus{background:linear-gradient(100deg,#f0eefe,#eaf2ff);border:1px solid #dcd9fb;border-radius:14px;
+    padding:15px 18px;margin-bottom:20px;display:flex;gap:14px;align-items:flex-start}
+  .focus .icn{font-size:20px;line-height:1.1}
+  .focus h3{margin:0 0 3px;font-size:12px;letter-spacing:.7px;text-transform:uppercase;color:var(--indigo)}
+  .focus p{margin:0;font-size:14.5px;line-height:1.5;color:#2a2f3d;white-space:pre-wrap}
+  .focus .who{font-size:12px;color:var(--muted);margin-top:5px}
+
+  /* controls row */
+  .controls{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:16px}
+  select{font-family:inherit;font-size:14px;font-weight:600;color:var(--ink);background:var(--card);
+    border:1px solid var(--line);border-radius:9px;padding:9px 12px;min-width:230px}
+  .controls .spacer{flex:1}
+
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px}
+  .pad{padding:18px}
+  .section-title{font-size:11.5px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;color:var(--dim);margin:0 0 12px}
+
+  /* top metric cards */
+  .metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:14px}
+  .metric{background:var(--card);border:1px solid var(--line);border-radius:13px;padding:14px 15px}
+  .metric .k{font-size:11px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.4px}
+  .metric .v{font-size:25px;font-weight:750;letter-spacing:-.6px;margin-top:5px}
+  .metric .d{font-size:11.5px;color:var(--dim);margin-top:3px}
+  .metric.hl{background:linear-gradient(135deg,#4f46e5,#7c5cff);border:none;color:#fff}
+  .metric.hl .k,.metric.hl .d{color:#dfe0ff}
+  .badge{display:inline-block;font-size:11px;font-weight:700;padding:1px 7px;border-radius:20px;margin-left:6px;vertical-align:middle}
+  .badge.g{background:var(--green-soft);color:var(--green)} .badge.a{background:var(--amber-soft);color:var(--amber)} .badge.r{background:var(--red-soft);color:var(--red)}
+
+  /* two-col layout */
+  .grid2{display:grid;grid-template-columns:1.15fr .85fr;gap:14px;margin-bottom:14px}
+  @media(max-width:860px){.grid2{grid-template-columns:1fr}.metrics{grid-template-columns:repeat(2,1fr)}}
+
+  /* funnel */
+  .funnel-ctx{display:flex;gap:22px;font-size:12.5px;color:var(--muted);margin-bottom:14px;flex-wrap:wrap}
+  .funnel-ctx b{color:var(--ink);font-weight:700}
+  .stage{position:relative;margin-bottom:10px}
+  .stage .bar-track{background:var(--line2);border-radius:9px;height:52px;overflow:hidden}
+  .stage .bar{height:100%;border-radius:9px;display:flex;align-items:center;padding-left:14px;color:#fff;
+    font-weight:700;min-width:64px;transition:width .5s ease}
+  .stage .bar .cnt{font-size:19px;letter-spacing:-.4px}
+  .stage-meta{position:absolute;right:13px;top:0;height:52px;display:flex;flex-direction:column;justify-content:center;align-items:flex-end;text-align:right}
+  .stage-meta .nm{font-size:12.5px;font-weight:700;color:var(--ink)}
+  .stage-meta .sb{font-size:11px;color:var(--dim)}
+  .conv{display:flex;align-items:center;gap:7px;margin:0 0 10px 15px;color:var(--muted);font-size:11.5px}
+  .conv .arw{color:var(--dim)}
+  .conv b{color:var(--ink)}
+  .conv .drop{color:var(--red);font-weight:600}
+
+  /* notes */
+  .note-block{margin-bottom:14px}
+  .note-block:last-child{margin-bottom:0}
+  .note-block label{display:flex;align-items:center;gap:7px;font-size:12px;font-weight:700;color:var(--ink);margin-bottom:6px}
+  .note-block .em{font-size:14px}
+  textarea{width:100%;border:1px solid var(--line);border-radius:10px;padding:10px 11px;font-family:inherit;font-size:13px;
+    line-height:1.5;color:var(--ink);resize:vertical;min-height:58px;background:#fcfdff}
+  textarea:focus{outline:none;border-color:var(--indigo);background:#fff}
+  textarea.focus-note{min-height:74px;background:#f7f6ff;border-color:#ddd9fb}
+
+  /* history table */
+  .tablescroll{overflow-x:auto}
+  table{border-collapse:collapse;width:100%;font-size:13px;min-width:760px}
+  thead th{text-align:right;padding:10px 12px;font-size:10.5px;text-transform:uppercase;letter-spacing:.5px;
+    color:var(--muted);font-weight:700;border-bottom:1.5px solid var(--line);white-space:nowrap}
+  thead th.lbl{text-align:left}
+  tbody td{padding:11px 12px;text-align:right;border-bottom:1px solid var(--line2);white-space:nowrap;font-variant-numeric:tabular-nums}
+  tbody td.lbl{text-align:left;font-weight:600}
+  tbody tr.sel{background:var(--indigo-soft)}
+  tbody tr:hover{background:#f7f9fd;cursor:pointer}
+  tbody td .dt{display:block;color:var(--dim);font-size:11px;font-weight:500;margin-top:1px}
+  tfoot td{padding:11px 12px;text-align:right;font-weight:700;border-top:2px solid var(--line);background:#fafbfd;font-variant-numeric:tabular-nums}
+  tfoot td.lbl{text-align:left;color:var(--muted);text-transform:uppercase;font-size:10.5px;letter-spacing:.5px}
+
+  /* charts */
+  .charts{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+  @media(max-width:860px){.charts{grid-template-columns:1fr}}
+  .chart-box{background:#fbfcfe;border:1px solid var(--line);border-radius:12px;padding:13px 13px 4px}
+  .chart-box h4{margin:0 0 2px;font-size:12px;font-weight:700}
+  .chart-box .cs{font-size:10.5px;color:var(--dim);margin:0 0 6px}
+
+  /* form panel */
+  .formwrap{overflow:hidden;max-height:0;transition:max-height .3s ease;margin-bottom:14px}
+  .formwrap.open{max-height:1400px}
+  form.entry{display:grid;grid-template-columns:repeat(12,1fr);gap:12px}
+  .fld{display:flex;flex-direction:column;gap:5px}
+  .fld label{font-size:11px;color:var(--muted);font-weight:600}
+  .fld label .h{color:var(--dim);font-weight:500}
+  .fld input{background:#fcfdff;border:1px solid var(--line);color:var(--ink);border-radius:9px;padding:9px 10px;font-size:13.5px;font-family:inherit;width:100%}
+  .fld input:focus{outline:none;border-color:var(--indigo);background:#fff}
+  .grp{grid-column:1/-1;font-size:11px;font-weight:700;letter-spacing:.7px;text-transform:uppercase;margin-top:2px}
+  .grp.fe{color:var(--fe)} .grp.be{color:var(--be)}
+  .c2{grid-column:span 2}.c3{grid-column:span 3}.c4{grid-column:span 4}
+  .form-actions{grid-column:1/-1;display:flex;gap:9px;justify-content:flex-end}
+  @media(max-width:700px){.c2,.c3,.c4{grid-column:span 6}}
+  .empty{text-align:center;padding:40px 20px;color:var(--dim)}
+  input[type=file]{display:none}
+  .hidden{display:none!important}
+  .foot-tip{text-align:center;color:var(--muted);font-size:12.5px;margin-top:26px;line-height:1.6}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div>
+      <h1>AI Ads Webinar — Weekly Tracker</h1>
+      <p class="sub">One row per webinar · <span class="savechip"><span class="dot"></span><span id="saveStatus">auto-saves in this browser</span></span></p>
+    </div>
+    <div class="toolbar">
+      <button class="ghost" onclick="exportCSV()">⬇ CSV</button>
+      <button class="ghost" onclick="exportJSON()">⬇ Backup</button>
+      <button class="ghost" onclick="document.getElementById('importFile').click()">⬆ Restore</button>
+      <input type="file" id="importFile" accept="application/json" onchange="importJSON(event)" />
+    </div>
+  </header>
+
+  <!-- FOCUS BANNER -->
+  <div class="focus" id="focusBanner"></div>
+
+  <!-- CONTROLS -->
+  <div class="controls">
+    <select id="picker" onchange="selectWebinar(this.value)"></select>
+    <button class="ghost" id="editBtn" onclick="openForm('edit')">✎ Edit numbers</button>
+    <div class="spacer"></div>
+    <button class="primary" onclick="openForm('new')">＋ New webinar</button>
+  </div>
+
+  <!-- ADD / EDIT FORM -->
+  <div class="formwrap" id="formwrap">
+    <div class="card pad">
+      <p class="section-title" id="formTitle">Add a webinar — raw numbers only</p>
+      <form class="entry" id="entryForm" onsubmit="return saveEntry(event)">
+        <input type="hidden" id="f_id" />
+        <div class="fld c4"><label>Webinar label</label><input id="f_name" placeholder="e.g. Week 2 — AI Ads" required /></div>
+        <div class="fld c2"><label>Date</label><input id="f_date" type="date" required /></div>
+
+        <div class="grp fe">Front-end · traffic &amp; opt-in</div>
+        <div class="fld c3"><label>Ad spend <span class="h">$</span></label><input id="f_spend" type="number" min="0" step="0.01" placeholder="0" /></div>
+        <div class="fld c3"><label>Link CTR <span class="h">% (from Meta)</span></label><input id="f_ctr" type="number" min="0" step="0.01" placeholder="0" /></div>
+        <div class="fld c3"><label>Landing visitors <span class="h">optional</span></label><input id="f_vis" type="number" min="0" step="1" placeholder="0" /></div>
+        <div class="fld c3"><label>Registrations</label><input id="f_reg" type="number" min="0" step="1" placeholder="0" /></div>
+
+        <div class="grp be">Back-end · show, retention &amp; calls</div>
+        <div class="fld c3"><label>Showed up <span class="h">live</span></label><input id="f_showed" type="number" min="0" step="1" placeholder="0" /></div>
+        <div class="fld c3"><label>Present for pitch <span class="h">count</span></label><input id="f_pitch" type="number" min="0" step="1" placeholder="0" /></div>
+        <div class="fld c3"><label>Form fills</label><input id="f_forms" type="number" min="0" step="1" placeholder="0" /></div>
+        <div class="fld c3"><label>Booked calls</label><input id="f_calls" type="number" min="0" step="1" placeholder="0" /></div>
+
+        <div class="form-actions">
+          <button type="button" class="ghost" onclick="closeForm()">Cancel</button>
+          <button type="submit" class="primary" id="submitBtn">Save webinar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- METRIC CARDS -->
+  <div class="metrics" id="metrics"></div>
+
+  <!-- FUNNEL + NOTES -->
+  <div class="grid2">
+    <div class="card pad">
+      <p class="section-title">The funnel — where people drop off</p>
+      <div id="funnel"></div>
+    </div>
+    <div class="card pad">
+      <p class="section-title">Notes for this webinar</p>
+      <div class="note-block">
+        <label><span class="em">🔥</span> Peak engagement / what worked</label>
+        <textarea id="note_win" placeholder="Which moments held attention? What converted?" onchange="saveNote('win',this.value)"></textarea>
+      </div>
+      <div class="note-block">
+        <label><span class="em">⚠️</span> Watch-outs / what to fix</label>
+        <textarea id="note_fix" placeholder="What underperformed or needs work?" onchange="saveNote('fix',this.value)"></textarea>
+      </div>
+      <div class="note-block">
+        <label><span class="em">🎯</span> Focus for next week</label>
+        <textarea id="note_focus" class="focus-note" placeholder="The 1–3 things to change before the next webinar." onchange="saveNote('focus',this.value)"></textarea>
+      </div>
+    </div>
+  </div>
+
+  <!-- HISTORY TABLE -->
+  <div class="card pad" style="margin-bottom:14px">
+    <p class="section-title">Week over week <span id="countTag" style="color:var(--dim)"></span></p>
+    <div id="tableArea"></div>
+  </div>
+
+  <!-- CHARTS -->
+  <div class="card pad" id="chartCard">
+    <p class="section-title">Trends</p>
+    <div class="charts" id="charts"></div>
+  </div>
+
+  <p class="foot-tip">
+    Your data saves automatically in this browser. Open this file from your <strong>AI Powered Webinar</strong> folder (and bookmark it) so it remembers your numbers.<br>
+    Hit <strong>⬇ Backup</strong> now and then for a copy you can move between computers or restore later.
+  </p>
+</div>
+
+<script>
+/* ================= state ================= */
+const KEY='aiAdsWebinarTracker_v2';
+let state={webinars:[], selId:null};
+
+/* seed = Week 1 (only used if nothing saved yet) */
+function seed(){
+  return {webinars:[{
+    id:'wk1', name:'Week 1 — AI Ads Webinar', date:'2026-07-14',
+    spend:2035, ctr:1.23, vis:'', reg:160, showed:53, pitch:42, forms:18, calls:15,
+    note_win:'Highest engagement moments: how Meta works, hyper-specific offers, and which CRM they use. Retention was strong — 79% stayed through to the pitch.',
+    note_fix:'Pitch needs refining — be clearer on the offer. Only 1–2 attendees had cameras on. Show rate was 33%. Q: how many people got the DND?',
+    note_focus:'1) Sharpen the pitch + make the offer crystal clear.\n2) Drive live show-up by emphasizing the free resources ("show up live to get X").\n3) Boost engagement — offer a free bonus for turning cameras on.'
+  }], selId:'wk1'};
+}
+
+function load(){
+  try{
+    const raw=localStorage.getItem(KEY);
+    if(raw){const p=JSON.parse(raw); state.webinars=p.webinars||[]; state.selId=p.selId||(state.webinars[0]&&state.webinars[0].id)||null;}
+    else{ state=seed(); persist(); }
+  }catch(e){ state=seed(); }
+}
+let flashT;
+function persist(){
+  try{ localStorage.setItem(KEY,JSON.stringify(state));
+    const el=document.getElementById('saveStatus'); if(el){el.textContent='saved ✓'; clearTimeout(flashT); flashT=setTimeout(()=>el.textContent='auto-saves in this browser',1300);} }
+  catch(e){ const el=document.getElementById('saveStatus'); if(el) el.textContent='could not save — use ⬇ Backup'; }
+}
+
+/* ================= helpers ================= */
+const num=v=>{const x=parseFloat(v);return isFinite(x)?x:0;};
+const money=v=>'$'+(Math.round(v*100)/100).toLocaleString(undefined,{minimumFractionDigits:v%1?2:0,maximumFractionDigits:2});
+const int=v=>Math.round(num(v)).toLocaleString();
+const pct1=v=>(v==null||!isFinite(v))?'—':(Math.round(v*1000)/10).toFixed(1)+'%';
+const div=(a,b)=>b>0?a/b:null;
+const dash=(v,f)=>(v==null||!isFinite(v))?'—':f(v);
+function esc(s){return (s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
+function fmtDate(d,short){if(!d)return '';const p=d.split('-');if(p.length!==3)return d;const dt=new Date(+p[0],+p[1]-1,+p[2]);const mo=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][dt.getMonth()];return short?mo+' '+dt.getDate():mo+' '+dt.getDate()+', '+dt.getFullYear();}
+
+function calc(w){
+  const spend=num(w.spend),ctr=(w.ctr===''||w.ctr==null)?null:num(w.ctr),vis=num(w.vis),reg=num(w.reg),showed=num(w.showed),pitch=num(w.pitch),forms=num(w.forms),calls=num(w.calls);
+  return {spend,ctr,vis,reg,showed,pitch,forms,calls,
+    cpl:div(spend,reg), optin:div(reg,vis),
+    showRate:div(showed,reg), retention:div(pitch,showed),
+    formRate:div(forms,showed), bookRate:div(calls,showed),
+    formToCall:div(calls,forms), cpc:div(spend,calls), cpf:div(spend,forms)};
+}
+const sorted=()=>[...state.webinars].sort((a,b)=>(a.date||'').localeCompare(b.date||''));
+const selected=()=>state.webinars.find(w=>w.id===state.selId)||sorted().slice(-1)[0]||null;
+
+/* ================= render ================= */
+function render(){
+  const ws=sorted();
+  renderFocus(ws);
+  renderPicker(ws);
+  renderSelected();
+  renderTable(ws);
+  renderCharts(ws);
+  document.getElementById('countTag').textContent=ws.length?'· '+ws.length+' webinar'+(ws.length>1?'s':''):'';
+  document.getElementById('editBtn').classList.toggle('hidden',!selected());
+}
+
+function renderFocus(ws){
+  // most recent webinar that actually has a focus note
+  let latest=null;
+  for(let i=ws.length-1;i>=0;i--){ if((ws[i].note_focus||'').trim()){ latest=ws[i]; break; } }
+  const b=document.getElementById('focusBanner');
+  if(!latest){ b.classList.add('hidden'); return; }
+  b.classList.remove('hidden');
+  b.innerHTML=`<div class="icn">🎯</div><div><h3>Focus for next week</h3><p>${esc(latest.note_focus)}</p><div class="who">From ${esc(latest.name)} · ${fmtDate(latest.date)}</div></div>`;
+}
+
+function renderPicker(ws){
+  const sel=document.getElementById('picker');
+  if(!ws.length){sel.innerHTML='<option>No webinars yet</option>';sel.disabled=true;return;}
+  sel.disabled=false;
+  const cur=selected();
+  sel.innerHTML=ws.slice().reverse().map(w=>`<option value="${w.id}" ${cur&&w.id===cur.id?'selected':''}>${esc(w.name)} — ${fmtDate(w.date)}</option>`).join('');
+}
+
+function renderSelected(){
+  const w=selected();
+  const m=document.getElementById('metrics'), f=document.getElementById('funnel');
+  if(!w){ m.innerHTML=''; f.innerHTML='<div class="empty">Add your first webinar to see the funnel.</div>';
+    ['win','fix','focus'].forEach(k=>{const t=document.getElementById('note_'+k);if(t)t.value='';}); return; }
+  const c=calc(w);
+
+  // metric cards
+  const showBadge=gradeUp(c.showRate,0.4);
+  const cpcBadge=gradeDown(c.cpc,150);
+  m.innerHTML=[
+    card('Ad spend',money(c.spend),'this webinar'),
+    card('Cost / lead',dash(c.cpl,money),int(c.reg)+' registrations',gradeDown(c.cpl,15)),
+    card('Show rate',dash(c.showRate,pct1),int(c.showed)+' of '+int(c.reg)+' showed',showBadge),
+    card('Cost / booked call',dash(c.cpc,money),int(c.calls)+' calls booked',cpcBadge,true)
+  ].join('');
+
+  // funnel
+  const ctx=`<div class="funnel-ctx"><span>Ad spend <b>${money(c.spend)}</b></span><span>Link CTR <b>${c.ctr==null?'—':c.ctr+'%'}</b></span>${c.optin!=null?`<span>Opt-in rate <b>${pct1(c.optin)}</b></span>`:''}</div>`;
+  const stages=[
+    {nm:'Registrations',sb:'opt-ins',cnt:c.reg,col:'#2f7bf6'},
+    {nm:'Showed up live',sb:'attended',cnt:c.showed,col:'#4f6ef0',conv:c.showRate,cl:'showed up'},
+    {nm:'Present for pitch',sb:'stayed to offer',cnt:c.pitch,col:'#6a5cf0',conv:c.retention,cl:'retention'},
+    {nm:'Form fills',sb:'applied',cnt:c.forms,col:'#8a54ea',conv:div(c.forms,c.pitch),cl:'filled the form'},
+    {nm:'Booked calls',sb:'on the calendar',cnt:c.calls,col:'#a34fd6',conv:c.formToCall,cl:'booked'}
+  ];
+  const max=Math.max(1,c.reg,c.showed,c.pitch,c.forms,c.calls);
+  let html=ctx;
+  stages.forEach((s,i)=>{
+    if(i>0){const cv=s.conv;html+=`<div class="conv"><span class="arw">↓</span> <b>${cv==null?'—':pct1(cv)}</b> ${s.cl}${cv!=null&&cv<0.5?` <span class="drop">(${pct1(1-cv)} drop-off)</span>`:''}</div>`;}
+    const wd=Math.max(6,(s.cnt/max)*100);
+    html+=`<div class="stage"><div class="bar-track"><div class="bar" style="width:${wd}%;background:${s.col}"><span class="cnt">${int(s.cnt)}</span></div></div>
+      <div class="stage-meta"><span class="nm">${s.nm}</span><span class="sb">${s.sb}</span></div></div>`;
+  });
+  f.innerHTML=html;
+
+  // notes
+  document.getElementById('note_win').value=w.note_win||'';
+  document.getElementById('note_fix').value=w.note_fix||'';
+  document.getElementById('note_focus').value=w.note_focus||'';
+}
+function card(k,v,d,badge,hl){
+  return `<div class="metric${hl?' hl':''}"><div class="k">${k}</div><div class="v">${v}${badge?`<span class="badge ${badge.c}">${badge.t}</span>`:''}</div><div class="d">${d}</div></div>`;
+}
+function gradeUp(v,t){if(v==null||!isFinite(v))return null;if(v>=t)return{c:'g',t:'on target'};if(v>=t*0.75)return{c:'a',t:'close'};return{c:'r',t:'below'};}
+function gradeDown(v,t){if(v==null||!isFinite(v))return null;if(v<=t)return{c:'g',t:'good'};if(v<=t*1.25)return{c:'a',t:'watch'};return{c:'r',t:'high'};}
+
+function renderTable(ws){
+  const area=document.getElementById('tableArea');
+  if(!ws.length){area.innerHTML='<div class="empty">No webinars yet.</div>';return;}
+  const rows=ws.map(w=>{const c=calc(w);const s=selected();
+    return `<tr class="${s&&w.id===s.id?'sel':''}" onclick="selectWebinar('${w.id}')">
+      <td class="lbl">${esc(w.name)}<span class="dt">${fmtDate(w.date)}</span></td>
+      <td>${money(c.spend)}</td><td>${int(c.reg)}</td><td>${dash(c.cpl,money)}</td>
+      <td>${dash(c.showRate,pct1)}</td><td>${dash(c.retention,pct1)}</td>
+      <td>${int(c.forms)}</td><td>${int(c.calls)}</td><td>${dash(c.cpc,money)}</td></tr>`;}).join('');
+  const t=ws.reduce((a,w)=>{const c=calc(w);a.spend+=c.spend;a.reg+=c.reg;a.showed+=c.showed;a.pitch+=c.pitch;a.forms+=c.forms;a.calls+=c.calls;return a;},{spend:0,reg:0,showed:0,pitch:0,forms:0,calls:0});
+  const foot=`<tr><td class="lbl">Totals / blended</td><td>${money(t.spend)}</td><td>${int(t.reg)}</td>
+    <td>${dash(div(t.spend,t.reg),money)}</td><td>${dash(div(t.showed,t.reg),pct1)}</td>
+    <td>${dash(div(t.pitch,t.showed),pct1)}</td><td>${int(t.forms)}</td><td>${int(t.calls)}</td>
+    <td>${dash(div(t.spend,t.calls),money)}</td></tr>`;
+  area.innerHTML=`<div class="tablescroll"><table>
+    <thead><tr><th class="lbl">Webinar</th><th>Spend</th><th>Regs</th><th>Cost/Lead</th><th>Show %</th><th>Retention</th><th>Forms</th><th>Calls</th><th>Cost/Call</th></tr></thead>
+    <tbody>${rows}</tbody><tfoot>${foot}</tfoot></table></div>
+    <p class="sub" style="margin-top:8px;font-size:11.5px">Tip: click any row to load that webinar's funnel and notes above.</p>`;
+}
+
+/* ================= charts ================= */
+function renderCharts(ws){
+  const box=document.getElementById('charts');
+  if(ws.length<1){document.getElementById('chartCard').classList.add('hidden');return;}
+  document.getElementById('chartCard').classList.remove('hidden');
+  const labels=ws.map(w=>fmtDate(w.date,true));
+  box.innerHTML=
+    bar('Cost per booked call','lower is better',labels,ws.map(w=>calc(w).cpc),'#7c5cff',money)+
+    line('Show rate','% of registrants who showed',labels,ws.map(w=>{const s=calc(w).showRate;return s==null?null:s*100;}),'#2f7bf6',v=>v.toFixed(0)+'%')+
+    bar('Booked calls','per webinar',labels,ws.map(w=>calc(w).calls),'#12996b',v=>int(v));
+}
+function frame(t,s,svg){return `<div class="chart-box"><h4>${t}</h4><p class="cs">${s}</p>${svg}</div>`;}
+function bar(t,s,labels,data,color,fmt){
+  const W=340,H=150,pl=44,pr=10,pt=12,pb=26,vals=data.filter(v=>v!=null&&isFinite(v));let max=Math.max(1,...vals)*1.15;
+  const iw=W-pl-pr,ih=H-pt-pb,nb=labels.length,slot=iw/nb,bw=Math.min(30,slot*0.5),y=v=>pt+ih-(v/max)*ih;
+  let b='';for(let i=0;i<nb;i++){const cx=pl+slot*i+slot/2,v=(data[i]==null||!isFinite(data[i]))?0:data[i];
+    b+=`<rect x="${cx-bw/2}" y="${y(v)}" width="${bw}" height="${pt+ih-y(v)}" rx="3" fill="${color}"/><text x="${cx}" y="${H-9}" fill="#8b93a3" font-size="9" text-anchor="middle">${labels[i]}</text>`;}
+  const g=[0,.5,1].map(k=>{const yy=pt+ih-k*ih;return `<line x1="${pl}" y1="${yy}" x2="${W-pr}" y2="${yy}" stroke="#eef1f6"/><text x="${pl-6}" y="${yy+3}" fill="#8b93a3" font-size="9" text-anchor="end">${fmt(max*k)}</text>`;}).join('');
+  return frame(t,s,`<svg viewBox="0 0 ${W} ${H}" width="100%">${g}${b}</svg>`);
+}
+function line(t,s,labels,data,color,fmt){
+  const W=340,H=150,pl=40,pr=10,pt=12,pb=26,vals=data.filter(v=>v!=null&&isFinite(v));let max=Math.max(1,...vals)*1.15;
+  const iw=W-pl-pr,ih=H-pt-pb,nb=labels.length,x=i=>nb<=1?pl+iw/2:pl+iw*i/(nb-1),y=v=>pt+ih-(v/max)*ih;
+  const g=[0,.5,1].map(k=>{const yy=pt+ih-k*ih;return `<line x1="${pl}" y1="${yy}" x2="${W-pr}" y2="${yy}" stroke="#eef1f6"/><text x="${pl-6}" y="${yy+3}" fill="#8b93a3" font-size="9" text-anchor="end">${fmt(max*k)}</text>`;}).join('');
+  let d='',pts='',started=false;data.forEach((v,i)=>{if(v==null||!isFinite(v))return;d+=(started?'L':'M')+x(i)+' '+y(v)+' ';started=true;pts+=`<circle cx="${x(i)}" cy="${y(v)}" r="3.2" fill="${color}"/>`;});
+  const xl=labels.map((l,i)=>`<text x="${x(i)}" y="${H-9}" fill="#8b93a3" font-size="9" text-anchor="middle">${l}</text>`).join('');
+  return frame(t,s,`<svg viewBox="0 0 ${W} ${H}" width="100%">${g}<path d="${d}" fill="none" stroke="${color}" stroke-width="2.2"/>${pts}${xl}</svg>`);
+}
+
+/* ================= interactions ================= */
+function selectWebinar(id){state.selId=id;persist();render();}
+function openForm(mode){
+  const wrap=document.getElementById('formwrap');wrap.classList.add('open');
+  if(mode==='edit'){const w=selected();if(!w)return;
+    document.getElementById('formTitle').textContent='Edit '+w.name;
+    document.getElementById('f_id').value=w.id;
+    setF('f_name',w.name);setF('f_date',w.date);setF('f_spend',w.spend);setF('f_ctr',w.ctr);setF('f_vis',w.vis);setF('f_reg',w.reg);setF('f_showed',w.showed);setF('f_pitch',w.pitch);setF('f_forms',w.forms);setF('f_calls',w.calls);
+  }else{
+    document.getElementById('formTitle').textContent='Add a webinar — raw numbers only';
+    document.getElementById('entryForm').reset();document.getElementById('f_id').value='';
+    document.getElementById('f_date').valueAsDate=new Date();
+  }
+  wrap.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+function setF(id,v){document.getElementById(id).value=(v==null?'':v);}
+function closeForm(){document.getElementById('formwrap').classList.remove('open');}
+function saveEntry(e){
+  e.preventDefault();
+  const id=document.getElementById('f_id').value||('w'+Date.now().toString(36));
+  const w={id,
+    name:document.getElementById('f_name').value.trim(),date:document.getElementById('f_date').value,
+    spend:document.getElementById('f_spend').value,ctr:document.getElementById('f_ctr').value,vis:document.getElementById('f_vis').value,
+    reg:document.getElementById('f_reg').value,showed:document.getElementById('f_showed').value,pitch:document.getElementById('f_pitch').value,
+    forms:document.getElementById('f_forms').value,calls:document.getElementById('f_calls').value};
+  const idx=state.webinars.findIndex(x=>x.id===id);
+  if(idx>=0){w.note_win=state.webinars[idx].note_win;w.note_fix=state.webinars[idx].note_fix;w.note_focus=state.webinars[idx].note_focus;state.webinars[idx]=w;}
+  else{state.webinars.push(w);}
+  state.selId=id;persist();closeForm();render();return false;
+}
+function saveNote(k,v){const w=selected();if(!w)return;w['note_'+k]=v;persist();if(k==='focus')renderFocus(sorted());}
+function delSelected(){/* reserved */}
+
+/* import/export */
+function exportJSON(){downloadBlob(new Blob([JSON.stringify(state,null,2)],{type:'application/json'}),'webinar-tracker-backup.json');}
+function importJSON(ev){const file=ev.target.files[0];if(!file)return;const r=new FileReader();
+  r.onload=()=>{try{const p=JSON.parse(r.result);if(!p.webinars)throw 0;if(!confirm('Restore '+p.webinars.length+' webinars? This replaces what is here now.'))return;
+    state.webinars=p.webinars;state.selId=p.selId||(p.webinars[0]&&p.webinars[0].id)||null;persist();render();}
+    catch(e){alert('That file could not be read as a tracker backup.');}};
+  r.readAsText(file);ev.target.value='';}
+function exportCSV(){
+  const head=['Webinar','Date','Ad spend','Link CTR %','Landing visitors','Registrations','Cost per lead','Opt-in %','Showed','Show %','Present for pitch','Retention %','Form fills','Form-fill %','Booked calls','Booking %','Cost per call','Cost per form','Peak engagement','Watch-outs','Focus next week'];
+  const rows=sorted().map(w=>{const c=calc(w);const p=(x,d)=>(x==null||!isFinite(x))?'':d;
+    return [w.name,w.date,c.spend,c.ctr==null?'':c.ctr,c.vis||'',c.reg,p(c.cpl,c.cpl.toFixed(2)),p(c.optin,(c.optin*100).toFixed(1)),
+      c.showed,p(c.showRate,(c.showRate*100).toFixed(1)),c.pitch,p(c.retention,(c.retention*100).toFixed(1)),
+      c.forms,p(c.formRate,(c.formRate*100).toFixed(1)),c.calls,p(c.bookRate,(c.bookRate*100).toFixed(1)),
+      p(c.cpc,c.cpc.toFixed(2)),p(c.cpf,c.cpf.toFixed(2)),w.note_win||'',w.note_fix||'',w.note_focus||''].map(cell).join(',');});
+  downloadBlob(new Blob([head.join(',')+'\n'+rows.join('\n')],{type:'text/csv'}),'webinar-tracker.csv');
+}
+function cell(v){v=(v==null?'':String(v)).replace(/\r?\n/g,' ');return /[",]/.test(v)?'"'+v.replace(/"/g,'""')+'"':v;}
+function downloadBlob(blob,name){const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),800);}
+
+/* init */
+load();render();
+</script>
+</body>
+</html>

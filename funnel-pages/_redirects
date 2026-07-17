@@ -2,6 +2,9 @@
 /register-page    /index.html                   200
 /confirmation     /02-confirmation.html         200
 /replay           /03-replay.html               200
-/checkout         /04-checkout.html             200
+/join             /join.html                    200
+# Checkout retired — $97 offer replaced by the In-House AI Team funnel.
+/checkout          https://aiteam.salesgenius.co/   302
+/04-checkout.html  https://aiteam.salesgenius.co/   302!
 /upgrade          /05-oto-voice-caller.html     200
 /welcome          /06-thank-you.html            200

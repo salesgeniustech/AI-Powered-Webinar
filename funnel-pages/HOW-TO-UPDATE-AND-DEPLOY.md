@@ -10,8 +10,8 @@ The date lives in a single config block near the bottom of two files. Edit both 
 **a) `index.html`** (the registration page / homepage):
 ```js
 var WEBINAR = {
-  dateText:  "July 15 at 12 PM EDT",         // the words shown everywhere on the page
-  targetISO: "2026-07-15T12:00:00-04:00"      // the countdown target
+  dateText:  "July 22 at 12 PM EDT",         // the words shown everywhere on the page
+  targetISO: "2026-07-22T12:00:00-04:00"      // the countdown target
 };
 ```
 

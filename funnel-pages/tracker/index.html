@@ -212,6 +212,10 @@
             <div class="fld c3"><label>Present for pitch</label><input id="f_pitch" type="number" min="0" step="1" placeholder="0" /></div>
             <div class="fld c3"><label>Form fills</label><input id="f_forms" type="number" min="0" step="1" placeholder="0" /></div>
             <div class="fld c3"><label>Booked calls</label><input id="f_calls" type="number" min="0" step="1" placeholder="0" /></div>
+            <div class="grp">Sales &amp; revenue</div>
+            <div class="fld c3"><label>Sales calls held <span class="h">showed to call</span></label><input id="f_held" type="number" min="0" step="1" placeholder="0" /></div>
+            <div class="fld c3"><label>Deals closed</label><input id="f_closes" type="number" min="0" step="1" placeholder="0" /></div>
+            <div class="fld c3"><label>Closed value <span class="h">$</span></label><input id="f_value" type="number" min="0" step="0.01" placeholder="0" /></div>
             <div class="form-actions">
               <button type="button" class="ghost" onclick="closeForm()">Cancel</button>
               <button type="submit" class="gold" id="submitBtn">Save webinar</button>
@@ -281,13 +285,24 @@ var dash=function(v,f){return (v==null||!isFinite(v))?'—':f(v);};
 function esc(s){return (s||'').replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
 function fmtDate(d,short){if(!d)return '';var p=d.split('-');if(p.length!==3)return d;var dt=new Date(+p[0],+p[1]-1,+p[2]);
   var mo=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][dt.getMonth()];return short?mo+' '+dt.getDate():mo+' '+dt.getDate()+', '+dt.getFullYear();}
-function calc(w){var spend=num(w.spend),ctr=(w.ctr===''||w.ctr==null)?null:num(w.ctr),vis=num(w.vis),reg=num(w.reg),showed=num(w.showed),pitch=num(w.pitch),forms=num(w.forms),calls=num(w.calls);
-  return {spend:spend,ctr:ctr,vis:vis,reg:reg,showed:showed,pitch:pitch,forms:forms,calls:calls,
+function calc(w){var spend=num(w.spend),ctr=(w.ctr===''||w.ctr==null)?null:num(w.ctr),vis=num(w.vis),reg=num(w.reg),showed=num(w.showed),pitch=num(w.pitch),forms=num(w.forms),calls=num(w.calls),held=num(w.held),closes=num(w.closes),value=num(w.value);
+  return {spend:spend,ctr:ctr,vis:vis,reg:reg,showed:showed,pitch:pitch,forms:forms,calls:calls,held:held,closes:closes,value:value,
     cpl:div(spend,reg),optin:div(reg,vis),showRate:div(showed,reg),retention:div(pitch,showed),
-    formRate:div(forms,showed),bookRate:div(calls,showed),formToCall:div(calls,forms),cpc:div(spend,calls),cpf:div(spend,forms)};}
-function totals(ws){return ws.reduce(function(a,w){var c=calc(w);a.spend+=c.spend;a.vis+=c.vis;a.reg+=c.reg;a.showed+=c.showed;a.pitch+=c.pitch;a.forms+=c.forms;a.calls+=c.calls;return a;},{spend:0,vis:0,reg:0,showed:0,pitch:0,forms:0,calls:0});}
+    formRate:div(forms,showed),bookRate:div(calls,showed),formToCall:div(calls,forms),cpc:div(spend,calls),cpf:div(spend,forms),
+    salesShow:div(held,calls),closeRate:div(closes,held),roas:div(value,spend),cpa:div(spend,closes),revenue:value};}
+function totals(ws){return ws.reduce(function(a,w){var c=calc(w);a.spend+=c.spend;a.vis+=c.vis;a.reg+=c.reg;a.showed+=c.showed;a.pitch+=c.pitch;a.forms+=c.forms;a.calls+=c.calls;a.held+=c.held;a.closes+=c.closes;a.value+=c.value;return a;},{spend:0,vis:0,reg:0,showed:0,pitch:0,forms:0,calls:0,held:0,closes:0,value:0});}
 function sorted(){return state.webinars.slice().sort(function(a,b){return (a.date||'').localeCompare(b.date||'');});}
 function byId(id){for(var i=0;i<state.webinars.length;i++)if(state.webinars[i].id===id)return state.webinars[i];return null;}
+/* Benchmarks — Jeremy AI best practices (paid-ads → webinar → call → $3K close).
+   Rate targets are fractions (0.30 = 30%); $ and × targets are raw numbers. */
+var TARGETS={
+  ctr:{g:2,a:1.5}, optin:{g:0.20,a:0.12}, cpl:{g:30,a:60}, cpm:{g:40,a:70},
+  showRate:{g:0.30,a:0.20}, retention:{g:0.80,a:0.60}, bookRate:{g:0.30,a:0.15},
+  cpc:{g:150,a:300}, salesShow:{g:0.70,a:0.50}, closeRate:{g:0.30,a:0.20},
+  roas:{g:3,a:2}, emailOpen:{g:0.60,a:0.40}, refund:{g:0.05,a:0.10}, cycleDays:{g:7,a:14}
+};
+function gU(v,tt){if(v==null||!isFinite(v)||!tt)return null;if(v>=tt.g)return{c:'g',t:'on target'};if(v>=tt.a)return{c:'a',t:'close'};return{c:'r',t:'below'};}
+function gD(v,tt){if(v==null||!isFinite(v)||!tt)return null;if(v<=tt.g)return{c:'g',t:'good'};if(v<=tt.a)return{c:'a',t:'watch'};return{c:'r',t:'high'};}
 function gradeUp(v,t){if(v==null||!isFinite(v))return null;if(v>=t)return{c:'g',t:'on target'};if(v>=t*0.75)return{c:'a',t:'close'};return{c:'r',t:'below'};}
 function gradeDown(v,t){if(v==null||!isFinite(v))return null;if(v<=t)return{c:'g',t:'good'};if(v<=t*1.25)return{c:'a',t:'watch'};return{c:'r',t:'high'};}
 
@@ -315,17 +330,22 @@ function funnelHTML(c,blended){
   var ctx='<div class="fctx"><span>Ad spend <b>'+money(c.spend)+'</b></span>';
   if(!blended){ ctx+='<span>Link CTR <b>'+(c.ctr==null?'—':c.ctr+'%')+'</b></span>'; }
   if(c.optin!=null){ ctx+='<span>Opt-in rate <b>'+pct1(c.optin)+'</b></span>'; }
+  if(c.revenue>0){ ctx+='<span>Closed revenue <b>'+money(c.revenue)+'</b></span>'; }
+  if(c.roas!=null&&c.revenue>0){ ctx+='<span>ROAS <b>'+(Math.round(c.roas*100)/100)+'×</b></span>'; }
   ctx+='</div>';
   var stages=[
     {nm:'Registrations',sb:'opt-ins',cnt:c.reg},
-    {nm:'Showed up live',sb:'attended',cnt:c.showed,conv:c.showRate,cl:'showed up'},
-    {nm:'Present for pitch',sb:'stayed to offer',cnt:c.pitch,conv:c.retention,cl:'retention'},
+    {nm:'Showed up live',sb:'attended',cnt:c.showed,conv:c.showRate,cl:'showed up',tt:TARGETS.showRate},
+    {nm:'Present for pitch',sb:'stayed to offer',cnt:c.pitch,conv:c.retention,cl:'retention',tt:TARGETS.retention},
     {nm:'Form fills',sb:'applied',cnt:c.forms,conv:div(c.forms,c.pitch),cl:'filled the form'},
-    {nm:'Booked calls',sb:'on the calendar',cnt:c.calls,conv:c.formToCall,cl:'booked'}
+    {nm:'Booked calls',sb:'on the calendar',cnt:c.calls,conv:c.formToCall,cl:'booked'},
+    {nm:'Sales calls held',sb:'showed to the call',cnt:c.held,conv:c.salesShow,cl:'showed to call',tt:TARGETS.salesShow},
+    {nm:'Deals closed',sb:'became clients',cnt:c.closes,conv:c.closeRate,cl:'closed',tt:TARGETS.closeRate}
   ];
-  var max=Math.max(1,c.reg,c.showed,c.pitch,c.forms,c.calls),html=ctx;
+  var max=Math.max(1,c.reg,c.showed,c.pitch,c.forms,c.calls,c.held,c.closes),html=ctx;
   stages.forEach(function(s,i){
-    if(i>0){var cv=s.conv;html+='<div class="conv"><span class="arw">↓</span> <b>'+(cv==null?'—':pct1(cv))+'</b> '+s.cl+(cv!=null&&cv<0.5?' <span class="drop">('+pct1(1-cv)+' drop-off)</span>':'')+'</div>';}
+    if(i>0){var cv=s.conv;var gg=s.tt?gU(cv,s.tt):null;var col=gg?(' style="color:var(--'+(gg.c==='g'?'good':gg.c==='a'?'warn':'bad')+')"'):'';
+      html+='<div class="conv"><span class="arw">↓</span> <b'+col+'>'+(cv==null?'—':pct1(cv))+'</b> '+s.cl+(cv!=null&&cv<0.5?' <span class="drop">('+pct1(1-cv)+' drop-off)</span>':'')+'</div>';}
     var wd=Math.max(7,(s.cnt/max)*100);
     html+='<div class="stage"><div class="bar-track"><div class="bar" style="width:'+wd+'%"><span class="cnt">'+int(s.cnt)+'</span></div></div><div class="stage-meta"><span class="nm">'+s.nm+'</span><span class="sb">'+s.sb+'</span></div></div>';
   });
@@ -335,37 +355,68 @@ function renderOverview(){
   var ws=sorted(); var main=document.getElementById('main');
   if(!ws.length){main.innerHTML='<div class="card pad empty">No webinars yet. Hit ＋ New webinar to start.</div>';return;}
   var t=totals(ws);
-  var cpl=div(t.spend,t.reg),cpc=div(t.spend,t.calls),showR=div(t.showed,t.reg),ret=div(t.pitch,t.showed);
+  var cpc=div(t.spend,t.calls),showR=div(t.showed,t.reg),ret=div(t.pitch,t.showed),
+      salesShow=div(t.held,t.calls),closeRate=div(t.closes,t.held),roas=div(t.value,t.spend);
+  var roasFmt=function(v){return (Math.round(v*100)/100)+'×';};
   var cards=[
     metricCard('Total ad spend',money(t.spend),ws.length+' webinar'+(ws.length>1?'s':'')),
     metricCard('Registrations',int(t.reg),'across all webinars'),
-    metricCard('Booked calls',int(t.calls),int(t.forms)+' form fills'),
-    metricCard('Cost / lead',dash(cpl,money),'blended',gradeDown(cpl,15)),
-    metricCard('Show rate',dash(showR,pct1),int(t.showed)+' showed · '+pct1(ret)+' retention',gradeUp(showR,0.4)),
-    metricCard('Cost / booked call',dash(cpc,money),'blended',gradeDown(cpc,150),true)
+    metricCard('Webinar show rate',dash(showR,pct1),int(t.showed)+' showed · '+pct1(ret)+' stayed',gU(showR,TARGETS.showRate)),
+    metricCard('Cost / booked call',dash(cpc,money),int(t.calls)+' booked',gD(cpc,TARGETS.cpc)),
+    metricCard('Sales call show rate',dash(salesShow,pct1),int(t.held)+' of '+int(t.calls)+' held',gU(salesShow,TARGETS.salesShow)),
+    metricCard('Close rate',dash(closeRate,pct1),int(t.closes)+' closed',gU(closeRate,TARGETS.closeRate)),
+    metricCard('Closed revenue',money(t.value),'total booked'),
+    metricCard('Return on ad spend',dash(roas,roasFmt),money(t.value)+' from '+money(t.spend),gU(roas,TARGETS.roas),true)
   ].join('');
 
   // cumulative funnel uses summed stages
-  var cum={spend:t.spend,ctr:null,vis:t.vis,reg:t.reg,showed:t.showed,pitch:t.pitch,forms:t.forms,calls:t.calls,
-    optin:div(t.reg,t.vis),showRate:div(t.showed,t.reg),retention:div(t.pitch,t.showed),formToCall:div(t.calls,t.forms),cpc:cpc};
+  var cum={spend:t.spend,ctr:null,vis:t.vis,reg:t.reg,showed:t.showed,pitch:t.pitch,forms:t.forms,calls:t.calls,held:t.held,closes:t.closes,value:t.value,
+    optin:div(t.reg,t.vis),showRate:div(t.showed,t.reg),retention:div(t.pitch,t.showed),formToCall:div(t.calls,t.forms),
+    salesShow:div(t.held,t.calls),closeRate:div(t.closes,t.held),roas:div(t.value,t.spend),revenue:t.value,cpc:cpc};
 
   main.innerHTML=
-    '<div class="metrics six">'+cards+'</div>'+
+    '<div class="metrics four">'+cards+'</div>'+
     '<div class="grid2">'+
       '<div class="card pad"><p class="ttl">Cumulative funnel · all webinars combined</p>'+funnelHTML(cum,true)+'</div>'+
       '<div class="card pad"><p class="ttl">Week over week</p>'+tableHTML(ws)+'</div>'+
     '</div>'+
-    '<div class="card pad"><p class="ttl">Trends</p><div class="charts">'+chartsHTML(ws)+'</div></div>';
+    '<div class="card pad"><p class="ttl">Trends</p><div class="charts">'+chartsHTML(ws)+'</div></div>'+
+    '<div class="card pad"><p class="ttl">Benchmarks · Jeremy AI best practices</p>'+benchmarksHTML()+'</div>';
+}
+function benchmarksHTML(){
+  var rows=[
+    ['Ad link CTR','≥ 2%','1.5–2%','< 1.5%',1],
+    ['Opt-in / registration rate','≥ 20%','12–19%','< 12%',1],
+    ['Cost per lead','< $30','$30–60','> $60',1],
+    ['CPM','< $40','$40–70','> $70',0],
+    ['Webinar show rate','≥ 30%','20–29%','< 20%',1],
+    ['Retention to pitch','≥ 80%','60–79%','< 60%',1],
+    ['Booking rate (of pitch-stayers)','≥ 30%','15–29%','< 15%',1],
+    ['Cost per booked call','< $150','$150–300','> $300',1],
+    ['Sales call show rate','≥ 70%','50–69%','< 50%',1],
+    ['Close rate (calls held)','≥ 30%','20–29%','< 20%',1],
+    ['ROAS (blended)','≥ 3×','2–2.9×','< 2×',1],
+    ['Collected $ / booked call','≥ 2× cost/call','—','< 2× cost/call',0],
+    ['Email open rate (follow-up)','> 60%','40–60%','< 40%',0],
+    ['Sales cycle (reg → close)','< 7 days','7–14 days','> 14 days',0],
+    ['Refund / cancellation rate','< 5%','5–10%','> 10%',0]
+  ];
+  var soft='<span style="color:var(--dim);font-weight:500;font-size:9.5px;text-transform:uppercase;letter-spacing:.05em;margin-left:6px">not tracked yet</span>';
+  var body=rows.map(function(r){return '<tr><td class="lbl">'+r[0]+(r[4]?'':soft)+'</td>'+
+    '<td class="lbl" style="color:var(--good)">'+r[1]+'</td><td class="lbl" style="color:var(--warn)">'+r[2]+'</td><td class="lbl" style="color:var(--bad)">'+r[3]+'</td></tr>';}).join('');
+  return '<div class="tablescroll"><table style="min-width:560px"><thead><tr><th class="lbl">KPI</th><th class="lbl">🟢 Green</th><th class="lbl">🟡 Amber</th><th class="lbl">🔴 Red</th></tr></thead><tbody>'+body+'</tbody></table></div>'+
+    '<p class="sub" style="font-size:11.5px;margin-top:10px;color:var(--dim)">From Jeremy AI\'s best practices for a paid-ads → webinar → book-a-call funnel (~$3K offer). Rows tagged "not tracked yet" aren\'t inputs in this tracker — say the word and I\'ll add any of them.</p>';
 }
 
 function renderWeek(id){
   var w=byId(id); if(!w){setView('overview');return;}
   var c=calc(w); var main=document.getElementById('main');
+  var roasFmt=function(v){return (Math.round(v*100)/100)+'×';};
   var cards=[
     metricCard('Ad spend',money(c.spend),'this webinar'),
-    metricCard('Cost / lead',dash(c.cpl,money),int(c.reg)+' registrations',gradeDown(c.cpl,15)),
-    metricCard('Show rate',dash(c.showRate,pct1),int(c.showed)+' of '+int(c.reg)+' showed',gradeUp(c.showRate,0.4)),
-    metricCard('Cost / booked call',dash(c.cpc,money),int(c.calls)+' calls booked',gradeDown(c.cpc,150),true)
+    metricCard('Webinar show rate',dash(c.showRate,pct1),int(c.showed)+' of '+int(c.reg)+' showed',gU(c.showRate,TARGETS.showRate)),
+    metricCard('Closed revenue',money(c.revenue),int(c.closes)+' deals · '+dash(c.salesShow,pct1)+' call show'),
+    metricCard('Return on ad spend',dash(c.roas,roasFmt),money(c.revenue)+' from '+money(c.spend),gU(c.roas,TARGETS.roas),true)
   ].join('');
   main.innerHTML=
     '<div class="metrics four">'+cards+'</div>'+
@@ -382,22 +433,24 @@ function noteField(k,em,label,val,ph,big){return '<div class="note-block"><label
   '<textarea id="note_'+k+'" class="'+(big?'focus-note':'')+'" placeholder="'+ph+'" onchange="saveNote(\''+k+'\',this.value)">'+esc(val||'')+'</textarea></div>';}
 
 function tableHTML(ws){
+  var roasFmt=function(v){return (Math.round(v*100)/100)+'×';};
   var rows=ws.map(function(w){var c=calc(w);return '<tr onclick="setView(\''+w.id+'\')">'+
     '<td class="lbl">'+esc(w.name.replace(/ —.*/,''))+'<span class="dt">'+fmtDate(w.date,true)+'</span></td>'+
-    '<td>'+money(c.spend)+'</td><td>'+dash(c.cpl,money)+'</td><td>'+dash(c.showRate,pct1)+'</td>'+
-    '<td>'+int(c.forms)+'</td><td>'+int(c.calls)+'</td><td>'+dash(c.cpc,money)+'</td>'+
+    '<td>'+money(c.spend)+'</td><td>'+dash(c.showRate,pct1)+'</td><td>'+int(c.calls)+'</td>'+
+    '<td>'+dash(c.salesShow,pct1)+'</td><td>'+int(c.closes)+'</td><td>'+money(c.revenue)+'</td><td>'+dash(c.roas,roasFmt)+'</td>'+
     '<td class="go">open →</td></tr>';}).join('');
   var t=totals(ws);
-  var foot='<tr><td class="lbl">Blended</td><td>'+money(t.spend)+'</td><td>'+dash(div(t.spend,t.reg),money)+'</td>'+
-    '<td>'+dash(div(t.showed,t.reg),pct1)+'</td><td>'+int(t.forms)+'</td><td>'+int(t.calls)+'</td><td>'+dash(div(t.spend,t.calls),money)+'</td><td></td></tr>';
-  return '<div class="tablescroll"><table><thead><tr><th class="lbl">Webinar</th><th>Spend</th><th>Cost/Lead</th><th>Show%</th><th>Forms</th><th>Calls</th><th>Cost/Call</th><th></th></tr></thead><tbody>'+rows+'</tbody><tfoot>'+foot+'</tfoot></table></div>';
+  var foot='<tr><td class="lbl">Blended</td><td>'+money(t.spend)+'</td>'+
+    '<td>'+dash(div(t.showed,t.reg),pct1)+'</td><td>'+int(t.calls)+'</td>'+
+    '<td>'+dash(div(t.held,t.calls),pct1)+'</td><td>'+int(t.closes)+'</td><td>'+money(t.value)+'</td><td>'+dash(div(t.value,t.spend),roasFmt)+'</td><td></td></tr>';
+  return '<div class="tablescroll"><table><thead><tr><th class="lbl">Webinar</th><th>Spend</th><th>Show%</th><th>Calls</th><th>Call show%</th><th>Closed</th><th>Revenue</th><th>ROAS</th><th></th></tr></thead><tbody>'+rows+'</tbody><tfoot>'+foot+'</tfoot></table></div>';
 }
 
 /* ===== charts ===== */
 function chartsHTML(ws){var labels=ws.map(function(w){return fmtDate(w.date,true);});
   return bar('Cost per booked call','lower is better',labels,ws.map(function(w){return calc(w).cpc;}),money)+
-    line('Show rate','% of registrants who showed',labels,ws.map(function(w){var s=calc(w).showRate;return s==null?null:s*100;}),function(v){return v.toFixed(0)+'%';})+
-    bar('Booked calls','per webinar',labels,ws.map(function(w){return calc(w).calls;}),int);}
+    line('Webinar show rate','% of registrants who showed',labels,ws.map(function(w){var s=calc(w).showRate;return s==null?null:s*100;}),function(v){return v.toFixed(0)+'%';})+
+    bar('Return on ad spend','revenue ÷ ad spend',labels,ws.map(function(w){var r=calc(w).roas;return r==null?0:r;}),function(v){return (Math.round(v*10)/10)+'×';});}
 function frame(t,s,svg){return '<div class="chart-box"><h4>'+t+'</h4><p class="cs">'+s+'</p>'+svg+'</div>';}
 function bar(t,s,labels,data,fmt){var W=340,H=150,pl=46,pr=10,pt=12,pb=26,vals=data.filter(function(v){return v!=null&&isFinite(v);});var max=Math.max(1,Math.max.apply(null,vals.length?vals:[1]))*1.15;
   var iw=W-pl-pr,ih=H-pt-pb,nb=labels.length,slot=iw/nb,bw=Math.min(30,slot*0.5),y=function(v){return pt+ih-(v/max)*ih;},b='';
@@ -416,7 +469,7 @@ function line(t,s,labels,data,fmt){var W=340,H=150,pl=40,pr=10,pt=12,pb=26,vals=
 function setView(v){state.view=v;persist();render();window.scrollTo({top:0,behavior:'smooth'});}
 function openForm(mode){var wrap=document.getElementById('formwrap');wrap.classList.add('open');
   if(mode==='edit'){var w=byId(state.view);if(!w)return;document.getElementById('formTitle').textContent='Edit '+w.name;
-    setF('f_id',w.id);setF('f_name',w.name);setF('f_date',w.date);setF('f_spend',w.spend);setF('f_ctr',w.ctr);setF('f_vis',w.vis);setF('f_reg',w.reg);setF('f_showed',w.showed);setF('f_pitch',w.pitch);setF('f_forms',w.forms);setF('f_calls',w.calls);}
+    setF('f_id',w.id);setF('f_name',w.name);setF('f_date',w.date);setF('f_spend',w.spend);setF('f_ctr',w.ctr);setF('f_vis',w.vis);setF('f_reg',w.reg);setF('f_showed',w.showed);setF('f_pitch',w.pitch);setF('f_forms',w.forms);setF('f_calls',w.calls);setF('f_held',w.held);setF('f_closes',w.closes);setF('f_value',w.value);}
   else{document.getElementById('formTitle').textContent='Add a webinar — raw numbers only';document.getElementById('entryForm').reset();setF('f_id','');document.getElementById('f_date').valueAsDate=new Date();}
   wrap.scrollIntoView({behavior:'smooth',block:'nearest'});}
 function setF(id,v){document.getElementById(id).value=(v==null?'':v);}
@@ -426,7 +479,8 @@ function saveEntry(e){e.preventDefault();
   var w={id:id,name:document.getElementById('f_name').value.trim(),date:document.getElementById('f_date').value,
     spend:document.getElementById('f_spend').value,ctr:document.getElementById('f_ctr').value,vis:document.getElementById('f_vis').value,
     reg:document.getElementById('f_reg').value,showed:document.getElementById('f_showed').value,pitch:document.getElementById('f_pitch').value,
-    forms:document.getElementById('f_forms').value,calls:document.getElementById('f_calls').value};
+    forms:document.getElementById('f_forms').value,calls:document.getElementById('f_calls').value,
+    held:document.getElementById('f_held').value,closes:document.getElementById('f_closes').value,value:document.getElementById('f_value').value};
   var idx=-1;for(var i=0;i<state.webinars.length;i++)if(state.webinars[i].id===id)idx=i;
   if(idx>=0){w.note_win=state.webinars[idx].note_win;w.note_fix=state.webinars[idx].note_fix;w.note_focus=state.webinars[idx].note_focus;state.webinars[idx]=w;}
   else{state.webinars.push(w);}
@@ -439,9 +493,9 @@ function importJSON(ev){var file=ev.target.files[0];if(!file)return;var r=new Fi
   r.onload=function(){try{var p=JSON.parse(r.result);if(!p.webinars)throw 0;if(!confirm('Restore '+p.webinars.length+' webinars? This replaces what is here now.'))return;
     state.webinars=p.webinars;state.view=p.view||'overview';persist();render();}catch(e){alert('That file could not be read as a tracker backup.');}};
   r.readAsText(file);ev.target.value='';}
-function exportCSV(){var head=['Webinar','Date','Ad spend','Link CTR %','Landing visitors','Registrations','Cost per lead','Opt-in %','Showed','Show %','Present for pitch','Retention %','Form fills','Form-fill %','Booked calls','Booking %','Cost per call','Cost per form','Peak engagement','Watch-outs','Focus next week'];
+function exportCSV(){var head=['Webinar','Date','Ad spend','Link CTR %','Landing visitors','Registrations','Cost per lead','Opt-in %','Showed','Show %','Present for pitch','Retention %','Form fills','Form-fill %','Booked calls','Booking %','Cost per call','Cost per form','Sales calls held','Sales call show %','Deals closed','Close %','Closed value','ROAS','Cost per closed','Peak engagement','Watch-outs','Focus next week'];
   var rows=sorted().map(function(w){var c=calc(w);var p=function(x,d){return (x==null||!isFinite(x))?'':d;};
-    return [w.name,w.date,c.spend,c.ctr==null?'':c.ctr,c.vis||'',c.reg,p(c.cpl,c.cpl.toFixed(2)),p(c.optin,(c.optin*100).toFixed(1)),c.showed,p(c.showRate,(c.showRate*100).toFixed(1)),c.pitch,p(c.retention,(c.retention*100).toFixed(1)),c.forms,p(c.formRate,(c.formRate*100).toFixed(1)),c.calls,p(c.bookRate,(c.bookRate*100).toFixed(1)),p(c.cpc,c.cpc.toFixed(2)),p(c.cpf,c.cpf.toFixed(2)),w.note_win||'',w.note_fix||'',w.note_focus||''].map(cell).join(',');});
+    return [w.name,w.date,c.spend,c.ctr==null?'':c.ctr,c.vis||'',c.reg,p(c.cpl,c.cpl.toFixed(2)),p(c.optin,(c.optin*100).toFixed(1)),c.showed,p(c.showRate,(c.showRate*100).toFixed(1)),c.pitch,p(c.retention,(c.retention*100).toFixed(1)),c.forms,p(c.formRate,(c.formRate*100).toFixed(1)),c.calls,p(c.bookRate,(c.bookRate*100).toFixed(1)),p(c.cpc,c.cpc.toFixed(2)),p(c.cpf,c.cpf.toFixed(2)),c.held,p(c.salesShow,(c.salesShow*100).toFixed(1)),c.closes,p(c.closeRate,(c.closeRate*100).toFixed(1)),c.value,p(c.roas,c.roas.toFixed(2)),p(c.cpa,c.cpa.toFixed(2)),w.note_win||'',w.note_fix||'',w.note_focus||''].map(cell).join(',');});
   dl(new Blob([head.join(',')+'\n'+rows.join('\n')],{type:'text/csv'}),'webinar-tracker.csv');}
 function cell(v){v=(v==null?'':String(v)).replace(/\r?\n/g,' ');return /[",]/.test(v)?'"'+v.replace(/"/g,'""')+'"':v;}
 function dl(blob,name){var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(a.href);},800);}

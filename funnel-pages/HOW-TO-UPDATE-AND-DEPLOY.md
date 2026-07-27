@@ -3,34 +3,29 @@
 **Live site:** https://salesgenius-masterclass.netlify.app
 **Netlify project:** `salesgenius-masterclass` (in your SalesGenius account)
 
-## 1. Change the date (TWO files, two lines each)
+## 1. Change the date (ONE http request — no deploy needed)
 
-The date lives in a single config block near the bottom of two files. Edit both so the whole funnel matches.
+The date lives in Netlify Blobs and both pages fetch it on load from `/api/webinar-date`.
+To change it, send a single request (from n8n, curl, anywhere):
 
-**a) `index.html`** (the registration page / homepage):
-```js
-var WEBINAR = {
-  dateText:  "July 28 at 12 PM EDT",         // the words shown everywhere on the page
-  targetISO: "2026-07-28T12:00:00-04:00"      // the countdown target
-};
+```bash
+curl -X POST https://salesgenius-masterclass.netlify.app/api/webinar-date \
+  -H "Authorization: Bearer $WEBINAR_UPDATE_SECRET" \
+  -H "Content-Type: application/json" \
+  -d '{"date": "2026-08-04 12:00"}'
 ```
 
-**b) `02-confirmation.html`** — same two lines, keep them identical.
+- One field only. `"2026-08-04 12:00"` is assumed **Eastern time**; the EDT/EST offset and the display text ("August 4 at 12 PM EDT") are generated automatically. A full ISO string with offset also works.
+- The change is live within ~60 seconds (pages cache the GET for 60s). No redeploy.
+- The secret is the `WEBINAR_UPDATE_SECRET` env var in Netlify (Site settings → Environment variables). Same value goes in the n8n HTTP node's credential.
+- The `var WEBINAR = {...}` block still in `index.html` / `02-confirmation.html` is only a **fallback** if the API is unreachable — update it occasionally so the fallback isn't ancient, but it's not the weekly workflow.
 
-- **dateText** auto-fills every spot on each page (banner, button, FAQ, calendar links). You do NOT edit those individually.
-- **targetISO** drives the countdown. Timezone offset:
-  - `-04:00` = EDT (roughly Mar to Nov)
-  - `-05:00` = EST (roughly Nov to Mar)
+Check what's currently set: `GET https://salesgenius-masterclass.netlify.app/api/webinar-date`
 
-Save. That's the whole weekly change.
+## 2. Deploying page/code changes (only when you edit the pages themselves)
 
-## 2. Redeploy (to the SAME project, so the URL stays the same)
-
-- Go to https://app.netlify.com/projects/salesgenius-masterclass/deploys
-- Drag the whole **`funnel-pages`** folder onto the "Drag and drop your project folder here to deploy new changes" area.
-- Live in a few seconds, same URL.
-
-Or just tell me "update the masterclass to [date/time] and redeploy" and I'll do it.
+Deploy via Netlify CLI from the repo root (`netlify deploy --prod`) or link the repo in Netlify.
+**Drag-and-drop no longer works** — it skips `netlify/functions/`, which the date API needs.
 
 ## Notes
 - **The registration page is `index.html`.** The old `01-registration.html` is no longer used (it's excluded from deploys). Edit `index.html`, not the old file.

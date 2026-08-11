@@ -137,11 +137,12 @@ src="https://www.facebook.com/tr?id=1057475448873422&ev=PageView&noscript=1"/></
 
 <script>
 /* =======================================================================
-   UPDATE EACH WEEK: keep this identical to the registration page.
+   Webinar date: fetched live from /api/webinar-date (set via n8n / curl).
+   The dateText/targetISO below are only the FALLBACK if that fetch fails.
    ======================================================================= */
 var WEBINAR = {
   dateText:   "July 28 at 12 PM EDT",
-  targetISO:  "2026-07-28T12:00:00-04:00",   // -04:00 = EDT, -05:00 = EST
+  targetISO:  "2026-07-28T12:00:00-04:00",
   durationMin: 90,
   title:      "AI Ads Masterclass for Realtors (SalesGenius)",
   zoom:       "https://us06web.zoom.us/j/81455862418",
@@ -150,13 +151,19 @@ var WEBINAR = {
 /* ======================================================================= */
 
 document.getElementById('yr').textContent = new Date().getFullYear();
-document.querySelectorAll('[data-webinar-date]').forEach(function(el){ el.textContent = WEBINAR.dateText; });
 
-// Countdown
+function applyWebinarDate(){
+  document.querySelectorAll('[data-webinar-date]').forEach(function(el){ el.textContent = WEBINAR.dateText; });
+  buildCalendarLinks();
+}
+
+// Countdown (re-reads WEBINAR.targetISO each tick so the live fetch applies)
 (function(){
-  var TARGET = new Date(WEBINAR.targetISO), cd = document.getElementById('cd');
-  if(!cd || isNaN(TARGET.getTime())) return;
+  var cd = document.getElementById('cd');
+  if(!cd) return;
   function tick(){
+    var TARGET = new Date(WEBINAR.targetISO);
+    if(isNaN(TARGET.getTime())) return;
     var s = Math.max(0, Math.floor((TARGET - new Date())/1000));
     var d = Math.floor(s/86400), h = Math.floor((s%86400)/3600), m = Math.floor((s%3600)/60);
     cd.textContent = (s<=0) ? "now, join us live" : (d+"d "+h+"h "+m+"m");
@@ -165,7 +172,7 @@ document.querySelectorAll('[data-webinar-date]').forEach(function(el){ el.textCo
 })();
 
 // Build the Add-to-Calendar links from the date + Zoom, so they update with WEBINAR.
-(function(){
+function buildCalendarLinks(){
   var start = new Date(WEBINAR.targetISO);
   if(isNaN(start.getTime())) return;
   var end = new Date(start.getTime() + WEBINAR.durationMin*60000);
@@ -183,7 +190,12 @@ document.querySelectorAll('[data-webinar-date]').forEach(function(el){ el.textCo
     "END:VEVENT","END:VCALENDAR"].join("\r\n");
   var ibtn = document.getElementById('cal-ics');
   if(ibtn){ ibtn.href = "data:text/calendar;charset=utf-8," + encodeURIComponent(ics); ibtn.setAttribute('download','ai-ads-masterclass.ics'); }
-})();
+}
+
+applyWebinarDate();
+fetch('/api/webinar-date').then(function(r){ return r.ok ? r.json() : null; }).then(function(d){
+  if(d && d.targetISO && d.dateText){ WEBINAR.dateText = d.dateText; WEBINAR.targetISO = d.targetISO; applyWebinarDate(); }
+}).catch(function(){ /* fallback date above stays */ });
 </script>
 </body>
 </html>

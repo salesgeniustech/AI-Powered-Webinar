@@ -8,3 +8,7 @@
 /04-checkout.html  https://aiteam.salesgenius.co/   302!
 /upgrade          /05-oto-voice-caller.html     200
 /welcome          /06-thank-you.html            200
+
+# Webinar slide deck — clean URLs (both serve deck.html)
+/slides    /deck.html    200
+/deck      /deck.html    200

@@ -213,7 +213,8 @@
             <div class="fld c3"><label>Showed up <span class="h">live</span></label><input id="f_showed" type="number" min="0" step="1" placeholder="0" /></div>
             <div class="fld c3"><label>Present for pitch</label><input id="f_pitch" type="number" min="0" step="1" placeholder="0" /></div>
             <div class="fld c3"><label>Form fills</label><input id="f_forms" type="number" min="0" step="1" placeholder="0" /></div>
-            <div class="fld c3"><label>Booked calls</label><input id="f_calls" type="number" min="0" step="1" placeholder="0" /></div>
+            <div class="fld c3"><label>Booked — from webinar <span class="h">self-booked live</span></label><input id="f_bookWeb" type="number" min="0" step="1" placeholder="0" /></div>
+            <div class="fld c3"><label>Booked — from setter <span class="h">setter follow-up</span></label><input id="f_bookSet" type="number" min="0" step="1" placeholder="0" /></div>
             <div class="grp">Sales &amp; revenue</div>
             <div class="fld c3"><label>Sales calls held <span class="h">showed to call</span></label><input id="f_held" type="number" min="0" step="1" placeholder="0" /></div>
             <div class="fld c3"><label>Deals closed</label><input id="f_closes" type="number" min="0" step="1" placeholder="0" /></div>
@@ -288,14 +289,16 @@ var dash=function(v,f){return (v==null||!isFinite(v))?'—':f(v);};
 function esc(s){return (s||'').replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
 function fmtDate(d,short){if(!d)return '';var p=d.split('-');if(p.length!==3)return d;var dt=new Date(+p[0],+p[1]-1,+p[2]);
   var mo=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][dt.getMonth()];return short?mo+' '+dt.getDate():mo+' '+dt.getDate()+', '+dt.getFullYear();}
-function calc(w){var spend=num(w.spend),ctr=(w.ctr===''||w.ctr==null)?null:num(w.ctr),cpm=(w.cpm===''||w.cpm==null)?null:num(w.cpm),clicks=num(w.clicks),showed=num(w.showed),pitch=num(w.pitch),forms=num(w.forms),calls=num(w.calls),held=num(w.held),closes=num(w.closes),value=num(w.value),cash=num(w.cash);
+function calc(w){var spend=num(w.spend),ctr=(w.ctr===''||w.ctr==null)?null:num(w.ctr),cpm=(w.cpm===''||w.cpm==null)?null:num(w.cpm),clicks=num(w.clicks),showed=num(w.showed),pitch=num(w.pitch),forms=num(w.forms),held=num(w.held),closes=num(w.closes),value=num(w.value),cash=num(w.cash);
   var regAds=num(w.regAds),regOrg=num(w.regOrg),hasSplit=(regAds+regOrg)>0;
   var reg=hasSplit?regAds+regOrg:num(w.reg), adReg=hasSplit?regAds:reg;
-  return {spend:spend,ctr:ctr,cpm:cpm,clicks:clicks,reg:reg,adReg:adReg,regOrg:regOrg,hasSplit:hasSplit,showed:showed,pitch:pitch,forms:forms,calls:calls,held:held,closes:closes,value:value,cash:cash,
+  var bookWeb=num(w.bookWeb),bookSet=num(w.bookSet),hasCallSplit=(bookWeb+bookSet)>0;
+  var calls=hasCallSplit?bookWeb+bookSet:num(w.calls);
+  return {spend:spend,ctr:ctr,cpm:cpm,clicks:clicks,reg:reg,adReg:adReg,regOrg:regOrg,hasSplit:hasSplit,showed:showed,pitch:pitch,forms:forms,calls:calls,bookWeb:bookWeb,bookSet:bookSet,hasCallSplit:hasCallSplit,held:held,closes:closes,value:value,cash:cash,
     cpl:div(spend,adReg),optin:div(adReg,clicks),showRate:div(showed,reg),retention:div(pitch,showed),
     formRate:div(forms,showed),bookRate:div(calls,showed),bookOfPitch:div(calls,pitch),formToCall:div(calls,forms),cpc:div(spend,calls),cpf:div(spend,forms),
     salesShow:div(held,calls),closeRate:div(closes,held),roas:div(value,spend),collectedRoas:div(cash,spend),cashPerCall:div(cash,calls),cpa:div(spend,closes),revenue:value};}
-function totals(ws){return ws.reduce(function(a,w){var c=calc(w);a.spend+=c.spend;a.reg+=c.reg;a.adReg+=c.adReg;a.regOrg+=c.regOrg;a.showed+=c.showed;a.pitch+=c.pitch;a.forms+=c.forms;a.calls+=c.calls;a.held+=c.held;a.closes+=c.closes;a.value+=c.value;a.clicks+=c.clicks;a.cash+=c.cash;return a;},{spend:0,reg:0,adReg:0,regOrg:0,showed:0,pitch:0,forms:0,calls:0,held:0,closes:0,value:0,clicks:0,cash:0});}
+function totals(ws){return ws.reduce(function(a,w){var c=calc(w);a.spend+=c.spend;a.reg+=c.reg;a.adReg+=c.adReg;a.regOrg+=c.regOrg;a.showed+=c.showed;a.pitch+=c.pitch;a.forms+=c.forms;a.calls+=c.calls;a.bookWeb+=c.bookWeb;a.bookSet+=c.bookSet;a.held+=c.held;a.closes+=c.closes;a.value+=c.value;a.clicks+=c.clicks;a.cash+=c.cash;return a;},{spend:0,reg:0,adReg:0,regOrg:0,showed:0,pitch:0,forms:0,calls:0,bookWeb:0,bookSet:0,held:0,closes:0,value:0,clicks:0,cash:0});}
 function sorted(){return state.webinars.slice().sort(function(a,b){return (a.date||'').localeCompare(b.date||'');});}
 function byId(id){for(var i=0;i<state.webinars.length;i++)if(state.webinars[i].id===id)return state.webinars[i];return null;}
 /* Benchmarks — Jeremy AI best practices (paid-ads → webinar → call → $3K close).
@@ -343,7 +346,7 @@ function funnelHTML(c,blended){
     {nm:'Showed up live',sb:'attended',cnt:c.showed,conv:c.showRate,cl:'showed up',tt:TARGETS.showRate},
     {nm:'Present for pitch',sb:'stayed to offer',cnt:c.pitch,conv:c.retention,cl:'retention',tt:TARGETS.retention},
     {nm:'Form fills',sb:'applied',cnt:c.forms,conv:div(c.forms,c.pitch),cl:'filled the form'},
-    {nm:'Booked calls',sb:'on the calendar',cnt:c.calls,conv:c.formToCall,cl:'booked'},
+    {nm:'Booked calls',sb:(c.hasCallSplit?(int(c.bookWeb)+' webinar · '+int(c.bookSet)+' setter'):'on the calendar'),cnt:c.calls,conv:c.formToCall,cl:'booked'},
     {nm:'Sales calls held',sb:'showed to the call',cnt:c.held,conv:c.salesShow,cl:'showed to call',tt:TARGETS.salesShow},
     {nm:'Deals closed',sb:'became clients',cnt:c.closes,conv:c.closeRate,cl:'closed',tt:TARGETS.closeRate}
   ];
@@ -367,6 +370,7 @@ function renderOverview(){
     metricCard('Total ad spend',money(t.spend),ws.length+' webinar'+(ws.length>1?'s':'')),
     metricCard('Registrations',int(t.reg),int(t.adReg)+' ads · '+int(t.regOrg)+' organic'),
     metricCard('Webinar show rate',dash(showR,pct1),int(t.showed)+' showed · '+pct1(ret)+' stayed',gU(showR,TARGETS.showRate)),
+    metricCard('Sales calls booked',int(t.calls),((t.bookWeb+t.bookSet)>0?(int(t.bookWeb)+' webinar · '+int(t.bookSet)+' setter'):'total on the calendar')),
     metricCard('Cost / booked call',dash(cpc,money),int(t.calls)+' booked',gD(cpc,TARGETS.cpc)),
     metricCard('Sales call show rate',dash(salesShow,pct1),int(t.held)+' of '+int(t.calls)+' held',gU(salesShow,TARGETS.salesShow)),
     metricCard('Close rate',dash(closeRate,pct1),int(t.closes)+' closed',gU(closeRate,TARGETS.closeRate)),
@@ -375,7 +379,7 @@ function renderOverview(){
   ].join('');
 
   // cumulative funnel uses summed stages
-  var cum={spend:t.spend,ctr:null,reg:t.reg,adReg:t.adReg,regOrg:t.regOrg,hasSplit:t.regOrg>0,showed:t.showed,pitch:t.pitch,forms:t.forms,calls:t.calls,held:t.held,closes:t.closes,value:t.value,
+  var cum={spend:t.spend,ctr:null,reg:t.reg,adReg:t.adReg,regOrg:t.regOrg,hasSplit:t.regOrg>0,showed:t.showed,pitch:t.pitch,forms:t.forms,calls:t.calls,bookWeb:t.bookWeb,bookSet:t.bookSet,hasCallSplit:(t.bookWeb+t.bookSet)>0,held:t.held,closes:t.closes,value:t.value,
     optin:div(t.adReg,t.clicks),showRate:div(t.showed,t.reg),retention:div(t.pitch,t.showed),formToCall:div(t.calls,t.forms),
     salesShow:div(t.held,t.calls),closeRate:div(t.closes,t.held),roas:div(t.value,t.spend),revenue:t.value,cpc:cpc};
 
@@ -463,7 +467,9 @@ function weekBreakdownHTML(c){
   r+=bmkRow('Present for pitch',int(c.pitch),'',null);
   r+=bmkRow('Retention to pitch',dash(c.retention,pct1),'&ge; 80%',gU(c.retention,TARGETS.retention));
   r+=bmkRow('Form fills',int(c.forms),'',null);
-  r+=bmkRow('Booked calls',int(c.calls),'',null);
+  r+=bmkRow('Booked calls — from webinar',int(c.bookWeb),'',null);
+  r+=bmkRow('Booked calls — from setter',int(c.bookSet),'',null);
+  r+=bmkRow('Booked calls — total',int(c.calls),'',null);
   r+=bmkRow('Booking rate (of pitch)',dash(c.bookOfPitch,pct1),'&ge; 30%',gU(c.bookOfPitch,TARGETS.bookRate));
   r+=bmkRow('Cost per booked call',dash(c.cpc,money),'&lt; $150',gD(c.cpc,TARGETS.cpc));
   r+=secRow('Sales &amp; revenue');
@@ -520,7 +526,9 @@ function openForm(mode){var wrap=document.getElementById('formwrap');wrap.classL
   if(mode==='edit'){var w=byId(state.view);if(!w)return;document.getElementById('formTitle').textContent='Edit '+w.name;
     setF('f_id',w.id);setF('f_name',w.name);setF('f_date',w.date);setF('f_spend',w.spend);setF('f_ctr',w.ctr);
     if(w.regAds==null&&w.regOrg==null&&w.reg!=null&&w.reg!==''){setF('f_regAds',w.reg);setF('f_regOrg','');}else{setF('f_regAds',w.regAds);setF('f_regOrg',w.regOrg);}
-    setF('f_showed',w.showed);setF('f_pitch',w.pitch);setF('f_forms',w.forms);setF('f_calls',w.calls);setF('f_held',w.held);setF('f_closes',w.closes);setF('f_value',w.value);setF('f_cpm',w.cpm);setF('f_clicks',w.clicks);setF('f_cash',w.cash);}
+    setF('f_showed',w.showed);setF('f_pitch',w.pitch);setF('f_forms',w.forms);
+    if(w.bookWeb==null&&w.bookSet==null&&w.calls!=null&&w.calls!==''){setF('f_bookWeb',w.calls);setF('f_bookSet','');}else{setF('f_bookWeb',w.bookWeb);setF('f_bookSet',w.bookSet);}
+    setF('f_held',w.held);setF('f_closes',w.closes);setF('f_value',w.value);setF('f_cpm',w.cpm);setF('f_clicks',w.clicks);setF('f_cash',w.cash);}
   else{document.getElementById('formTitle').textContent='Add a webinar — raw numbers only';document.getElementById('entryForm').reset();setF('f_id','');document.getElementById('f_date').valueAsDate=new Date();}
   wrap.scrollIntoView({behavior:'smooth',block:'nearest'});}
 function setF(id,v){document.getElementById(id).value=(v==null?'':v);}
@@ -530,7 +538,7 @@ function saveEntry(e){e.preventDefault();
   var w={id:id,name:document.getElementById('f_name').value.trim(),date:document.getElementById('f_date').value,
     spend:document.getElementById('f_spend').value,ctr:document.getElementById('f_ctr').value,
     regAds:document.getElementById('f_regAds').value,regOrg:document.getElementById('f_regOrg').value,showed:document.getElementById('f_showed').value,pitch:document.getElementById('f_pitch').value,
-    forms:document.getElementById('f_forms').value,calls:document.getElementById('f_calls').value,
+    forms:document.getElementById('f_forms').value,bookWeb:document.getElementById('f_bookWeb').value,bookSet:document.getElementById('f_bookSet').value,
     held:document.getElementById('f_held').value,closes:document.getElementById('f_closes').value,value:document.getElementById('f_value').value,
     cpm:document.getElementById('f_cpm').value,clicks:document.getElementById('f_clicks').value,cash:document.getElementById('f_cash').value};
   var idx=-1;for(var i=0;i<state.webinars.length;i++)if(state.webinars[i].id===id)idx=i;
@@ -545,9 +553,9 @@ function importJSON(ev){var file=ev.target.files[0];if(!file)return;var r=new Fi
   r.onload=function(){try{var p=JSON.parse(r.result);if(!p.webinars)throw 0;if(!confirm('Restore '+p.webinars.length+' webinars? This replaces what is here now.'))return;
     state.webinars=p.webinars;state.view=p.view||'overview';persist();render();}catch(e){alert('That file could not be read as a tracker backup.');}};
   r.readAsText(file);ev.target.value='';}
-function exportCSV(){var head=['Webinar','Date','Ad spend','Link CTR %','Landing visitors','Registrations','Cost per lead','Opt-in %','Showed','Show %','Present for pitch','Retention %','Form fills','Form-fill %','Booked calls','Booking %','Cost per call','Cost per form','Sales calls held','Sales call show %','Deals closed','Close %','Closed value','ROAS','Cost per closed','CPM','Link clicks','Registrations ads','Registrations organic','Booking of pitch %','Cash collected','Collected ROAS','Collected $ per call','Peak engagement','Watch-outs','Focus next week'];
+function exportCSV(){var head=['Webinar','Date','Ad spend','Link CTR %','Landing visitors','Registrations','Cost per lead','Opt-in %','Showed','Show %','Present for pitch','Retention %','Form fills','Form-fill %','Booked calls','Booked from webinar','Booked from setter','Booking %','Cost per call','Cost per form','Sales calls held','Sales call show %','Deals closed','Close %','Closed value','ROAS','Cost per closed','CPM','Link clicks','Registrations ads','Registrations organic','Booking of pitch %','Cash collected','Collected ROAS','Collected $ per call','Peak engagement','Watch-outs','Focus next week'];
   var rows=sorted().map(function(w){var c=calc(w);var p=function(x,d){return (x==null||!isFinite(x))?'':d;};
-    return [w.name,w.date,c.spend,c.ctr==null?'':c.ctr,c.vis||'',c.reg,p(c.cpl,c.cpl.toFixed(2)),p(c.optin,(c.optin*100).toFixed(1)),c.showed,p(c.showRate,(c.showRate*100).toFixed(1)),c.pitch,p(c.retention,(c.retention*100).toFixed(1)),c.forms,p(c.formRate,(c.formRate*100).toFixed(1)),c.calls,p(c.bookRate,(c.bookRate*100).toFixed(1)),p(c.cpc,c.cpc.toFixed(2)),p(c.cpf,c.cpf.toFixed(2)),c.held,p(c.salesShow,(c.salesShow*100).toFixed(1)),c.closes,p(c.closeRate,(c.closeRate*100).toFixed(1)),c.value,p(c.roas,c.roas.toFixed(2)),p(c.cpa,c.cpa.toFixed(2)),c.cpm==null?'':c.cpm,c.clicks||'',c.adReg||'',c.regOrg||'',p(c.bookOfPitch,(c.bookOfPitch*100).toFixed(1)),c.cash||'',p(c.collectedRoas,c.collectedRoas.toFixed(2)),p(c.cashPerCall,c.cashPerCall.toFixed(2)),w.note_win||'',w.note_fix||'',w.note_focus||''].map(cell).join(',');});
+    return [w.name,w.date,c.spend,c.ctr==null?'':c.ctr,c.vis||'',c.reg,p(c.cpl,c.cpl.toFixed(2)),p(c.optin,(c.optin*100).toFixed(1)),c.showed,p(c.showRate,(c.showRate*100).toFixed(1)),c.pitch,p(c.retention,(c.retention*100).toFixed(1)),c.forms,p(c.formRate,(c.formRate*100).toFixed(1)),c.calls,c.bookWeb,c.bookSet,p(c.bookRate,(c.bookRate*100).toFixed(1)),p(c.cpc,c.cpc.toFixed(2)),p(c.cpf,c.cpf.toFixed(2)),c.held,p(c.salesShow,(c.salesShow*100).toFixed(1)),c.closes,p(c.closeRate,(c.closeRate*100).toFixed(1)),c.value,p(c.roas,c.roas.toFixed(2)),p(c.cpa,c.cpa.toFixed(2)),c.cpm==null?'':c.cpm,c.clicks||'',c.adReg||'',c.regOrg||'',p(c.bookOfPitch,(c.bookOfPitch*100).toFixed(1)),c.cash||'',p(c.collectedRoas,c.collectedRoas.toFixed(2)),p(c.cashPerCall,c.cashPerCall.toFixed(2)),w.note_win||'',w.note_fix||'',w.note_focus||''].map(cell).join(',');});
   dl(new Blob([head.join(',')+'\n'+rows.join('\n')],{type:'text/csv'}),'webinar-tracker.csv');}
 function cell(v){v=(v==null?'':String(v)).replace(/\r?\n/g,' ');return /[",]/.test(v)?'"'+v.replace(/"/g,'""')+'"':v;}
 function dl(blob,name){var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(a.href);},800);}

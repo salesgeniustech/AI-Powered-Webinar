@@ -267,4 +267,13 @@ h1.mid{font-size:clamp(30px,4.6vw,66px)}
   if(location.hash){ var n=parseInt(location.hash.slice(1),10); if(n>0) idx=n-1; }
   render();
 })();
-</script></body></html>
+</script><div id="sg-gate" style="position:fixed;inset:0;z-index:2147483647;background:#141414;display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:system-ui,-apple-system,sans-serif;color:#f6f5ef;text-align:center;padding:24px;">
+<div style="font-weight:800;letter-spacing:.28em;font-size:14px;color:#FFD21E;margin-bottom:18px;">SALESGENIUS</div>
+<div style="font-size:26px;font-weight:700;margin-bottom:6px;">This presentation is protected</div>
+<div style="font-size:15px;color:#bcbcb4;margin-bottom:26px;">Enter the password to continue</div>
+<input id="sg-pass" type="password" placeholder="Password" autocomplete="off" style="font-size:20px;padding:13px 16px;border-radius:10px;border:2px solid #3a3a3a;background:#1e1e1e;color:#fff;text-align:center;outline:none;width:280px;max-width:80vw;">
+<button id="sg-go" style="margin-top:16px;font-size:18px;font-weight:800;padding:13px 34px;border:0;border-radius:10px;background:#FFD21E;color:#111;cursor:pointer;">Enter</button>
+<div id="sg-err" style="height:18px;margin-top:14px;color:#e0736b;font-size:14px;font-weight:600;"></div>
+</div>
+<script>(function(){var P="SG123!";var g=document.getElementById("sg-gate"),i=document.getElementById("sg-pass"),e=document.getElementById("sg-err");function u(){if(i.value===P){g.parentNode.removeChild(g);}else{e.textContent="Incorrect password";i.value="";i.focus();}}document.getElementById("sg-go").addEventListener("click",u);i.addEventListener("keydown",function(ev){if(ev.key==="Enter"){ev.preventDefault();u();}});try{i.focus();}catch(x){}})();</script>
+</body></html>

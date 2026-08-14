@@ -140,8 +140,8 @@ src="https://www.facebook.com/tr?id=1057475448873422&ev=PageView&noscript=1"/></
    The dateText/targetISO below are only the FALLBACK if that fetch fails.
    ======================================================================= */
 var WEBINAR = {
-  dateText:   "July 28 at 12 PM EDT",
-  targetISO:  "2026-07-28T12:00:00-04:00",
+  dateText:   "August 18 at 12 PM EDT",
+  targetISO:  "2026-08-18T12:00:00-04:00",
   durationMin: 90,
   title:      "AI Ads Masterclass for Realtors (SalesGenius)",
   zoom:       "https://us06web.zoom.us/j/81455862418",
@@ -154,6 +154,7 @@ document.getElementById('yr').textContent = new Date().getFullYear();
 function applyWebinarDate(){
   document.querySelectorAll('[data-webinar-date]').forEach(function(el){ el.textContent = WEBINAR.dateText; });
   buildCalendarLinks();
+  if(window.__cdTick) window.__cdTick();   // refresh the countdown immediately when the live date arrives
 }
 
 // Countdown (re-reads WEBINAR.targetISO each tick so the live fetch applies)
@@ -167,6 +168,7 @@ function applyWebinarDate(){
     var d = Math.floor(s/86400), h = Math.floor((s%86400)/3600), m = Math.floor((s%3600)/60);
     cd.textContent = (s<=0) ? "now, join us live" : (d+"d "+h+"h "+m+"m");
   }
+  window.__cdTick = tick;   // let applyWebinarDate refresh the countdown after the live date fetch
   tick(); setInterval(tick, 30000);
 })();
 

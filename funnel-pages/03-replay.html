@@ -3,8 +3,21 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Replay + Your In-House AI Team | SalesGenius</title>
+<title>Replay + The SalesGenius AI Engine | SalesGenius</title>
 <meta name="robots" content="noindex">
+
+<!-- =====================================================================
+     EDIT THIS ONE BLOCK EACH WEEK. Nothing else on the page needs touching.
+     SPOTS = how many install slots are left. MONTH = the cohort month.
+     Set SPOTS to 0 and the scarcity lines automatically switch to a
+     "next cohort" message instead of showing "0 spots left".
+     ===================================================================== -->
+<script>
+var SCARCITY = {
+  SPOTS: 5,
+  MONTH: "August"
+};
+</script>
 
 <!-- ===== Meta Pixel ===== -->
 <script>
@@ -24,110 +37,374 @@ src="https://www.facebook.com/tr?id=1057475448873422&ev=PageView&noscript=1"/></
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/css/style.css">
-<style>@media(max-width:600px){.tb-hide-mobile{display:none}}</style>
+
+<style>
+@media(max-width:600px){.tb-hide-mobile{display:none}}
+
+/* Scarcity pill */
+.spots{display:inline-flex;align-items:center;gap:8px;background:rgba(255,77,77,.10);
+  border:1px solid rgba(255,77,77,.45);border-radius:999px;padding:7px 15px;
+  font-size:13px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:#fff}
+.spots .dot{width:8px;height:8px;border-radius:50%;background:#ff4d4d;flex:0 0 auto;
+  box-shadow:0 0 0 0 rgba(255,77,77,.7);animation:spotpulse 2s infinite}
+@keyframes spotpulse{
+  0%{box-shadow:0 0 0 0 rgba(255,77,77,.6)}
+  70%{box-shadow:0 0 0 9px rgba(255,77,77,0)}
+  100%{box-shadow:0 0 0 0 rgba(255,77,77,0)}
+}
+.tb-spots{font-size:13px;font-weight:700;color:#fff;white-space:nowrap}
+.tb-spots b{color:#ff6b6b}
+@media(max-width:600px){
+  .spots{font-size:11px;padding:6px 11px;line-height:1.3}
+  .tb-spots{font-size:11.5px;letter-spacing:0}
+  .topbanner-in{justify-content:space-between;gap:8px}
+}
+
+/* Engine phases */
+.phases{display:grid;grid-template-columns:1fr;gap:16px;margin-top:26px}
+@media(min-width:820px){.phases{grid-template-columns:repeat(3,1fr)}}
+.phase{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:22px}
+.phase-top{display:flex;align-items:center;gap:10px;margin-bottom:10px;flex-wrap:wrap}
+.phase-badge{background:var(--accent);color:#0A0A0B;font-size:11px;font-weight:800;
+  letter-spacing:.08em;text-transform:uppercase;padding:4px 10px;border-radius:5px}
+.phase-days{font-size:12px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.06em}
+.phase h4{font-family:var(--font-body);font-weight:700;font-size:19px;color:#fff;margin-bottom:8px;line-height:1.25}
+.phase p{color:var(--muted);font-size:15px;margin:0 0 12px}
+.phase ul{list-style:none;display:flex;flex-direction:column;gap:7px}
+.phase li{position:relative;padding-left:18px;font-size:14.5px;color:var(--muted);line-height:1.45}
+.phase li::before{content:"→";position:absolute;left:0;color:var(--accent);font-weight:700}
+
+/* Three engine pieces */
+.pieces{display:grid;grid-template-columns:1fr;gap:18px;margin-top:28px}
+@media(min-width:820px){.pieces{grid-template-columns:repeat(3,1fr)}}
+.piece{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:24px;text-align:left}
+.piece .num{font-family:var(--font-display);font-size:42px;color:var(--accent);line-height:1;margin-bottom:10px}
+.piece h4{font-family:var(--font-body);font-weight:700;font-size:19px;color:#fff;margin-bottom:8px;text-transform:none;letter-spacing:0}
+.piece p{color:var(--muted);font-size:15px;line-height:1.55;margin:0}
+.piece--you{border-color:var(--accent);background:linear-gradient(180deg,rgba(255,196,0,.07),transparent)}
+.piece-tag{display:inline-block;font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;
+  padding:3px 9px;border-radius:5px;margin-bottom:10px}
+.piece-tag--have{background:rgba(61,220,132,.15);color:var(--good)}
+.piece-tag--need{background:rgba(255,196,0,.15);color:var(--accent)}
+
+/* Rollercoaster steps */
+.ride{display:flex;flex-direction:column;gap:0;margin-top:26px;border-left:2px solid var(--border);padding-left:24px}
+.ride li{list-style:none;position:relative;padding:0 0 22px 0;color:var(--muted);font-size:16px;line-height:1.55}
+.ride li:last-child{padding-bottom:0}
+.ride li::before{content:"";position:absolute;left:-31px;top:7px;width:12px;height:12px;border-radius:50%;
+  background:var(--bg);border:2px solid var(--accent)}
+.ride li b{color:#fff}
+.ride li.bad::before{border-color:#ff4d4d}
+
+/* Two-column for-you lists */
+.split{display:grid;grid-template-columns:1fr;gap:18px;margin-top:26px}
+@media(min-width:820px){.split{grid-template-columns:1fr 1fr;gap:24px}}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:24px}
+.card h3{font-size:clamp(19px,3.4vw,24px);margin-bottom:14px}
+.card--yes h3{color:var(--good)}
+.card--no h3{color:var(--muted)}
+.card ul{list-style:none;display:flex;flex-direction:column;gap:11px}
+.card li{position:relative;padding-left:28px;color:var(--muted);font-size:15.5px;line-height:1.5}
+.card--yes li::before{content:"✓";position:absolute;left:0;top:0;color:var(--good);font-weight:800}
+.card--no li::before{content:"✕";position:absolute;left:0;top:0;color:#ff6b6b;font-weight:800}
+
+/* Care list */
+.care{display:grid;grid-template-columns:1fr;gap:10px;margin-top:22px}
+@media(min-width:720px){.care{grid-template-columns:1fr 1fr;gap:10px 28px}}
+.care li{list-style:none;position:relative;padding-left:26px;color:var(--muted);font-size:15.5px}
+.care li::before{content:"✓";position:absolute;left:0;color:var(--accent);font-weight:800}
+
+/* CTA band */
+.ctaband{background:linear-gradient(180deg,rgba(255,196,0,.10),transparent);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+</style>
 </head>
 <body>
 
-<!-- Sticky apply bar: always-visible CTA so the offer is obvious above the fold -->
+<!-- Sticky bar: brand + live spot count + always-visible CTA -->
 <div class="topbanner">
   <div class="wrap wrap--wide topbanner-in">
     <span class="tb-brand">Sales<span class="hl">Genius</span></span>
-    <span class="tb-timer tb-hide-mobile"><span class="tb-label">Founding cohort</span> limited seats open</span>
-    <a href="https://zd7oshiupbh.typeform.com/to/TsJ7gmhM" class="btn btn--sm" style="white-space:nowrap">Apply Now →</a>
+    <span class="tb-spots" id="tbSpots"></span>
+    <a href="https://calendly.com/clientcare-salesgenius/salesgenius-discovery-call" class="btn btn--sm" style="white-space:nowrap">Book Your Call →</a>
   </div>
 </div>
 
 <header class="hero">
   <div class="wrap hero-narrow center">
     <p class="eyebrow">Replay · Available For a Limited Time</p>
-    <h1 class="h1-hero">Here's the Replay — and How to Get Your <span class="hl">In-House AI Team Installed For You</span></h1>
-    <p class="sub">Watch the class below, then apply to have our team install your AI Executive Assistant, AI Sales Manager &amp; AI Ads Manager — done for you, in 30 days, in a small founding cohort.</p>
+    <h1 class="h1-hero">Here's the Replay — and How to Get <span class="hl">The Whole AI Engine Installed</span> In Your Business in 90 Days</h1>
+    <p class="sub">Watch the class below. You already have piece one. If you'd rather we install all three pieces — the leads, the AI follow-up, and the pipeline management — book a call and we'll tell you straight whether it's a fit.</p>
 
-    <div class="video-embed" style="margin:20px auto 0">
-      <iframe src="https://player.vimeo.com/video/1212366319?h=41adde0312&title=0&byline=0&portrait=0"
-        allow="autoplay; fullscreen; picture-in-picture" allowfullscreen title="AI Ads Webinar Replay"></iframe>
+    <div class="video-embed" style="margin:20px auto 0;aspect-ratio:576/364">
+      <iframe src="https://grain.com/_/embed/highlight/k8kF1vGvV0bJ9qbe9GoHAX5tefZqBePsOhuTgjTR?show_engagement=true&autoplay=false&origin=user_iframe"
+        allow="fullscreen" allowfullscreen frameborder="0" title="AI Ads Webinar Replay"></iframe>
     </div>
     <p class="video-cap" style="margin-top:10px">▶ Press play to watch the full masterclass replay.</p>
 
-    <a href="https://zd7oshiupbh.typeform.com/to/TsJ7gmhM" class="btn hero-cta-full">Apply &amp; Book Your Call →</a>
-    <p class="cta-sub">Takes about 2 minutes · founding cohort · limited seats</p>
+    <a href="https://calendly.com/clientcare-salesgenius/salesgenius-discovery-call" class="btn hero-cta-full">Book Your Discovery Call →</a>
+    <p class="cta-sub">Takes about 30 minutes · we look at your CRM, your volume, and your goals</p>
+    <p class="mt-s"><span class="spots" data-spots><span class="dot"></span><span class="spots-txt"></span></span></p>
   </div>
 </header>
 
-<!-- 3 takeaways -->
+<!-- What you just learned -->
 <section class="section">
   <div class="wrap">
-    <h2 class="center">The 3 Things You Just Saw</h2>
-    <ul class="checks mt">
-      <li><b>AI can build the ad for you</b>: the offer, the copy, the image. The part you thought you couldn't do is the part AI makes easy.</li>
-      <li><b>You can read a campaign in 30 seconds</b>: and fix it without guessing or burning budget.</li>
-      <li><b>The follow-up is where the money is</b>: not more leads. The first few minutes after a lead comes in is where the deal is won or lost.</li>
-    </ul>
-    <p class="center mt"><b>You can absolutely run this yourself. But most agents tell us the same thing:</b> "I don't want another tool to learn. I just want it done, and I want to know what to do every day."</p>
+    <h2 class="center">The 3 Things You Just Learned</h2>
+    <p class="sub center">This is piece one of the engine — getting your own high-quality leads. You can go run this yourself starting today.</p>
+    <div class="learn-grid">
+      <div class="learn-item">
+        <div class="learn-num">1</div>
+        <h4>Your leads were bad because your offer was generic</h4>
+        <p>Not because the platform doesn't work. Every agent runs the same "thinking of buying or selling?" message, so Meta has nothing specific to work with. AI builds you a real avatar and a custom offer — like condos downtown that allow dogs over 50 pounds.</p>
+      </div>
+      <div class="learn-item">
+        <div class="learn-num">2</div>
+        <h4>The offer does the targeting now, not you</h4>
+        <p>The Special Ad Category killed the old targeting, and that's fine. Andromeda reads your offer, your copy, your images, and finds the people most likely to respond. The more specific the offer, the better it works.</p>
+      </div>
+      <div class="learn-item">
+        <div class="learn-num">3</div>
+        <h4>AI can run the tech — if it handles three things</h4>
+        <p>The right campaign objective, the Special Ad Category set correctly so your account doesn't get restricted, and a pixel that only feeds qualified lead data back so Andromeda gets smarter instead of dumber.</p>
+      </div>
+    </div>
+    <p class="center mt"><b>Anna proved it.</b> She'd never run an ad in her life, built a specific offer, placed her own ads, and got five high-quality leads in a few days — every one of them living in the neighbourhood she works in. She never touched a targeting setting.</p>
   </div>
 </section>
 
-<!-- The new offer -->
+<!-- The rollercoaster callback -->
 <section class="section" style="background:var(--surface)">
   <div class="wrap">
-    <p class="eyebrow center">What's New</p>
-    <h2 class="center">We'll Install Your In-House AI Team For You</h2>
-    <p class="sub center">Instead of handing you a tool and wishing you luck, our team now installs a complete AI team into your business over 30 days. Three roles, doing the work top teams pay a full-time staff to do:</p>
-
-    <ul class="checks mt" style="max-width:680px;margin-left:auto;margin-right:auto">
-      <li><b>An AI Executive Assistant</b> — takes the low-dollar admin work off your plate so you're back on the things only you can do.</li>
-      <li><b>An AI Sales Manager</b> — lives inside your CRM and tells you exactly who to call and what to say, every single day.</li>
-      <li><b>An AI Ads Manager</b> — brings new leads in and follows up with every one, custom, 24/7, so nothing slips through the cracks.</li>
+    <p class="eyebrow center">Remember This Part?</p>
+    <h2 class="center">The Rollercoaster Is Coming</h2>
+    <p class="sub center">Not a warning against doing it. It's what happens when it works.</p>
+    <ul class="ride">
+      <li><b>It's amazing.</b> Leads start rolling in. You're booking appointments, you're out at showings, you're thinking this thing actually works.</li>
+      <li><b>You get busy.</b> Showings, paperwork, emails. The admin piles up.</li>
+      <li class="bad"><b>You stop calling leads back.</b> They go cold. Now you're paying for leads you're not working.</li>
+      <li class="bad"><b>You turn the ads off.</b> And you're right back where you started, with no pipeline.</li>
+      <li class="bad"><b>You get slow, so you turn them back on.</b> And the whole ride starts over.</li>
     </ul>
+    <p class="center mt"><b>The ride only ends when you add the other two pieces.</b> Something to work the leads, and something to handle the admin — so you stop being the assistant in your own business. It's a systems problem, and it doesn't have to be you doing the work to fix it.</p>
+  </div>
+</section>
 
-    <p class="sub center mt">That's the horsepower of a $150k+ team — an assistant, an ads manager, an inside sales rep — <b>without the payroll, the hiring, or the training.</b> It's installed in 30 days, it's a one-time install with nothing that renews automatically, and it keeps working while you sleep.</p>
+<!-- The three pieces -->
+<section class="section">
+  <div class="wrap wrap--wide">
+    <p class="eyebrow center">The Full Picture</p>
+    <h2 class="center">Three Pieces. You Have One.</h2>
+    <div class="pieces">
+      <div class="piece piece--you">
+        <span class="piece-tag piece-tag--have">You have this</span>
+        <div class="num">1</div>
+        <h4>AI Lead Generation</h4>
+        <p>The avatar, the custom offer, Andromeda doing the targeting, AI tools running the media buying. That's everything I taught you today. Go run it.</p>
+      </div>
+      <div class="piece">
+        <span class="piece-tag piece-tag--need">We install this</span>
+        <div class="num">2</div>
+        <h4>AI Follow-Up</h4>
+        <p>An AI SMS bot that texts every new lead the moment they come in, keeps the conversation going, and nurtures them until they're warm enough to book. It never forgets. It never gets pulled into a showing.</p>
+      </div>
+      <div class="piece">
+        <span class="piece-tag piece-tag--need">We install this</span>
+        <div class="num">3</div>
+        <h4>AI Pipeline Management</h4>
+        <p>It ranks your leads. It knows who's engaging, who's replying, who's asking the right questions. You open your CRM and it's already told you the three people to call today.</p>
+      </div>
+    </div>
+    <p class="center mt">Pieces two and three are a different animal. You could figure them out — months of testing, wiring, integrating, troubleshooting. Or we install the whole thing for you.</p>
+  </div>
+</section>
 
-    <div class="guarantee mt">
-      <h3>You're Covered Two Ways</h3>
-      <p class="mt-s"><b>1. Week one, risk-free.</b> If it's not worth every penny after the first week, we refund you.</p>
-      <p class="mt-s"><b>2. We don't stop until it's installed.</b> Show up for 3 of the 4 weeks and if your systems still aren't in place, our team keeps working with you 1-on-1 until they are.</p>
+<!-- The engine / 90 day install -->
+<section class="section" style="background:var(--surface)">
+  <div class="wrap wrap--wide">
+    <p class="eyebrow center">The Offer</p>
+    <h2 class="center">The SalesGenius AI Engine</h2>
+    <p class="sub center">A complete marketing and sales system installed in your business in 90 days or less. Then kept running for a full year. You're not dependent on a human team, on referrals trickling in, or on your own motivation to keep appointments flowing.</p>
+
+    <div class="phases">
+      <div class="phase">
+        <div class="phase-top"><span class="phase-badge">Phase 1</span><span class="phase-days">Days 1–30</span></div>
+        <h4>Setting Up The Engine</h4>
+        <p>We build, wire, and launch your first custom campaign. Your engine goes live by the end of this phase.</p>
+        <ul>
+          <li>AI avatar built around your ideal client — area, price, demographics</li>
+          <li>Team onboarding and private tech call</li>
+          <li>Custom avatar campaign with qualifying questions</li>
+          <li>CRM, calendar, and Meta wired together</li>
+          <li>Custom nurture sequence — email + SMS with tagging</li>
+          <li>Database re-engagement campaign built and installed</li>
+          <li>Calendar set up for inbound bookings</li>
+        </ul>
+      </div>
+      <div class="phase">
+        <div class="phase-top"><span class="phase-badge">Phase 2</span><span class="phase-days">Days 31–60</span></div>
+        <h4>AI Conversion Optimization</h4>
+        <p>Now that leads are coming in, we turn on the conversion layer.</p>
+        <ul>
+          <li>AI SMS bot launched for auto follow-up on new and re-engaged leads</li>
+          <li>Retargeting campaigns written, recorded, and launched — static + video</li>
+          <li>Million-dollar sales training to book appointments that show up</li>
+          <li>Calendar set up for calls</li>
+        </ul>
+      </div>
+      <div class="phase">
+        <div class="phase-top"><span class="phase-badge">Phase 3</span><span class="phase-days">Days 61–90</span></div>
+        <h4>AI Operating System</h4>
+        <p>Now that leads are coming in and converting, we install the management layer.</p>
+        <ul>
+          <li>AI Executive Assistant installed in your brand voice</li>
+          <li>Real estate-specific Claude skills installed for your business</li>
+          <li>AI dashboard installed if you're on Follow Up Boss or Lofty</li>
+        </ul>
+      </div>
     </div>
   </div>
 </section>
 
-<!-- Apply + book a call -->
-<section class="section--tight center">
+<!-- CTA band 1 -->
+<section class="section--tight ctaband center">
   <div class="wrap">
-    <p class="eyebrow" style="color:#fff">⏳ This is a small founding cohort — seats are limited</p>
-    <h2 class="center">Ready? Apply and Book Your Call</h2>
-    <p class="sub center">It takes about two minutes. We'll look at where your business is right now and, if it's a fit, get you on a quick call to map out your 30-day install and answer everything, including the investment.</p>
-    <a class="btn mt" href="https://zd7oshiupbh.typeform.com/to/TsJ7gmhM">Apply &amp; Book Your Call →</a>
-    <p class="btn-note">Application only. We take a handful of agents per cohort because our team puts hands on every install.</p>
+    <p class="mb"><span class="spots" data-spots><span class="dot"></span><span class="spots-txt"></span></span></p>
+    <h2 class="center">Want Us To Install It?</h2>
+    <p class="sub center">It's a discovery call, not a high-pressure pitch. We'll look at your CRM, your current volume, and your goals. If there's no clear path for the system to pay for itself, we'll tell you straight.</p>
+    <a class="btn mt" href="https://calendly.com/clientcare-salesgenius/salesgenius-discovery-call" style="max-width:540px">Book Your Discovery Call →</a>
+    <p class="btn-note">We take a handful of agents at a time because our team puts hands on every install.</p>
+  </div>
+</section>
+
+<!-- After day 90 -->
+<section class="section">
+  <div class="wrap">
+    <p class="eyebrow center">After Day 90</p>
+    <h2 class="center">Engine Care Keeps It Running</h2>
+    <p class="sub">Think of the first 90 days like getting in shape with a personal trainer. We build the engine, wire it, test it, and get it running. That's the losing-weight part. If you go back to eating terrible food and skipping the gym, the weight comes back on.</p>
+    <p class="sub">Here's what nobody tells you about lead gen: the engine doesn't stay tuned on its own. Creatives fatigue. Meta changes their algorithm several times a year. Your lead quality drifts if nobody's watching it.</p>
+    <p class="sub">Or think of it like a car. You don't drive it off the lot and never touch it again. You do the oil changes, rotate the tires, swap the snow tires before winter. Skip the maintenance and eventually you're on the side of the road. Engine Care is the oil changes for your marketing and sales system.</p>
+    <ul class="care">
+      <li>Ad management and ongoing optimization</li>
+      <li>Creative refreshes as ads fatigue</li>
+      <li>AI tuning as the market shifts</li>
+      <li>Weekly support calls</li>
+      <li>System updates and improvements</li>
+      <li>Lead quality monitoring and adjustments</li>
+    </ul>
+  </div>
+</section>
+
+<!-- Guarantee -->
+<section class="section" style="background:var(--surface)">
+  <div class="wrap">
+    <div class="guarantee">
+      <h3>The 90-Day Installation Guarantee</h3>
+      <p class="mt-s">If we don't install your system in 90 days, you get three months of Engine Care on us. That's $1,491 in value, free.</p>
+      <p class="mt-s">No extra charges. No extended payments. We finish the job on our dime, not yours. We put our money where our mouth is because we plan to finish on time.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Who it's for / not for -->
+<section class="section">
+  <div class="wrap wrap--wide">
+    <h2 class="center">Let's Be Honest About Fit</h2>
+    <div class="split">
+      <div class="card card--yes">
+        <h3>This is for you if</h3>
+        <ul>
+          <li>You're tired of being the assistant in your own business</li>
+          <li>You know you need a consistent lead source but don't want to build and manage a team</li>
+          <li>You don't want to learn every piece of tech yourself</li>
+          <li>You're doing okay but feel one bad month away from panic</li>
+          <li>You're already successful and you're the bottleneck</li>
+          <li>You want AI doing the heavy lifting so you can focus on closing</li>
+        </ul>
+      </div>
+      <div class="card card--no">
+        <h3>This is not for you if</h3>
+        <ul>
+          <li>You're looking for a magic button that works while you do nothing</li>
+          <li>You won't pick up the phone and call the hot leads the AI surfaces</li>
+          <li>You're not willing to be on camera for your ads and retargeting</li>
+          <li>You won't show up to your onboarding and tech setup calls</li>
+          <li>You don't have ad spend budget on top of the install</li>
+        </ul>
+      </div>
+    </div>
+    <p class="center mt">We can give you the best leads in the world. You're still the closer.</p>
   </div>
 </section>
 
 <!-- FAQ -->
-<section class="section">
+<section class="section" style="background:var(--surface)">
   <div class="wrap faq">
-    <h2 class="center mb">Last Questions</h2>
-    <details>
-      <summary>How is this different from what you taught in the class?</summary>
-      <div class="ans">The class shows you how to do it yourself, and plenty of agents run with that. This is the done-with-you version: our team installs your AI Executive Assistant, AI Sales Manager, and AI Ads Manager into your business over 30 days, so you don't have to learn a new tool or figure out the setup.</div>
-    </details>
+    <h2 class="center mb">Questions You Probably Have</h2>
+
     <details>
       <summary>What does it cost?</summary>
-      <div class="ans">It's a one-time install, not a monthly subscription — nothing renews automatically. We go over the exact investment and whether it's even a fit for your business on your call. That's what the short application is for: so the call is useful for both of us.</div>
+      <div class="ans">We go over the exact investment on the call, along with whether it's even a fit for your business. There are two ways in — pay for the install and the full year up front, or a lower setup fee with Engine Care billed monthly. We'll walk you through both and you pick. Nothing gets decided on that call except whether it makes sense to keep talking.</div>
     </details>
+
     <details>
-      <summary>Is now really the time?</summary>
-      <div class="ans">This first cohort is small and founding-priced, because our team is hands-on with every install. Agents who get in now set the whole thing up while the market is still catching on, and lock the founding terms.</div>
+      <summary>When can I expect to start booking appointments?</summary>
+      <div class="ans">Your engine goes live at the end of Phase 1, which is within the first 30 days. That's when your first custom campaign launches and leads start coming in. Phase 2 turns on the conversion layer with AI follow-up and retargeting. Most clients see their first qualified appointments within the first 30 to 60 days.</div>
     </details>
+
     <details>
-      <summary>What if I still want to run it myself?</summary>
-      <div class="ans">Totally fine — the replay above walks you through it. The install is just for agents who'd rather have it done for them and know exactly what to do each day. If that's you, apply below.</div>
+      <summary>What am I actually paying for after the 90 days?</summary>
+      <div class="ans">You're paying for the engine to keep running. Ads fatigue. Creatives die. Meta changes their algorithm constantly. Your lead quality drifts if nobody's watching it. Engine Care covers ad management, creative refreshes, AI tuning, and weekly support calls. Without it, the engine you just built starts degrading within weeks. It's like a car — the 90 days is driving it off the lot, and Engine Care is the oil changes, tire rotations, and snow tires that keep it running like new.</div>
     </details>
+
+    <details>
+      <summary>Why not just pay for the install and manage it myself?</summary>
+      <div class="ans">You can. But the reason most agents fail at lead gen isn't that they can't run ads. It's that they get busy, stop managing the leads, the leads go cold, and they're back to square one — the rollercoaster. Engine Care exists so you can focus on selling, not managing. If you want to self-manage after the first year, that option is always there. Most people who try end up back on Engine Care.</div>
+    </details>
+
+    <details>
+      <summary>What if the leads don't convert?</summary>
+      <div class="ans">If the leads are coming in but not converting, it's typically a sales process issue, not an engine issue. We include sales training that has generated us multiple seven figures in GCI exclusively with online leads. You can convert online leads even if you've never done it before. If the leads aren't coming in at all, our job is to diagnose and fix it. We're not going to let the engine sit there underperforming and just collect a fee.</div>
+    </details>
+
+    <details>
+      <summary>Do I need to hire anyone?</summary>
+      <div class="ans">No. The whole point of the engine is that it replaces the need for a human team. Our human team handles your lead generation and tech setup, and our AI SMS bot helps you follow up and nurture your leads. You focus on the high-intent follow-up and closing.</div>
+    </details>
+
+    <details>
+      <summary>What if I already have an assistant or a team?</summary>
+      <div class="ans">Great. The engine makes them more effective, not redundant. Your assistant stops chasing leads and starts managing qualified conversations. Your team stops doing $15/hour work and starts doing $500/hour work. The engine handles the bottom of the funnel so your people can focus on the top.</div>
+    </details>
+
+    <details>
+      <summary>I'm not techy. Is that a problem?</summary>
+      <div class="ans">That's exactly the point. We handle the tech, the setup, and the wiring. You focus on selling. What you do need: a CRM or a willingness to get one, a Calendly account, a Claude account so we can set up your AI tools, your own ad spend budget, and comfort recording videos. Plus showing up to your onboarding and tech calls so we have what we need to do our job.</div>
+    </details>
+
+    <details>
+      <summary>What if I just want to run piece one myself?</summary>
+      <div class="ans">Totally fine, and genuinely a win for us. The replay above walks you through it. The install is for agents who'd rather have all three pieces done for them. If that's not you, take what you learned and go run it.</div>
+    </details>
+  </div>
+</section>
+
+<!-- Final CTA -->
+<section class="section--tight ctaband center">
+  <div class="wrap">
+    <p class="mb"><span class="spots" data-spots><span class="dot"></span><span class="spots-txt"></span></span></p>
+    <h2 class="center">Ready To Stop Being The Assistant In Your Own Business?</h2>
+    <p class="sub center">Book the call. We'll look at where you are, map out what the 90 days would look like for you, and answer everything — including the investment. If it's not a fit, we'll say so.</p>
+    <a class="btn mt" href="https://calendly.com/clientcare-salesgenius/salesgenius-discovery-call" style="max-width:540px">Book Your Discovery Call →</a>
+    <p class="btn-note">Either way, you've got piece one. Go use it.</p>
   </div>
 </section>
 
 <footer class="footer">
   <div class="wrap">
     <p style="font-size:12px">This site is not a part of the Facebook website or Facebook Inc. Additionally, this site is not endorsed by Facebook in any way. FACEBOOK is a trademark of Meta Platforms, Inc.</p>
-    <p class="mt-s" style="font-size:12px">This content is for educational purposes only. Nothing here is financial, legal, or real estate advice, and nothing is a guarantee of any result. Real estate outcomes depend on your own situation, your market, and factors outside anyone's control. Always do your own due diligence and consult a licensed professional before making a decision.</p>
+    <p class="mt-s" style="font-size:12px">This content is for educational purposes only. Nothing here is financial, legal, or real estate advice, and nothing is a guarantee of any result. Results shown are individual experiences and are not typical. Real estate outcomes depend on your own situation, your market, your effort, and factors outside anyone's control. Always do your own due diligence and consult a licensed professional before making a decision.</p>
     <p class="mt-s">&copy; <span id="yr"></span> SalesGenius. All rights reserved.</p>
     <p class="mt-s"><a href="https://salesgenius.co/privacy-policy">Privacy Policy</a> &middot; <a href="https://salesgenius.co/terms-of-use">Terms &amp; Conditions</a> &middot; <a href="https://salesgenius.co/contact">Contact</a></p>
   </div>
@@ -135,6 +412,33 @@ src="https://www.facebook.com/tr?id=1057475448873422&ev=PageView&noscript=1"/></
 
 <script>
 document.getElementById('yr').textContent = new Date().getFullYear();
+
+(function(){
+  var n = (SCARCITY && typeof SCARCITY.SPOTS === 'number') ? SCARCITY.SPOTS : 0;
+  var m = (SCARCITY && SCARCITY.MONTH) ? SCARCITY.MONTH : '';
+  var full, bar;
+
+  if (n > 0) {
+    full = 'Only ' + n + ' install ' + (n === 1 ? 'spot' : 'spots') + ' left for ' + m;
+    bar  = '<b>' + n + '</b> ' + (n === 1 ? 'spot' : 'spots') + ' left for ' + m;
+  } else {
+    full = m + ' is full — book to hold a spot in the next cohort';
+    bar  = m + ' is full — next cohort booking now';
+  }
+
+  var tb = document.getElementById('tbSpots');
+  if (tb) tb.innerHTML = bar;
+
+  var pills = document.querySelectorAll('[data-spots] .spots-txt');
+  for (var i = 0; i < pills.length; i++) pills[i].textContent = full;
+})();
+
+// Track CTA clicks so the pixel learns from people who actually book
+document.querySelectorAll('a[href*="calendly.com"]').forEach(function(a){
+  a.addEventListener('click', function(){
+    if (window.fbq) fbq('track', 'Lead', {content_name: 'Replay - Book Discovery Call'});
+  });
+});
 </script>
 </body>
 </html>

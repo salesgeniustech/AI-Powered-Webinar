@@ -135,11 +135,12 @@ src="https://www.facebook.com/tr?id=1057475448873422&ev=PageView&noscript=1"/></
     <h1 class="h1-hero">Here's the Replay — and How to Get <span class="hl">The Whole AI Engine Installed</span> In Your Business in 90 Days</h1>
     <p class="sub">Watch the class below. You already have piece one. If you'd rather we install all three pieces — the leads, the AI follow-up, and the pipeline management — book a call and we'll tell you straight whether it's a fit.</p>
 
+    <!-- Video is set via POST /api/replay-video. The src below is only the fallback. -->
     <div class="video-embed" style="margin:20px auto 0;aspect-ratio:576/364">
-      <iframe src="https://grain.com/_/embed/highlight/k8kF1vGvV0bJ9qbe9GoHAX5tefZqBePsOhuTgjTR?show_engagement=true&autoplay=false&origin=user_iframe"
+      <iframe id="replay-video" src="https://grain.com/_/embed/highlight/k8kF1vGvV0bJ9qbe9GoHAX5tefZqBePsOhuTgjTR?show_engagement=true&autoplay=false&origin=user_iframe"
         allow="fullscreen" allowfullscreen frameborder="0" title="AI Ads Webinar Replay"></iframe>
     </div>
-    <p class="video-cap" style="margin-top:10px">▶ Press play to watch the full masterclass replay.</p>
+    <p class="video-cap" style="margin-top:10px" id="replay-caption">▶ Press play to watch the full masterclass replay.</p>
 
     <a href="https://calendly.com/clientcare-salesgenius/salesgenius-discovery-call" class="btn hero-cta-full">Book Your Discovery Call →</a>
     <p class="cta-sub">Takes about 30 minutes · we look at your CRM, your volume, and your goals</p>
@@ -412,6 +413,15 @@ src="https://www.facebook.com/tr?id=1057475448873422&ev=PageView&noscript=1"/></
 
 <script>
 document.getElementById('yr').textContent = new Date().getFullYear();
+
+// Swap in the current replay video. Falls back to the src baked into the iframe.
+fetch('/api/replay-video').then(function(r){ return r.ok ? r.json() : null; }).then(function(v){
+  if(!v || !v.embedUrl) return;
+  var f = document.getElementById('replay-video');
+  if(f && f.src !== v.embedUrl) f.src = v.embedUrl;
+  var cap = document.getElementById('replay-caption');
+  if(cap && v.caption) cap.textContent = v.caption;
+}).catch(function(){ /* fallback embed above stays */ });
 
 (function(){
   var n = (SCARCITY && typeof SCARCITY.SPOTS === 'number') ? SCARCITY.SPOTS : 0;

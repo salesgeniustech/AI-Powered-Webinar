@@ -22,7 +22,24 @@ curl -X POST https://salesgenius-masterclass.netlify.app/api/webinar-date \
 
 Check what's currently set: `GET https://salesgenius-masterclass.netlify.app/api/webinar-date`
 
-## 2. Deploying page/code changes (only when you edit the pages themselves)
+## 2. Change the replay video (also one http request)
+
+The replay video on `03-replay.html` works the same way, at `/api/replay-video`:
+
+```bash
+curl -X POST https://salesgenius-masterclass.netlify.app/api/replay-video \
+  -H "Authorization: Bearer $WEBINAR_UPDATE_SECRET" \
+  -H "Content-Type: application/json" \
+  -d '{"url": "https://grain.com/share/highlight/AbC123"}'
+```
+
+- Paste the **normal share link** — the embed URL is derived for you. Works with Grain, Vimeo, YouTube, Loom, and Wistia; anything else is rejected (that allowlist is deliberate, so a leaked secret can't put arbitrary content in the iframe).
+- Optional second field: `"caption": "▶ Watch the August 4 replay."` to change the line under the video.
+- Same secret as the date endpoint. Live within ~60 seconds, no redeploy.
+- Check what's set: `GET https://salesgenius-masterclass.netlify.app/api/replay-video`
+- The `src` on the iframe in `03-replay.html` is only the fallback if the API is unreachable.
+
+## 3. Deploying page/code changes (only when you edit the pages themselves)
 
 Deploy via Netlify CLI from the repo root (`netlify deploy --prod`) or link the repo in Netlify.
 **Drag-and-drop no longer works** — it skips `netlify/functions/`, which the date API needs.

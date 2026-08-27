@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>You're Registered | SalesGenius AI Masterclass</title>
+<meta name="robots" content="noindex">
+
+<!-- =====================================================================
+     UNQUALIFIED variant of 02-confirmation.html  ->  /confirmation-uq
+     Identical to the qualified page EXCEPT:
+       - no Meta Pixel (deliberate: nothing fires on this page)
+       - no "Book Your Strategy Call" section / Calendly widget
+     Any other edit made here should be mirrored in 02-confirmation.html.
+     ===================================================================== -->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<!-- Sticky banner: brand + countdown + add-to-calendar -->
+<div class="topbanner">
+  <div class="wrap wrap--wide topbanner-in">
+    <span class="tb-brand">Sales<span class="hl">Genius</span></span>
+    <span class="tb-timer needs-date" style="display:none">Masterclass starts in <b id="cd"></b></span>
+    <a href="#cal" class="btn btn--sm needs-date" style="display:none">Add to Calendar</a>
+  </div>
+</div>
+
+<header class="hero">
+  <div class="wrap hero-narrow center" id="cal">
+    <p class="eyebrow">✓ You're Registered</p>
+    <h1 class="h1-hero">You're In. <span class="hl">Watch This Before the Masterclass</span> 👇</h1>
+    <p class="sub">Your seat<span class="needs-date" style="display:none"> for <span data-webinar-date></span></span> is saved. Press play, it's the fastest way to make sure you show up and get the most out of it.</p>
+    <div class="video-embed" id="confvid" style="max-width:520px;margin:18px auto 0">
+      <iframe src="https://player.vimeo.com/video/1207831064?h=6df46b3e5e&title=0&byline=0&portrait=0&autoplay=1&muted=1"
+        allow="autoplay; fullscreen; picture-in-picture" allowfullscreen title="Confirmation video"></iframe>
+    </div>
+    <p class="video-cap">Turn your sound on and give this a watch before we go live.</p>
+    <div class="mt-s needs-date" style="display:none;gap:12px;flex-wrap:wrap;justify-content:center">
+      <a id="cal-google" class="btn btn--ghost" style="width:auto" href="#" target="_blank" rel="noopener">+ Add to Google Calendar</a>
+      <a id="cal-ics" class="btn btn--ghost" style="width:auto" href="#">+ Add to Apple / Outlook</a>
+    </div>
+    <p class="cta-sub">Live on Zoom<span class="needs-date" style="display:none">, <span data-webinar-date></span></span>. Add it now so it doesn't slip.</p>
+  </div>
+</header>
+
+<!-- Why trust us / due diligence -->
+<section class="section" style="background:var(--surface)">
+  <div class="wrap">
+    <h2 class="center">Why Trust Us To Teach You This</h2>
+    <p class="sub center">We're Emma Pace and Ryan Wykes, realtors, not marketers who've never sold a home. We've each been licensed for over a decade, and we built seven-figure real estate businesses by generating and converting online leads. We're still actively doing it today, and our agency installs the exact same system into other agents' businesses at top brokerages across North America.</p>
+  </div>
+</section>
+
+<!-- Breakout videos -->
+<section class="section">
+  <div class="wrap wrap--wide">
+    <h2 class="center mb">Questions Before We Go Live? Watch These.</h2>
+    <div class="breakout-grid">
+      <div class="breakout">
+        <div class="video-embed">
+          <iframe src="https://player.vimeo.com/video/1208420627?h=961e694a5f&title=0&byline=0&portrait=0"
+            allow="fullscreen; picture-in-picture" allowfullscreen title="Do I need to be tech-savvy?"></iframe>
+        </div>
+        <p class="video-cap center" style="margin-top:10px">Do I need to be tech-savvy?</p>
+      </div>
+      <div class="breakout">
+        <div class="video-embed">
+          <iframe src="https://player.vimeo.com/video/1208420626?h=4786f74ecd&title=0&byline=0&portrait=0"
+            allow="fullscreen; picture-in-picture" allowfullscreen title="What if I've never run an ad?"></iframe>
+        </div>
+        <p class="video-cap center" style="margin-top:10px">What if I've never run an ad?</p>
+      </div>
+      <div class="breakout">
+        <div class="video-embed">
+          <iframe src="https://player.vimeo.com/video/1208420625?h=38226ac69d&title=0&byline=0&portrait=0"
+            allow="fullscreen; picture-in-picture" allowfullscreen title="Why shouldn't I boost posts?"></iframe>
+        </div>
+        <p class="video-cap center" style="margin-top:10px">Why shouldn't I boost posts?</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- What happens next -->
+<section class="section" style="background:var(--surface)">
+  <div class="wrap">
+    <h2 class="center">What Happens Next</h2>
+    <ul class="checks mt">
+      <li>A welcome email right now with your calendar link and Zoom details.</li>
+      <li>Over the next few days, a couple of emails with exclusive content, the stuff we normally only send clients.</li>
+      <li>The day before, a reminder with your join link.</li>
+      <li>On the day, a final reminder 2 hours before we go live.</li>
+    </ul>
+    <p class="center mt"><b>See you there<span class="needs-date" style="display:none"> on <span data-webinar-date></span></span>. Come live, that's the only way to get the Q&amp;A and the live-only bonus.</b></p>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="wrap">
+    <p style="font-size:12px">This site is not a part of the Facebook website or Facebook Inc. Additionally, this site is not endorsed by Facebook in any way. FACEBOOK is a trademark of Meta Platforms, Inc.</p>
+    <p class="mt-s" style="font-size:12px">This content is for educational purposes only. Nothing here is financial, legal, or real estate advice, and nothing is a guarantee of any result. Real estate outcomes depend on your own situation, your market, and factors outside anyone's control. Always do your own due diligence and consult a licensed professional before making a decision.</p>
+    <p class="mt-s">&copy; <span id="yr"></span> SalesGenius. All rights reserved.</p>
+    <p class="mt-s"><a href="https://salesgenius.co/privacy-policy">Privacy Policy</a> &middot; <a href="https://salesgenius.co/terms-of-use">Terms &amp; Conditions</a> &middot; <a href="https://salesgenius.co/contact">Contact</a></p>
+  </div>
+</footer>
+
+<script>
+/* =======================================================================
+   Webinar date: fetched live from /api/webinar-date (set via n8n / curl).
+   There is deliberately NO fallback date in this file. If the fetch fails or
+   has not returned yet, every date-bearing element stays hidden rather than
+   showing a stale date. Change the date once via the API and this page follows
+   the rest of the funnel automatically.
+   ======================================================================= */
+var WEBINAR = {
+  dateText:   null,          // filled from /api/webinar-date — never hard-code here
+  targetISO:  null,          // filled from /api/webinar-date — never hard-code here
+  durationMin: 90,
+  title:      "AI Ads Masterclass for Realtors (SalesGenius)",
+  zoom:       "https://us06web.zoom.us/j/81455862418",
+  joinUrl:    "https://aiads.salesgenius.co/join"   // calendar links point HERE (tracked join page), not straight to Zoom
+};
+/* ======================================================================= */
+
+document.getElementById('yr').textContent = new Date().getFullYear();
+
+function haveDate(){
+  return !!(WEBINAR.dateText && WEBINAR.targetISO && !isNaN(new Date(WEBINAR.targetISO).getTime()));
+}
+
+function applyWebinarDate(){
+  var ok = haveDate();
+  document.querySelectorAll('[data-webinar-date]').forEach(function(el){
+    el.textContent = ok ? WEBINAR.dateText : '';
+  });
+  // Show the date-bearing bits only once we actually have a date.
+  document.querySelectorAll('.needs-date').forEach(function(el){
+    el.style.display = ok ? (el.classList.contains('mt-s') ? 'flex' : '') : 'none';
+  });
+  if(!ok) return;
+  buildCalendarLinks();
+  if(window.__cdTick) window.__cdTick();   // refresh the countdown immediately when the live date arrives
+}
+
+// Countdown (re-reads WEBINAR.targetISO each tick so the live fetch applies)
+(function(){
+  var cd = document.getElementById('cd');
+  if(!cd) return;
+  function tick(){
+    if(!WEBINAR.targetISO) return;
+    var TARGET = new Date(WEBINAR.targetISO);
+    if(isNaN(TARGET.getTime())) return;
+    var s = Math.max(0, Math.floor((TARGET - new Date())/1000));
+    var d = Math.floor(s/86400), h = Math.floor((s%86400)/3600), m = Math.floor((s%3600)/60);
+    cd.textContent = (s<=0) ? "now, join us live" : (d+"d "+h+"h "+m+"m");
+  }
+  window.__cdTick = tick;   // let applyWebinarDate refresh the countdown after the live date fetch
+  tick(); setInterval(tick, 30000);
+})();
+
+// Build the Add-to-Calendar links from the date + Zoom, so they update with WEBINAR.
+function buildCalendarLinks(){
+  if(!WEBINAR.targetISO) return;
+  var start = new Date(WEBINAR.targetISO);
+  if(isNaN(start.getTime())) return;
+  var end = new Date(start.getTime() + WEBINAR.durationMin*60000);
+  function z(d){ return d.toISOString().replace(/[-:]/g,'').replace(/\.\d{3}/,''); }
+  var details = "When we go live, join here: " + WEBINAR.joinUrl + " — click the button on that page to get into the room. Bring a notepad, we build a real ad with AI live.";
+  var g = "https://calendar.google.com/calendar/render?action=TEMPLATE"
+    + "&text=" + encodeURIComponent(WEBINAR.title)
+    + "&dates=" + z(start) + "/" + z(end)
+    + "&details=" + encodeURIComponent(details)
+    + "&location=" + encodeURIComponent(WEBINAR.joinUrl);
+  var gbtn = document.getElementById('cal-google'); if(gbtn) gbtn.href = g;
+  var ics = ["BEGIN:VCALENDAR","VERSION:2.0","PRODID:-//SalesGenius//Masterclass//EN","BEGIN:VEVENT",
+    "UID:"+start.getTime()+"@salesgenius.co","DTSTAMP:"+z(new Date()),"DTSTART:"+z(start),"DTEND:"+z(end),
+    "SUMMARY:"+WEBINAR.title,"DESCRIPTION:"+details.replace(/,/g,"\\,"),"LOCATION:"+WEBINAR.joinUrl,
+    "END:VEVENT","END:VCALENDAR"].join("\r\n");
+  var ibtn = document.getElementById('cal-ics');
+  if(ibtn){ ibtn.href = "data:text/calendar;charset=utf-8," + encodeURIComponent(ics); ibtn.setAttribute('download','ai-ads-masterclass.ics'); }
+}
+
+applyWebinarDate();
+fetch('/api/webinar-date').then(function(r){ return r.ok ? r.json() : null; }).then(function(d){
+  if(d && d.targetISO && d.dateText){ WEBINAR.dateText = d.dateText; WEBINAR.targetISO = d.targetISO; applyWebinarDate(); }
+}).catch(function(){ /* no date available: every date-bearing element stays hidden */ });
+</script>
+</body>
+</html>

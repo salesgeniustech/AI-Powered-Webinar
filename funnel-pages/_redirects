@@ -1,6 +1,7 @@
 # index.html serves the homepage (registration). Pretty URLs below.
 /register-page    /index.html                   200
 /confirmation     /02-confirmation.html         200
+/confirmation-uq  /02-confirmation-uq.html      200
 /replay           /03-replay.html               200
 /join             /join.html                    200
 # Checkout retired — $97 offer replaced by the In-House AI Team funnel.

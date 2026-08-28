@@ -171,12 +171,35 @@ fetch('/api/webinar-date').then(function(r){ return r.ok ? r.json() : null; }).t
 function getUTMs(){
   var p=new URLSearchParams(location.search), o={};
   ['utm_source','utm_medium','utm_campaign','utm_term','utm_content'].forEach(function(k){ if(p.get(k)) o[k]=p.get(k); });
+
+  /* --- Meta Conversions API attribution ---------------------------------
+     CAPI wants fbc and fbp, NOT the raw fbclid. The Meta Pixel already
+     writes both cookies on page load, in exactly the format CAPI expects
+     (fbc looks like "fb.1.1724800000000.ABC123"), so read the cookies
+     rather than rebuilding them. Raw fbclid is passed too, for debugging
+     and in case anything downstream wants it.
+     --------------------------------------------------------------------- */
+  function cookie(n){
+    var m = document.cookie.match('(^|;)\\s*' + n + '\\s*=\\s*([^;]+)');
+    return m ? m.pop() : '';
+  }
+  var fbclid = p.get('fbclid');
+  var fbc = cookie('_fbc');
+  var fbp = cookie('_fbp');
+  // If the pixel hasn't written _fbc yet, build it in Meta's format ourselves.
+  if(!fbc && fbclid) fbc = 'fb.1.' + Date.now() + '.' + fbclid;
+  if(fbc)    o.fbc    = fbc;
+  if(fbp)    o.fbp    = fbp;
+  if(fbclid) o.fbclid = fbclid;
+
   return o;
 }
 
 // Typeform popup on every CTA (banner, hero, bottom). Built on first click so the
-// SDK is ready. Passes UTMs, fires the Lead pixel on submit, then goes to the
-// confirmation page. If the SDK ever fails to load, the button opens the form in a new tab.
+// SDK is ready. Passes UTMs + Meta attribution (fbc/fbp/fbclid) into the form as
+// hidden fields. Where people land after submitting is set by the Typeform's own
+// endings, NOT here. If the SDK ever fails to load, the button opens the form in
+// a new tab with the same parameters on the query string.
 (function(){
   var TF_ID = "IjOr8yfc";
   var popup = null;
@@ -185,11 +208,12 @@ function getUTMs(){
     if(window.tf && window.tf.createPopup){
       popup = window.tf.createPopup(TF_ID, {
         hidden: getUTMs(),
-        size: 90,
-        onSubmit: function(){
-          // Lead fires on the confirmation page (02) load, so it counts once per registrant.
-          location.href = '02-confirmation.html';
-        }
+        size: 90
+        // NO onSubmit redirect on purpose. The Typeform's own endings decide where
+        // people land, so qualified -> /confirmation (pixel + Calendly) and
+        // unqualified -> /confirmation-uq (neither). A redirect here fires on EVERY
+        // submit and beats the ending, which sent everyone to the qualified page.
+        // If you ever remove the redirects from the Typeform endings, put one back.
       });
     }
     return popup;
